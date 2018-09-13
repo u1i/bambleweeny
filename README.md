@@ -1,7 +1,7 @@
 # bambleweeny
 
 
-Bambleweeny is an API driven, lightweight database system that offers a CRDL interface along with identity, access &amp; quota management.
+Bambleweeny is a versatile, lightweight database system that offers a REST API along with identity, access &amp; quota management. Written in Python, using a Redis backend, deployable in a container. Life is great!
 
 ![](https://raw.githubusercontent.com/u1i/bambleweeny/master/bawy.png)
 
