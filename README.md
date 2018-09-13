@@ -5,7 +5,14 @@ Bambleweeny is a versatile, lightweight database system that offers a REST API a
 
 ![](https://raw.githubusercontent.com/u1i/bambleweeny/master/bawy.png)
 
+## REST API
 
+[Swagger File](https://github.com/u1i/bambleweeny/blob/master/swagger.json) | [Swagger UI](http://bambleweeny.sotong.io/)
+
+[![](https://raw.githubusercontent.com/u1i/bambleweeny/master/img/api.png)](http://bambleweeny.sotong.io/)
+
+
+## Behind the Scenes
 ### Design Principles:
 
 * minimal external libraries
@@ -18,11 +25,4 @@ Bambleweeny is a versatile, lightweight database system that offers a REST API a
 * Redis
 * Docker
 * TBD
-
-[API Definition](http://bambleweeny.sotong.io/)
-
-[![](https://raw.githubusercontent.com/u1i/bambleweeny/master/img/api.png)](http://bambleweeny.sotong.io/)
-
-
-
 
