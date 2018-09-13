@@ -13,7 +13,7 @@ Bambleweeny is a versatile, lightweight database system that offers a REST API a
 ## Behind the Scenes
 ### Design Principles:
 
-* minimal external libraries
+* minimal use of external libraries
 * readable code over performance
 * prototype / educational nature
 
