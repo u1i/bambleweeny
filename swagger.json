@@ -1,568 +1,514 @@
 {
-  "swagger" : "2.0",
-  "info" : {
-    "description" : "",
-    "version" : "1.0.0",
-    "title" : "bambleweeny"
-  },
-  "basePath" : "/v1",
-  "consumes" : [ "application/json" ],
-  "produces" : [ "application/json" ],
-  "paths" : {
-    "/resources/{id}" : {
-      "get" : {
-        "tags" : [ "Resources" ],
-        "summary" : "Get Resource",
-        "operationId" : "GET-resource",
-        "parameters" : [ {
-          "name" : "id",
-          "in" : "path",
-          "required" : true,
-          "type" : "string"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "",
-            "examples" : {
-              "application/json" : {
-                "content" : "lorem ipsum",
-                "owner" : "1",
-                "acl" : ""
-              }
-            },
-            "schema" : {
-              "type" : "object",
-              "properties" : {
-                "content" : {
-                  "type" : "string"
-                },
-                "owner" : {
-                  "type" : "string"
-                },
-                "acl" : {
-                  "type" : "string"
-                }
-              }
-            }
-          },
-          "401" : {
-            "description" : ""
-          }
-        },
-        "security" : [ {
-          "oauth2" : [ ]
-        } ]
-      },
-      "delete" : {
-        "tags" : [ "Resources" ],
-        "summary" : "Delete Resource",
-        "operationId" : "DELETE-resource",
-        "parameters" : [ {
-          "name" : "id",
-          "in" : "path",
-          "required" : true,
-          "type" : "string"
-        } ],
-        "responses" : {
-          "401" : {
-            "description" : ""
-          }
-        },
-        "security" : [ {
-          "oauth2" : [ ]
-        } ]
-      }
+    "swagger": "2.0",
+    "info": {
+        "version": "",
+        "title": "bambleweeny",
+        "description": ""
     },
-    "/resources" : {
-      "get" : {
-        "tags" : [ "Resources" ],
-        "summary" : "List Resources",
-        "operationId" : "LIST-resources",
-        "parameters" : [ ],
-        "responses" : {
-          "200" : {
-            "description" : "",
-            "examples" : {
-              "application/json" : [ {
-                "id" : "b6b74218-9df3-43e7-8415-98ecb986430c",
-                "content" : "lorem ipsum",
-                "owner" : "1",
-                "acl" : ""
-              }, {
-                "id" : "5357f5d4-625d-48cd-9980-ce07040b24ae",
-                "content" : "stuff",
-                "owner" : "2",
-                "acl" : ""
-              } ]
-            },
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "type" : "object",
-                "properties" : {
-                  "id" : {
-                    "type" : "string"
-                  },
-                  "content" : {
-                    "type" : "string"
-                  },
-                  "owner" : {
-                    "type" : "string"
-                  },
-                  "acl" : {
-                    "type" : "string"
-                  }
-                },
-                "required" : [ "content", "id", "owner" ]
-              }
-            }
-          },
-          "401" : {
-            "description" : ""
-          }
-        },
-        "security" : [ {
-          "oauth2" : [ ]
-        } ]
-      },
-      "post" : {
-        "tags" : [ "Resources" ],
-        "summary" : "Create Resource",
-        "operationId" : "POST-resource",
-        "parameters" : [ {
-          "in" : "body",
-          "name" : "body",
-          "required" : false,
-          "schema" : {
-            "$ref" : "#/definitions/body"
-          }
-        } ],
-        "responses" : {
-          "201" : {
-            "description" : "",
-            "schema" : {
-              "type" : "object"
-            }
-          }
-        },
-        "security" : [ {
-          "oauth2" : [ ]
-        } ]
-      }
-    },
-    "/auth/token" : {
-      "post" : {
-        "tags" : [ "Auth" ],
-        "summary" : "Get Access Token",
-        "operationId" : "POST_auth-token",
-        "parameters" : [ {
-          "in" : "body",
-          "name" : "body",
-          "required" : false,
-          "schema" : {
-            "$ref" : "#/definitions/body_1"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "",
-            "examples" : {
-              "application/json" : {
-                "access_token" : "token",
-                "token_type" : "bearer"
-              }
-            },
-            "schema" : {
-              "type" : "object",
-              "properties" : {
-                "access_token" : {
-                  "type" : "string"
-                },
-                "token_type" : {
-                  "type" : "string"
-                }
-              }
-            }
-          },
-          "403" : {
-            "description" : "",
-            "examples" : {
-              "application/json" : {
-                "message" : "info"
-              }
-            },
-            "schema" : {
-              "type" : "object",
-              "properties" : {
-                "message" : {
-                  "type" : "string"
-                }
-              }
-            }
-          }
+    "basePath": "/v1",
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "securityDefinitions": {
+        "oauth2": {
+            "type": "oauth2",
+            "flow": "password",
+            "scopes": {},
+            "tokenUrl": "/auth/token"
         }
-      }
     },
-    "/users/{id}" : {
-      "get" : {
-        "tags" : [ "Users" ],
-        "summary" : "Get User",
-        "operationId" : "GET-user",
-        "parameters" : [ {
-          "name" : "id",
-          "in" : "path",
-          "required" : true,
-          "type" : "string"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "",
-            "examples" : {
-              "application/json" : {
-                "email" : "me@privacy.net",
-                "quota" : "19",
-                "resources" : [ "5e5182ec-2342-450c-b379-288fd0736d17", "975bb628-059d-4bb2-bc0e-c8e0be80dcaf" ]
-              }
-            },
-            "schema" : {
-              "type" : "object",
-              "required" : [ "email", "quota", "resources" ],
-              "properties" : {
-                "email" : {
-                  "type" : "string"
-                },
-                "quota" : {
-                  "type" : "string"
-                },
-                "resources" : {
-                  "type" : "array",
-                  "items" : {
-                    "type" : "string"
-                  }
+    "paths": {
+        "/resources/{id}": {
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
                 }
-              }
-            }
-          },
-          "401" : {
-            "description" : "",
-            "schema" : {
-              "type" : "object"
-            }
-          }
-        },
-        "security" : [ {
-          "oauth2" : [ ]
-        } ]
-      },
-      "put" : {
-        "tags" : [ "Users" ],
-        "summary" : "Update User",
-        "operationId" : "PUT-user",
-        "parameters" : [ {
-          "name" : "id",
-          "in" : "path",
-          "required" : true,
-          "type" : "string"
-        }, {
-          "in" : "body",
-          "name" : "body",
-          "required" : false,
-          "schema" : {
-            "$ref" : "#/definitions/body_2"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "",
-            "examples" : {
-              "application/json" : {
-                "message" : "quota updated"
-              }
-            },
-            "schema" : {
-              "type" : "object",
-              "properties" : {
-                "message" : {
-                  "type" : "string"
-                }
-              }
-            }
-          },
-          "401" : {
-            "description" : ""
-          }
-        },
-        "security" : [ {
-          "oauth2" : [ ]
-        } ]
-      },
-      "delete" : {
-        "tags" : [ "Users" ],
-        "summary" : "Delete User",
-        "operationId" : "DELETE-user",
-        "parameters" : [ {
-          "name" : "id",
-          "in" : "path",
-          "required" : true,
-          "type" : "string"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : ""
-          },
-          "401" : {
-            "description" : ""
-          }
-        },
-        "security" : [ {
-          "oauth2" : [ ]
-        } ]
-      }
-    },
-    "/users" : {
-      "get" : {
-        "tags" : [ "Users" ],
-        "summary" : "List Users",
-        "operationId" : "LIST-users",
-        "parameters" : [ ],
-        "responses" : {
-          "200" : {
-            "description" : "",
-            "examples" : {
-              "application/json" : [ {
-                "id" : "1",
-                "email" : "me@privacy.net",
-                "quota" : "-1",
-                "resources" : [ "4f49a0d6-c6e6-4891-9843-e88f88ce5dd0", "bcb5c2bd-ed9c-4812-a8ea-a5cfa04ff247" ]
-              }, {
-                "id" : "2",
-                "email" : "someone@gmail.com",
-                "quota" : "17",
-                "resources" : [ ]
-              } ]
-            },
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "type" : "object",
-                "properties" : {
-                  "id" : {
-                    "type" : "string"
-                  },
-                  "email" : {
-                    "type" : "string"
-                  },
-                  "quota" : {
-                    "type" : "string"
-                  },
-                  "resources" : {
-                    "type" : "array",
-                    "items" : {
-                      "type" : "string"
+            ],
+            "get": {
+                "operationId": "GET-resource",
+                "summary": "Get Resource",
+                "tags": [
+                    "Resources"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "content": {
+                                    "type": "string"
+                                },
+                                "owner": {
+                                    "type": "string"
+                                },
+                                "acl": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "examples": {
+                            "application/json": {
+                                "content": "lorem ipsum",
+                                "owner": "1",
+                                "acl": ""
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": ""
                     }
-                  }
-                }
-              }
-            }
-          },
-          "401" : {
-            "description" : ""
-          }
-        },
-        "security" : [ {
-          "oauth2" : [ ]
-        } ]
-      },
-      "post" : {
-        "tags" : [ "Users" ],
-        "summary" : "Create User",
-        "operationId" : "POST-user",
-        "parameters" : [ {
-          "in" : "body",
-          "name" : "body",
-          "required" : false,
-          "schema" : {
-            "$ref" : "#/definitions/body_3"
-          }
-        } ],
-        "responses" : {
-          "201" : {
-            "description" : "",
-            "examples" : {
-              "application/json" : {
-                "id" : "1"
-              }
+                },
+                "security": [
+                    {
+                        "oauth2": []
+                    }
+                ]
             },
-            "schema" : {
-              "type" : "object",
-              "properties" : {
-                "id" : {
-                  "type" : "string"
-                }
-              }
+            "delete": {
+                "operationId": "DELETE-resource",
+                "summary": "Delete Resource",
+                "tags": [
+                    "Resources"
+                ],
+                "responses": {
+                    "401": {
+                        "description": ""
+                    }
+                },
+                "security": [
+                    {
+                        "oauth2": []
+                    }
+                ]
             }
-          },
-          "401" : {
-            "description" : ""
-          }
         },
-        "security" : [ {
-          "oauth2" : [ ]
-        } ]
-      }
-    }
-  },
-  "securityDefinitions" : {
-    "oauth2" : {
-      "type" : "oauth2",
-      "tokenUrl" : "/auth/token",
-      "flow" : "password",
-      "scopes" : { }
-    }
-  },
-  "definitions" : {
-    "body_3" : {
-      "type" : "object",
-      "properties" : {
-        "email" : {
-          "type" : "string"
+        "/resources": {
+            "get": {
+                "operationId": "LIST-resources",
+                "summary": "List Resources",
+                "tags": [
+                    "Resources"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "string"
+                                    },
+                                    "content": {
+                                        "type": "string"
+                                    },
+                                    "owner": {
+                                        "type": "string"
+                                    },
+                                    "acl": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "id",
+                                    "content",
+                                    "owner"
+                                ]
+                            }
+                        },
+                        "examples": {
+                            "application/json": [
+                                {
+                                    "id": "b6b74218-9df3-43e7-8415-98ecb986430c",
+                                    "content": "lorem ipsum",
+                                    "owner": "1",
+                                    "acl": ""
+                                },
+                                {
+                                    "id": "5357f5d4-625d-48cd-9980-ce07040b24ae",
+                                    "content": "stuff",
+                                    "owner": "2",
+                                    "acl": ""
+                                }
+                            ]
+                        }
+                    },
+                    "401": {
+                        "description": ""
+                    }
+                },
+                "security": [
+                    {
+                        "oauth2": []
+                    }
+                ]
+            },
+            "post": {
+                "operationId": "POST-resource",
+                "summary": "Create Resource",
+                "tags": [
+                    "Resources"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "content": {
+                                    "type": "string"
+                                }
+                            },
+                            "example": {
+                                "content": "lorem ipsum"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "oauth2": []
+                    }
+                ]
+            }
         },
-        "password" : {
-          "type" : "string"
+        "/auth/token": {
+            "post": {
+                "operationId": "POST_auth-token",
+                "summary": "Get Access Token",
+                "tags": [
+                    "Auth"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "username": {
+                                    "type": "string"
+                                },
+                                "password": {
+                                    "type": "string"
+                                }
+                            },
+                            "example": {
+                                "username": "joe",
+                                "password": "secret"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "access_token": {
+                                    "type": "string"
+                                },
+                                "token_type": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "examples": {
+                            "application/json": {
+                                "access_token": "token",
+                                "token_type": "bearer"
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "examples": {
+                            "application/json": {
+                                "message": "info"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{id}": {
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "operationId": "GET-user",
+                "summary": "Get User",
+                "tags": [
+                    "Users"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "email": {
+                                    "type": "string"
+                                },
+                                "quota": {
+                                    "type": "string"
+                                },
+                                "resources": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "required": [
+                                "email",
+                                "quota",
+                                "resources"
+                            ]
+                        },
+                        "examples": {
+                            "application/json": {
+                                "email": "me@privacy.net",
+                                "quota": "19",
+                                "resources": [
+                                    "5e5182ec-2342-450c-b379-288fd0736d17",
+                                    "975bb628-059d-4bb2-bc0e-c8e0be80dcaf"
+                                ]
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "oauth2": []
+                    }
+                ]
+            },
+            "put": {
+                "operationId": "PUT-user",
+                "summary": "Set Quota",
+                "tags": [
+                    "Users"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "quota": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "quota"
+                            ],
+                            "example": {
+                                "quota": "19"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "examples": {
+                            "application/json": {
+                                "message": "quota updated"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": ""
+                    }
+                },
+                "security": [
+                    {
+                        "oauth2": []
+                    }
+                ]
+            },
+            "delete": {
+                "operationId": "DELETE-user",
+                "summary": "Delete User",
+                "tags": [
+                    "Users"
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    },
+                    "401": {
+                        "description": ""
+                    }
+                },
+                "security": [
+                    {
+                        "oauth2": []
+                    }
+                ]
+            }
+        },
+        "/users": {
+            "get": {
+                "operationId": "LIST-users",
+                "summary": "List Users",
+                "tags": [
+                    "Users"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "output": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "email": {
+                                                "type": "string"
+                                            },
+                                            "quota": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "examples": {
+                            "application/json": {
+                                "output": [
+                                    {
+                                        "id": "1",
+                                        "email": "me@privacy.net",
+                                        "quota": "0"
+                                    },
+                                    {
+                                        "id": "2",
+                                        "email": "me2@privacy.net",
+                                        "quota": "0"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": ""
+                    }
+                },
+                "security": [
+                    {
+                        "oauth2": []
+                    }
+                ]
+            },
+            "post": {
+                "operationId": "POST-user",
+                "summary": "Create User",
+                "tags": [
+                    "Users"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "email": {
+                                    "type": "string"
+                                },
+                                "password": {
+                                    "type": "string"
+                                }
+                            },
+                            "example": {
+                                "email": "me@privacy.net",
+                                "password": "changeme"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "examples": {
+                            "application/json": {
+                                "id": "1"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": ""
+                    }
+                },
+                "security": [
+                    {
+                        "oauth2": []
+                    }
+                ]
+            }
         }
-      },
-      "example" : {
-        "email" : "me@privacy.net",
-        "password" : "changeme"
-      }
     },
-    "body_1" : {
-      "type" : "object",
-      "properties" : {
-        "username" : {
-          "type" : "string"
-        },
-        "password" : {
-          "type" : "string"
-        }
-      },
-      "example" : {
-        "username" : "joe",
-        "password" : "secret"
-      }
-    },
-    "body_2" : {
-      "type" : "object",
-      "required" : [ "quota" ],
-      "properties" : {
-        "quota" : {
-          "type" : "string"
-        }
-      },
-      "example" : {
-        "quota" : "19"
-      }
-    },
-    "inline_response_200_1" : {
-      "required" : [ "content", "id", "owner" ],
-      "properties" : {
-        "id" : {
-          "type" : "string"
-        },
-        "content" : {
-          "type" : "string"
-        },
-        "owner" : {
-          "type" : "string"
-        },
-        "acl" : {
-          "type" : "string"
-        }
-      }
-    },
-    "inline_response_201" : {
-      "properties" : {
-        "id" : {
-          "type" : "string"
-        }
-      }
-    },
-    "inline_response_200" : {
-      "properties" : {
-        "content" : {
-          "type" : "string"
-        },
-        "owner" : {
-          "type" : "string"
-        },
-        "acl" : {
-          "type" : "string"
-        }
-      }
-    },
-    "inline_response_200_2" : {
-      "properties" : {
-        "access_token" : {
-          "type" : "string"
-        },
-        "token_type" : {
-          "type" : "string"
-        }
-      }
-    },
-    "inline_response_200_3" : {
-      "required" : [ "email", "quota", "resources" ],
-      "properties" : {
-        "email" : {
-          "type" : "string"
-        },
-        "quota" : {
-          "type" : "string"
-        },
-        "resources" : {
-          "type" : "array",
-          "items" : {
-            "type" : "string"
-          }
-        }
-      }
-    },
-    "inline_response_200_4" : {
-      "properties" : {
-        "id" : {
-          "type" : "string"
-        },
-        "email" : {
-          "type" : "string"
-        },
-        "quota" : {
-          "type" : "string"
-        },
-        "resources" : {
-          "type" : "array",
-          "items" : {
-            "type" : "string"
-          }
-        }
-      }
-    },
-    "body" : {
-      "type" : "object",
-      "properties" : {
-        "content" : {
-          "type" : "string"
-        }
-      },
-      "example" : {
-        "content" : "lorem ipsum"
-      }
-    },
-    "inline_response_403" : {
-      "properties" : {
-        "message" : {
-          "type" : "string"
-        }
-      }
-    }
-  }
+    "definitions": {}
 }

@@ -14,7 +14,7 @@ app = Bottle()
 def get_home():
 	return(dict(msg="This is bambleweeny."))
 
-# Not found
+# Default 404 handler
 @app.error(404)
 def error404(error):
     #return 'Nothing here, sorry'
@@ -93,7 +93,30 @@ def create_user():
 
 	return(dict(info="created", id=new_userid))
 
-# Helper functions
+# List User
+@app.route('/users', method='GET')
+def list_user():
+
+	api_auth = _authenticate()
+
+	# Only Admin can do this
+	if api_auth["admin"] != "True" or api_auth["authenticated"] == "False":
+		response.status = 401
+		return dict({"info":"Unauthorized."})
+
+	output = []
+	user_list = rc.scan_iter("USER:*")
+	for user in user_list:
+		user_record = json.loads(rc.get(user))
+		user_out = {}
+		user_out["id"] = user[5:]
+		user_out["email"] = user_record["email"]
+		user_out["quota"] = user_record["quota"]
+		output.append(user_out)
+
+	return(dict(output=output))
+
+####### Helper functions
 
 def _authenticate():
 	bearer = request.environ.get('HTTP_AUTHORIZATION','')
