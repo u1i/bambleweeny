@@ -1,9 +1,9 @@
 # bambleweeny
 
+![](https://raw.githubusercontent.com/u1i/bambleweeny/master/img/bawy2.png)
 
 Bambleweeny is a versatile, lightweight database system that offers a REST API along with identity, access &amp; quota management. Written in Python, using a Redis backend, deployable in a container. Life is great!
 
-![](https://raw.githubusercontent.com/u1i/bambleweeny/master/bawy.png)
 
 ## REST API
 
