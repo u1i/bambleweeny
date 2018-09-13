@@ -73,7 +73,6 @@ def create_user():
 	user_record["email"] = username
 	user_record["hash"] = pwhash
 	user_record["quota"] = "0"
-	user_record["resources"] = []
 
 	rc.set("USER:"+str(new_userid), json.dumps(user_record, ensure_ascii=False))
 
