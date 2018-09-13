@@ -26,5 +26,4 @@ coming soon
 * Python, [Bottle](https://bottlepy.org/) WSGI Framework, [CherryPy](http://cherrypy.org/) thread-pooled webserver
 * Redis
 * Docker
-* TBD
 
