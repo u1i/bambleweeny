@@ -5,7 +5,7 @@ import json, os, uuid, base64, redis, time, hashlib
 # Settings
 admin_password = u"changeme"
 secret_salt = "iKm4SyH6JCtA8l"
-token_expiry_seconds = 300
+token_expiry_seconds = 3000
 
 app = Bottle()
 
@@ -19,6 +19,12 @@ def get_home():
 def error404(error):
     #return 'Nothing here, sorry'
 	return("Nothing here.")
+
+# Default 405 handler
+@app.error(405)
+def error405(error):
+    #return 'Nothing here, sorry'
+	return("Method not allowed for this endpoint.")
 
 # Get Auth Token
 @app.route('/auth/token', method='POST')
@@ -135,7 +141,7 @@ def delete_user(id):
 
 	# Delete user resources
 	# TBD
-	
+
 	# Delete user record
 	rc.delete("USER:"+str(id))
 	return(dict(info="user deleted"))
