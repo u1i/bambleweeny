@@ -104,7 +104,12 @@ def get_user_details(id):
 		response.status = 401
 		return dict({"info":"Unauthorized."})
 
-	user_record = json.loads(rc.get("USER:"+str(id)))
+	try:
+		user_record = json.loads(rc.get("USER:"+str(id)))
+	except:
+		response.status = 404
+		return dict({"info":"Not found."})
+
 	user_out = {}
 	user_out["email"] = user_record["email"]
 	user_out["quota"] = user_record["quota"]
@@ -133,6 +138,9 @@ def list_user():
 		output.append(user_out)
 
 	return(dict(output=output))
+
+
+
 
 ####### Helper functions
 
