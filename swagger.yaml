@@ -1,0 +1,323 @@
+swagger: '2.0'
+info:
+  version: "1.0.0"
+  title: bambleweeny
+  description: ''
+basePath: /v1
+consumes:
+  - application/json
+produces:
+  - application/json
+securityDefinitions:
+  oauth2:
+    type: oauth2
+    flow: password
+    scopes: {}
+    tokenUrl: /auth/token
+paths:
+  '/resources/{id}':
+    parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+    get:
+      operationId: GET-resource
+      summary: Get Resource
+      tags:
+        - Resources
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: object
+            properties:
+              content:
+                type: string
+              owner:
+                type: string
+              acl:
+                type: string
+          examples:
+            application/json:
+              content: lorem ipsum
+              owner: '1'
+              acl: ''
+        '401':
+          description: ''
+      security:
+        - oauth2: []
+    delete:
+      operationId: DELETE-resource
+      summary: Delete Resource
+      tags:
+        - Resources
+      responses:
+        '401':
+          description: ''
+      security:
+        - oauth2: []
+  /resources:
+    get:
+      operationId: LIST-resources
+      summary: List Resources
+      tags:
+        - Resources
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: string
+                content:
+                  type: string
+                owner:
+                  type: string
+                acl:
+                  type: string
+              required:
+                - id
+                - content
+                - owner
+          examples:
+            application/json:
+              - id: b6b74218-9df3-43e7-8415-98ecb986430c
+                content: lorem ipsum
+                owner: '1'
+                acl: ''
+              - id: 5357f5d4-625d-48cd-9980-ce07040b24ae
+                content: stuff
+                owner: '2'
+                acl: ''
+        '401':
+          description: ''
+      security:
+        - oauth2: []
+    post:
+      operationId: POST-resource
+      summary: Create Resource
+      tags:
+        - Resources
+      parameters:
+        - name: body
+          in: body
+          schema:
+            type: object
+            properties:
+              content:
+                type: string
+            example:
+              content: lorem ipsum
+      responses:
+        '201':
+          description: ''
+          schema:
+            type: object
+      security:
+        - oauth2: []
+  /auth/token:
+    post:
+      operationId: POST_auth-token
+      summary: Get Access Token
+      tags:
+        - Auth
+      parameters:
+        - name: body
+          in: body
+          schema:
+            type: object
+            properties:
+              username:
+                type: string
+              password:
+                type: string
+            example:
+              username: joe
+              password: secret
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: object
+            properties:
+              access_token:
+                type: string
+              token_type:
+                type: string
+          examples:
+            application/json:
+              access_token: token
+              token_type: bearer
+        '403':
+          description: ''
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          examples:
+            application/json:
+              message: info
+  '/users/{id}':
+    parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+    get:
+      operationId: GET-user
+      summary: Get User
+      tags:
+        - Users
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+              quota:
+                type: string
+              resources:
+                type: array
+                items:
+                  type: string
+            required:
+              - email
+              - quota
+              - resources
+          examples:
+            application/json:
+              email: me@privacy.net
+              quota: '19'
+              resources:
+                - 5e5182ec-2342-450c-b379-288fd0736d17
+                - 975bb628-059d-4bb2-bc0e-c8e0be80dcaf
+        '401':
+          description: ''
+          schema:
+            type: object
+      security:
+        - oauth2: []
+    put:
+      operationId: PUT-user
+      summary: Update User
+      tags:
+        - Users
+      parameters:
+        - name: body
+          in: body
+          schema:
+            type: object
+            properties:
+              quota:
+                type: string
+            required:
+              - quota
+            example:
+              quota: '19'
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          examples:
+            application/json:
+              message: quota updated
+        '401':
+          description: ''
+      security:
+        - oauth2: []
+    delete:
+      operationId: DELETE-user
+      summary: Delete User
+      tags:
+        - Users
+      responses:
+        '200':
+          description: ''
+        '401':
+          description: ''
+      security:
+        - oauth2: []
+  /users:
+    get:
+      operationId: LIST-users
+      summary: List Users
+      tags:
+        - Users
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: string
+                email:
+                  type: string
+                quota:
+                  type: string
+                resources:
+                  type: array
+                  items:
+                    type: string
+          examples:
+            application/json:
+              - id: '1'
+                email: me@privacy.net
+                quota: '-1'
+                resources:
+                  - 4f49a0d6-c6e6-4891-9843-e88f88ce5dd0
+                  - bcb5c2bd-ed9c-4812-a8ea-a5cfa04ff247
+              - id: '2'
+                email: someone@gmail.com
+                quota: '17'
+                resources: []
+        '401':
+          description: ''
+      security:
+        - oauth2: []
+    post:
+      operationId: POST-user
+      summary: Create User
+      tags:
+        - Users
+      parameters:
+        - name: body
+          in: body
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+              password:
+                type: string
+            example:
+              email: me@privacy.net
+              password: changeme
+      responses:
+        '201':
+          description: ''
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+          examples:
+            application/json:
+              id: '1'
+        '401':
+          description: ''
+      security:
+        - oauth2: []
