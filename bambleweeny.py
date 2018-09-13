@@ -104,6 +104,7 @@ def get_user_details(id):
 		response.status = 401
 		return dict({"info":"Unauthorized."})
 
+	# Read from Redis
 	try:
 		user_record = json.loads(rc.get("USER:"+str(id)))
 	except:
@@ -116,7 +117,32 @@ def get_user_details(id):
 
 	return(dict(user_out))
 
-# List User
+# Delete User
+@app.route('/users/<id:int>', method='DELETE')
+def delete_user(id):
+
+	api_auth = _authenticate()
+
+	# Only Admin can do this
+	if api_auth["admin"] != "True" or api_auth["authenticated"] == "False":
+		response.status = 401
+		return dict({"info":"Unauthorized."})
+
+	# Does the user exist?
+	if rc.get("USER:"+str(id)) == None:
+		response.status = 404
+		return dict({"info":"Not found."})
+
+	# Delete user resources
+	# TBD
+	
+	# Delete user record
+	rc.delete("USER:"+str(id))
+	return(dict(info="user deleted"))
+
+
+
+# List All Users
 @app.route('/users', method='GET')
 def list_user():
 
