@@ -14,4 +14,4 @@
 * A resource is represented by a string with a unique identifier
 * Platform administrator is a platform user as well
 * By default, the quota is not set, which means a user can create as many resources as he wants
-* You should provide responses for any errors that might occur
+* The system should provide responses for any errors that might occur
