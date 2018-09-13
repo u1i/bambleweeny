@@ -93,6 +93,24 @@ def create_user():
 
 	return(dict(info="created", id=new_userid))
 
+# Get User
+@app.route('/users/<id:int>', method='GET')
+def get_user_details(id):
+
+	api_auth = _authenticate()
+
+	# Only Admin can do this
+	if api_auth["admin"] != "True" or api_auth["authenticated"] == "False":
+		response.status = 401
+		return dict({"info":"Unauthorized."})
+
+	user_record = json.loads(rc.get("USER:"+str(id)))
+	user_out = {}
+	user_out["email"] = user_record["email"]
+	user_out["quota"] = user_record["quota"]
+
+	return(dict(user_out))
+
 # List User
 @app.route('/users', method='GET')
 def list_user():
