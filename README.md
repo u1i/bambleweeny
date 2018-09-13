@@ -2,6 +2,10 @@
 
 Bambleweeny is a versatile, lightweight database system that offers a REST API along with identity, access &amp; quota management. Written in Python, using a Redis backend, deployable in a container. Life is great!
 
+## Deploy using Docker Compose
+
+coming soon
+
 
 ## REST API
 
