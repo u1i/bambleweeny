@@ -19,7 +19,7 @@ Bambleweeny is an API driven, lightweight database system that offers a CRDL int
 * Docker
 * TBD
 
-[API Definition on SwaggerHub](https://app.swaggerhub.com/apis/u1i/bambleweeny/1.0.0)
+[API Definition](./swagger-ui)
 
 
 
