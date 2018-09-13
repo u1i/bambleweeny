@@ -21,7 +21,7 @@ Bambleweeny is a versatile, lightweight database system that offers a REST API a
 
 [API Definition](http://bambleweeny.sotong.io/)
 
-![](https://raw.githubusercontent.com/u1i/bambleweeny/master/img/api.png)
+[![](https://raw.githubusercontent.com/u1i/bambleweeny/master/img/api.png)](http://bambleweeny.sotong.io/)
 
 
 
