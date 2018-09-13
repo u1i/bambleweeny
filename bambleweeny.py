@@ -99,7 +99,7 @@ def create_user():
 
 	return(dict(info="created", id=new_userid))
 
-# Get User
+# Read User
 @app.route('/users/<id:int>', method='GET')
 def get_user_details(id):
 
@@ -123,6 +123,38 @@ def get_user_details(id):
 
 	return(dict(user_out))
 
+# Set Quota for User
+@app.route('/users/<id:int>', method='PUT')
+def get_user_details(id):
+
+	api_auth = _authenticate()
+
+	# Only Admin can do this
+	if api_auth["admin"] != "True" or api_auth["authenticated"] == "False":
+		response.status = 401
+		return dict({"info":"Unauthorized."})
+
+	# Get Payload
+	try:
+		payload = json.load(request.body)
+
+		quota = payload["quota"]
+	except:
+		response.status = 400
+		return dict({"info":"No valid JSON found in post body or mandatory fields missing."})
+
+	# Read from Redis
+	try:
+		user_record = json.loads(rc.get("USER:"+str(id)))
+	except:
+		response.status = 404
+		return dict({"info":"Not found."})
+
+	user_record["quota"] = quota
+	rc.set("USER:"+str(id), json.dumps(user_record, ensure_ascii=False))
+
+	return dict({"info":"Quota updated for user."})
+
 # Delete User
 @app.route('/users/<id:int>', method='DELETE')
 def delete_user(id):
@@ -145,8 +177,6 @@ def delete_user(id):
 	# Delete user record
 	rc.delete("USER:"+str(id))
 	return(dict(info="user deleted"))
-
-
 
 # List All Users
 @app.route('/users', method='GET')
