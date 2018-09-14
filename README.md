@@ -1,6 +1,6 @@
 ![](https://raw.githubusercontent.com/u1i/bambleweeny/master/img/bwy_small.png)
 
-Bambleweeny is lightweight, HTTP/REST based key-value store that offers identity, access & quota management. Written in Python, using a Redis backend, deployable in a tiny container. Life is great!
+Bambleweeny is lightweight HTTP/REST based key-value store that offers identity, access & quota management. Written in Python, using a Redis backend, deployable in a tiny container. Life is great!
 
 ## Deploy using Docker Compose
 
