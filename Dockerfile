@@ -10,6 +10,5 @@ RUN mkdir /app
 RUN pip install cherrypy bottle redis
 COPY server.py /app/server.py
 COPY bambleweeny.py /app/bambleweeny.py
-COPY bwy_functions.py /app/bwy_functions.py
 
 CMD ["python","/app/server.py"]

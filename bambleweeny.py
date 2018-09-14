@@ -1,6 +1,5 @@
 from bottle import Bottle, request, view, response
-from bwy_functions import issue_token, get_token_data
-import json, os, uuid, base64, redis, time, hashlib
+import json, os, uuid, base64, redis, time, hmac, hashlib
 
 # Settings
 admin_password = u"changeme"
@@ -44,7 +43,7 @@ def get_token():
 
 	# ADMIN access
 	if username == 'admin' and password == admin_password:
-		admin_token = issue_token(user=username, id=0, expiry=token_expiry_seconds, salt=secret_salt)
+		admin_token = _issue_token(user=username, id=0, expiry=token_expiry_seconds, salt=secret_salt)
 
 		if 'raw' in request.query:
 			return(admin_token)
@@ -56,7 +55,7 @@ def get_token():
 	for user in user_list:
 		user_record = json.loads(rc.get(user))
 		if user_record["email"] == username and user_record["hash"] == pwhash:
-			user_token = issue_token(user=username, id=user[5:], expiry=token_expiry_seconds, salt=secret_salt)
+			user_token = _issue_token(user=username, id=user[5:], expiry=token_expiry_seconds, salt=secret_salt)
 			if 'raw' in request.query:
 				return(user_token)
 			else:
@@ -213,12 +212,62 @@ def list_user():
 
 ####### Helper functions
 
+def _issue_token(user, expiry, id, salt):
+
+    # Dict containing user info
+    content={}
+    content["u"] = user
+    content["t"] = str(int(time.time()))
+    content["i"] = id
+
+    # Create base64 encoded version
+    c = base64.urlsafe_b64encode(json.dumps(content))
+
+    # Get an hmac signature
+    hmac1 = hmac.new(salt, c, hashlib.sha256 )
+
+    return(c + "." + hmac1.hexdigest())
+
+def _get_token_data(token, salt):
+    token_data = {}
+    token_data["error"] = "0"
+    token_data["admin"] = "False"
+
+    try:
+        # Get base64 encoded content and the signature from the token
+        separator = token.find(".")
+        sig_token = token[separator+1:]
+        content_raw = base64.urlsafe_b64decode(token[:separator])
+        content = json.loads(content_raw)
+
+        # Create signature
+        c = base64.urlsafe_b64encode(json.dumps(content))
+        hmac1 = hmac.new(salt, c, hashlib.sha256 )
+        sig_check = hmac1.hexdigest()
+
+        # Only get the data if the signature is valid
+        if sig_token == sig_check:
+
+            token_data["timestamp"] = int(content["t"])
+            token_data["user"] = content["u"]
+            token_data["id"] = content["i"]
+
+            if content["u"] == 'admin':
+                token_data["admin"] = "True"
+        else:
+            token_data["error"] = "1"
+    except:
+        token_data["error"] = "1"
+
+    return(token_data)
+
+
 def _authenticate():
 	bearer = request.environ.get('HTTP_AUTHORIZATION','')
 	access_token=bearer[7:]
 
 	# Extract the data from the token
-	data = get_token_data(token=access_token, salt=secret_salt)
+	data = _get_token_data(token=access_token, salt=secret_salt)
 
 	# If there was an error, end here
 	if data["error"] != "0":
