@@ -245,7 +245,7 @@ def create_res():
 
 # Get Resource
 @app.route('/resources/<id>', method='GET')
-def create_res(id):
+def get_res(id):
 
 	api_auth = _authenticate()
 
@@ -268,6 +268,37 @@ def create_res(id):
 	res_out["content"] = resource_record["content"]
 
 	return(dict(res_out))
+
+# Delete Resource
+@app.route('/resources/<id>', method='DELETE')
+def del_res(id):
+
+	api_auth = _authenticate()
+
+	# Authorization is needed for this endpoint
+	if api_auth["authenticated"] == "False":
+		response.status = 401
+		return dict({"info":"Unauthorized."})
+
+	# Get User ID
+	user_id = api_auth["id"]
+
+	# Construct Resource Location
+	redis_key = "RES:"+str(user_id)+":"+str(id)
+
+	# Does the resource exist?
+	if rc.get(redis_key) == None:
+		response.status = 404
+		return(dict(info="not found"))
+
+	# Delete from Redis
+	try:
+		rc.delete("RES:"+str(user_id)+":"+str(id))
+	except:
+		response.status = 404
+		return(dict(info="not found"))
+
+	return(dict(info="deleted", id=str(id)))
 
 ####### Helper functions
 
