@@ -18,6 +18,8 @@ Assuming you have Docker and docker-compose installed, simply run this command:
 
 `curl -sSL http://bit.ly/run-bambleweeny | sh`
 
+Bambleweeny should then be available at `http://localhost:8080`
+
 
 ## REST API
 
