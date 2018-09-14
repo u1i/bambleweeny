@@ -44,7 +44,7 @@ def get_token():
 
 	# ADMIN access
 	if username == 'admin' and password == admin_password:
-		admin_token = issue_token(user=username, expiry=token_expiry_seconds)
+		admin_token = issue_token(user=username, id=0, expiry=token_expiry_seconds, salt=secret_salt)
 		return(dict(token_type="bearer", access_token=admin_token))
 
 	# Normal User
@@ -52,7 +52,7 @@ def get_token():
 	for user in user_list:
 		user_record = json.loads(rc.get(user))
 		if user_record["email"] == username and user_record["hash"] == pwhash:
-			admin_token = issue_token(user=username, expiry=token_expiry_seconds)
+			admin_token = issue_token(user=username, id=user[5:], expiry=token_expiry_seconds, salt=secret_salt)
 			return(dict(token_type="bearer", access_token=admin_token))
 
 	response.status = 401
@@ -211,7 +211,7 @@ def _authenticate():
 	access_token=bearer[7:]
 
 	# Extract the data from the token
-	data = get_token_data(access_token)
+	data = get_token_data(token=access_token, salt=secret_salt)
 
 	# If there was an error, end here
 	if data["error"] != "0":

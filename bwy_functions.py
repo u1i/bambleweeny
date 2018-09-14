@@ -1,27 +1,49 @@
-import base64, time
+import base64, time, json, hmac, hashlib
 
-def issue_token(user, expiry):
+def issue_token(user, expiry, id, salt):
 
-    # Token has the format base64(username).base64(unix_timestamp)
-    # To Do: add integrity check / hash
+    # Dict containing user info
+    content={}
+    content["u"] = user
+    content["t"] = str(int(time.time()))
+    content["i"] = id
 
-    u = base64.urlsafe_b64encode(user)
-    t = base64.urlsafe_b64encode(str(int(time.time())))
-    return(u + "." + t)
+    # Create base64 encoded version
+    c = base64.urlsafe_b64encode(json.dumps(content))
 
-def get_token_data(token):
+    # Get an hmac signature
+    hmac1 = hmac.new(salt, c, hashlib.sha256 )
+
+    return(c + "." + hmac1.hexdigest())
+
+def get_token_data(token, salt):
     token_data = {}
     token_data["error"] = "0"
     token_data["admin"] = "False"
 
     try:
+        # Get base64 encoded content and the signature from the token
         separator = token.find(".")
-        token_data["user"] = base64.urlsafe_b64decode(token[:separator])
-        token_data["timestamp"] = int(base64.urlsafe_b64decode(token[separator+1:]))
+        sig_token = token[separator+1:]
+        content_raw = base64.urlsafe_b64decode(token[:separator])
+        content = json.loads(content_raw)
 
-        if token_data["user"] == 'admin':
-            token_data["admin"] = "True"
+        # Create signature
+        c = base64.urlsafe_b64encode(json.dumps(content))
+        hmac1 = hmac.new(salt, c, hashlib.sha256 )
+        sig_check = hmac1.hexdigest()
 
+        # Only get the data if the signature is valid
+        if sig_token == sig_check:
+
+            token_data["timestamp"] = int(content["t"])
+            token_data["user"] = content["u"]
+            token_data["id"] = content["i"]
+
+            if content["u"] == 'admin':
+                token_data["admin"] = "True"
+        else:
+            token_data["error"] = "1"
     except:
         token_data["error"] = "1"
 
