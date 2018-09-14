@@ -45,15 +45,22 @@ def get_token():
 	# ADMIN access
 	if username == 'admin' and password == admin_password:
 		admin_token = issue_token(user=username, id=0, expiry=token_expiry_seconds, salt=secret_salt)
-		return(dict(token_type="bearer", access_token=admin_token))
+
+		if 'raw' in request.query:
+			return(admin_token)
+		else:
+			return(dict(token_type="bearer", access_token=admin_token))
 
 	# Normal User
 	user_list = rc.scan_iter("USER:*")
 	for user in user_list:
 		user_record = json.loads(rc.get(user))
 		if user_record["email"] == username and user_record["hash"] == pwhash:
-			admin_token = issue_token(user=username, id=user[5:], expiry=token_expiry_seconds, salt=secret_salt)
-			return(dict(token_type="bearer", access_token=admin_token))
+			user_token = issue_token(user=username, id=user[5:], expiry=token_expiry_seconds, salt=secret_salt)
+			if 'raw' in request.query:
+				return(user_token)
+			else:
+				return(dict(token_type="bearer", access_token=user_token))
 
 	response.status = 401
 	return(dict(info="could not authorize user"))
