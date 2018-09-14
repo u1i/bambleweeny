@@ -14,6 +14,7 @@ Bambleweeny should then be available at `http://localhost:8080` and you can crea
 
 `curl -X POST http://localhost:8080/resources -H AUTH -d '{"content": "lorem ipsum"}'`
 
+Details on authentication and the endpoints below. The default password for admin is 'changeme'.
 
 ## REST API
 
