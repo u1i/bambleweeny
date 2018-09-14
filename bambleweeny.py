@@ -177,9 +177,6 @@ def delete_user(id):
 		response.status = 404
 		return dict({"info":"Not found."})
 
-	# Delete user resources
-	# TBD
-
 	# Delete user record
 	rc.delete("USER:"+str(id))
 	return(dict(info="user deleted"))
@@ -207,10 +204,87 @@ def list_user():
 
 	return(dict(output=output))
 
+# Create Resource
+@app.route('/resources', method='POST')
+def create_res():
 
+	api_auth = _authenticate()
 
+	# Authorization is needed for this endpoint
+	if api_auth["authenticated"] == "False":
+		response.status = 401
+		return dict({"info":"Unauthorized."})
+
+	# Get User ID and quota
+	user_id = api_auth["id"]
+	user_quota = _get_user_quota(user_id)
+
+	current_number_of_resources = _user_resources_number(user_id)
+
+	# Are we allowed to create more objects?
+	if user_quota != 0 and current_number_of_resources >= user_quota:
+		response.status = 400
+		return dict({"info":"Quota exceeded."})
+
+	try:
+		payload = json.load(request.body)
+		content = payload["content"]
+	except:
+		response.status = 400
+		return dict({"info":"No valid JSON found in post body or mandatory fields missing."})
+
+	# Create uuid
+	new_resource_id = uuid.uuid4()
+
+	resource_record = {}
+	resource_record["content"] = content
+
+	rc.set("RES:"+str(user_id)+":"+str(new_resource_id), json.dumps(resource_record, ensure_ascii=False))
+
+	return(dict(info="created", id=str(new_resource_id)))
+
+# Get Resource
+@app.route('/resources/<id>', method='GET')
+def create_res(id):
+
+	api_auth = _authenticate()
+
+	# Authorization is needed for this endpoint
+	if api_auth["authenticated"] == "False":
+		response.status = 401
+		return dict({"info":"Unauthorized."})
+
+	# Get User ID
+	user_id = api_auth["id"]
+
+	# Read from Redis
+	try:
+		resource_record = json.loads(rc.get("RES:"+str(user_id)+":"+str(id)))
+	except:
+		response.status = 404
+		return dict({"info":"Not found."})
+
+	res_out = {}
+	res_out["content"] = resource_record["content"]
+
+	return(dict(res_out))
 
 ####### Helper functions
+
+def _get_user_quota(uid):
+
+	user_record = json.loads(rc.get("USER:"+str(uid)))
+
+	return int(user_record["quota"])
+
+def _user_resources_number(uid):
+
+	n = 0
+	reslist = rc.scan_iter("RES:"+str(uid)+":*")
+	for res in reslist:
+		n = n+1
+
+	return(n)
 
 def _issue_token(user, expiry, id, salt):
 
@@ -232,6 +306,7 @@ def _get_token_data(token, salt):
     token_data = {}
     token_data["error"] = "0"
     token_data["admin"] = "False"
+    token_data["authenticated"] = "False"
 
     try:
         # Get base64 encoded content and the signature from the token
