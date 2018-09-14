@@ -2,7 +2,7 @@
 
 Bambleweeny is lightweight HTTP/REST based key-value store that offers identity, access & quota management. Written in Python, using a Redis backend, deployable in a tiny container. Life is great!
 
-## Deploy using Docker Compose
+## Deploy using Docker
 
 [Image on DockerHub](https://hub.docker.com/r/u1ih/bambleweeny/tags/) | [Dockerfile](Dockerfile) | [docker-compose.yml](docker-compose.yml) 
 
