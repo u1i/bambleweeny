@@ -2,9 +2,22 @@
 
 Bambleweeny is a versatile, lightweight database system that offers a REST API along with identity, access &amp; quota management. Written in Python, using a Redis backend, deployable in a tiny container. Life is great!
 
+## Project Status
+
+[x] OAuth flow & Access Management  
+[x] Admin Access  
+[x] User Access  
+[x] Quota Management  
+[ ] *Resources*
+
 ## Deploy using Docker Compose
 
 [Image on DockerHub](https://hub.docker.com/r/u1ih/bambleweeny/tags/) | [Dockerfile](Dockerfile) | [docker-compose.yml](docker-compose.yml) 
+
+Assuming you have Docker and docker-compose installed, simply run this command:
+
+`curl -sSL http://bit.ly/run-bambleweeny | sh`
+
 
 ## REST API
 
