@@ -1,0 +1,1 @@
+wrk2 -t2 -c20 -d30s -R1000 -H 'Authorization: Bearer eyJpIjogMCwgInUiOiAiYWRtaW4iLCAidCI6ICIxNTM2OTI1MjcwIn0=.09a34c58d230d86faa4d26ece9f4d298fe2992abc69d9ec5813ca29fb805581a' http://localhost:8080/users/1

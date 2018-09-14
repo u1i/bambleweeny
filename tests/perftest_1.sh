@@ -1,1 +1,1 @@
-wrk -d 60 -c 5 -t 5 -H "Authorization: Bearer eyJpIjogMCwgInUiOiAiYWRtaW4iLCAidCI6ICIxNTM2OTIyOTMwIn0=.edf9047bf583b125ba68be137fccdb4c7db0577e8348a7160a88686eae063959" http://localhost:8080/users/1
+wrk -d 60 -c 5 -t 5 -H "eyJpIjogMCwgInUiOiAiYWRtaW4iLCAidCI6ICIxNTM2OTI0MzA5In0=.ba2cd715dd9c8ee1e580a251bfd7e98c38e3a31ae7c72aac69ea12700577e347" http://localhost:8080/users/1
