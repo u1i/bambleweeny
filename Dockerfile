@@ -7,10 +7,9 @@ RUN apk update
 RUN apk add python2
 RUN apk add py-pip
 RUN mkdir /app
-RUN pip install cherrypy bottle
-COPY views /app/views
-RUN ln -s /app/views /views
+RUN pip install cherrypy bottle redis
 COPY server.py /app/server.py
-COPY my_bottle_app.py /app/my_bottle_app.py
+COPY bambleweeny.py /app/bambleweeny.py
+COPY bwy_functions.py /app/bwy_functions.py
 
 CMD ["python","/app/server.py"]
