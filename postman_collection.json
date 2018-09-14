@@ -1,0 +1,421 @@
+{
+	"info": {
+		"_postman_id": "8bd2a983-a2a7-41b0-9bec-ade24dfa106f",
+		"name": "bambleweeny",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Get Auth Token ADMIN",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"admin\",\n  \"password\": \"changeme\"\n}"
+						},
+						"url": {
+							"raw": "localhost:8080/auth/token?raw",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"token"
+							],
+							"query": [
+								{
+									"key": "raw",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"uli@privacy.net\",\n  \"password\": \"changeme\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/users/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/users/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Set Quota",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"quota\": \"20\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/users/8",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"8"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "eyJpIjogMCwgInUiOiAiYWRtaW4iLCAidCI6ICIxNTM2OTM0NzE0In0=.2018deaa0b90e0a6476e89986eed26bec9a789641844e42f182e97f3c5c51b67",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "f853822d-b7f1-409e-b88c-934d945b7201",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "a86f687d-20a3-4285-ae1d-38b24e1331ae",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Misc",
+			"item": [
+				{
+					"name": "Test Auth Token",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJpIjogMCwgInUiOiAiYWRtaW4iLCAidCI6ICIxNTM2OTIyOTMwIn0=.edf9047bf583b125ba68be137fccdb4c7db0577e8348a7160a88686eae063959",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/auth/test",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"test"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Get Auth Token",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"uli@privacy.net\",\n  \"password\": \"changeme\"\n}"
+						},
+						"url": {
+							"raw": "localhost:8080/auth/token",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Resource",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"me@privacy.net\",\n  \"password\": \"changeme\"\n}"
+						},
+						"url": {
+							"raw": "localhost:8080/auth/token",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Resource",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"me@privacy.net\",\n  \"password\": \"changeme\"\n}"
+						},
+						"url": {
+							"raw": "localhost:8080/resources/25bd09f2-0fec-4fd9-bfab-cb9f35cdd2dd",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"resources",
+								"25bd09f2-0fec-4fd9-bfab-cb9f35cdd2dd"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Resources",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"me@privacy.net\",\n  \"password\": \"changeme\"\n}"
+						},
+						"url": {
+							"raw": "localhost:8080/resources/25bd09f2-0fec-4fd9-bfab-cb9f35cdd2dd",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"resources",
+								"25bd09f2-0fec-4fd9-bfab-cb9f35cdd2dd"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Resource",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"me@privacy.net\",\n  \"password\": \"changeme\"\n}"
+						},
+						"url": {
+							"raw": "localhost:8080/resources/6813e21b-8279-4b65-8012-7b6c53d1be2d",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"resources",
+								"6813e21b-8279-4b65-8012-7b6c53d1be2d"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "eyJpIjogIjEiLCAidSI6ICJ1bGlAcHJpdmFjeS5uZXQiLCAidCI6ICIxNTM2OTM0NzM0In0=.67b2add5c291dcdcf868051ee9c8460ad16287be93626025c4de8cf6ef5c2992",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "f60e635b-ac89-433b-bc68-da7afa1c829e",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "e1489758-c9b7-4eef-8562-53ac9b8c3647",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	]
+}

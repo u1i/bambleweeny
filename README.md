@@ -1,14 +1,6 @@
 ![](https://raw.githubusercontent.com/u1i/bambleweeny/master/img/bwy_small.png)
 
-Bambleweeny is a versatile, lightweight database system that offers a REST API along with identity, access &amp; quota management. Written in Python, using a Redis backend, deployable in a tiny container. Life is great!
-
-## Project Status
-
-[x] OAuth flow & Access Management  
-[x] Admin Access  
-[x] User Access  
-[x] Quota Management  
-[ ] *Resources*
+Bambleweeny is lightweight, HTTP/REST based key-value store that offers identity, access & quota management. Written in Python, using a Redis backend, deployable in a tiny container. Life is great!
 
 ## Deploy using Docker Compose
 
@@ -18,12 +10,14 @@ Assuming you have Docker and docker-compose installed, simply run this command:
 
 `curl -sSL http://bit.ly/run-bambleweeny | sh`
 
-Bambleweeny should then be available at `http://localhost:8080`
+Bambleweeny should then be available at `http://localhost:8080` and you can create resources using HTTP requests like the following:
+
+`curl -X POST http://localhost:8080/resources -H AUTH -d '{"content": "lorem ipsum"}'`
 
 
 ## REST API
 
-[Swagger File](https://github.com/u1i/bambleweeny/blob/master/swagger.json) | [Swagger UI](http://bambleweeny.sotong.io/)
+[Swagger File](https://github.com/u1i/bambleweeny/blob/master/swagger.json) | [Swagger UI](http://bambleweeny.sotong.io/) | [Postman Collection](postman_collection.json) | [Postman Docu](https://documenter.getpostman.com/view/1926148/RWaKT8rF)
 
 [![](https://raw.githubusercontent.com/u1i/bambleweeny/master/img/api.png)](http://bambleweeny.sotong.io/)
 

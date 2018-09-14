@@ -239,7 +239,7 @@ def create_res():
 	resource_record = {}
 	resource_record["content"] = content
 
-	rc.set("RES:"+str(user_id)+":"+str(new_resource_id), json.dumps(resource_record, ensure_ascii=False))
+	rc.set("RES:"+str(user_id)+"::"+str(new_resource_id), json.dumps(resource_record, ensure_ascii=False))
 
 	return(dict(info="created", id=str(new_resource_id)))
 
@@ -257,9 +257,13 @@ def get_res(id):
 	# Get User ID
 	user_id = api_auth["id"]
 
+	# Construct Resource Location
+	redis_key = "RES:"+str(user_id)+"::"+str(id)
+
 	# Read from Redis
 	try:
-		resource_record = json.loads(rc.get("RES:"+str(user_id)+":"+str(id)))
+		# resource_record = json.loads(rc.get("RES:"+str(user_id)+":"+str(id)))
+		resource_record = json.loads(rc.get(redis_key))
 	except:
 		response.status = 404
 		return dict({"info":"Not found."})
@@ -268,6 +272,36 @@ def get_res(id):
 	res_out["content"] = resource_record["content"]
 
 	return(dict(res_out))
+
+# List All Resources
+@app.route('/resources', method='GET')
+def get_all_res():
+
+	api_auth = _authenticate()
+
+	# Authorization is needed for this endpoint
+	if api_auth["authenticated"] == "False":
+		response.status = 401
+		return dict({"info":"Unauthorized."})
+
+	# Get User ID
+	user_id = api_auth["id"]
+
+	# Construct Resource Location
+	redis_key = "RES:"+str(user_id)+":*"
+
+	output = []
+	resources_list = rc.scan_iter(redis_key)
+	for res in resources_list:
+
+		res_obj={}
+		pos = res.find("::")
+		res_obj["id"] = res[pos+2:]
+		res_obj["owner"] = user_id
+		res_obj["acl"] = "nil"
+		output.append(res_obj)
+
+	return(dict(output=output))
 
 # Delete Resource
 @app.route('/resources/<id>', method='DELETE')
@@ -284,7 +318,7 @@ def del_res(id):
 	user_id = api_auth["id"]
 
 	# Construct Resource Location
-	redis_key = "RES:"+str(user_id)+":"+str(id)
+	redis_key = "RES:"+str(user_id)+"::"+str(id)
 
 	# Does the resource exist?
 	if rc.get(redis_key) == None:
