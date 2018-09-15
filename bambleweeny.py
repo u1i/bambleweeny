@@ -202,7 +202,7 @@ def list_user():
 		user_out["quota"] = user_record["quota"]
 		output.append(user_out)
 
-	return(dict(output=output))
+	return(dict(users=output))
 
 # Create Resource
 @app.route('/resources', method='POST')
@@ -316,7 +316,7 @@ def get_all_res():
 		res_obj["acl"] = "nil"
 		output.append(res_obj)
 
-	return(dict(output=output))
+	return(dict(resources=output))
 
 # Delete Resource
 @app.route('/resources/<id>', method='DELETE')

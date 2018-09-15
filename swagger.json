@@ -100,45 +100,57 @@
                     "200": {
                         "description": "",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "object",
-                                "properties": {
-                                    "id": {
-                                        "type": "string"
-                                    },
-                                    "content": {
-                                        "type": "string"
-                                    },
-                                    "owner": {
-                                        "type": "string"
-                                    },
-                                    "acl": {
-                                        "type": "string"
+                            "type": "object",
+                            "properties": {
+                                "resources": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "owner": {
+                                                "type": "string"
+                                            },
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "acl": {
+                                                "type": "string"
+                                            }
+                                        }
                                     }
-                                },
-                                "required": [
-                                    "id",
-                                    "content",
-                                    "owner"
-                                ]
+                                }
                             }
                         },
                         "examples": {
-                            "application/json": [
-                                {
-                                    "id": "b6b74218-9df3-43e7-8415-98ecb986430c",
-                                    "content": "lorem ipsum",
-                                    "owner": "1",
-                                    "acl": ""
-                                },
-                                {
-                                    "id": "5357f5d4-625d-48cd-9980-ce07040b24ae",
-                                    "content": "stuff",
-                                    "owner": "2",
-                                    "acl": ""
-                                }
-                            ]
+                            "application/json": {
+                                "resources": [
+                                    {
+                                        "owner": "1",
+                                        "id": "d67a0e8c-87f0-4687-9fee-d9c4c2c94ebc",
+                                        "acl": "nil"
+                                    },
+                                    {
+                                        "owner": "1",
+                                        "id": "4dd8dbf3-e9fe-434a-b9cc-93f5113d32ed",
+                                        "acl": "nil"
+                                    },
+                                    {
+                                        "owner": "1",
+                                        "id": "318a9347-b97d-4c24-8a50-472a6374604a",
+                                        "acl": "nil"
+                                    },
+                                    {
+                                        "owner": "1",
+                                        "id": "8b7b42c2-c30b-46f8-a8f2-acfbbd71d155",
+                                        "acl": "nil"
+                                    },
+                                    {
+                                        "owner": "1",
+                                        "id": "db08a864-900d-4acd-b80f-ed7c9ac25664",
+                                        "acl": "nil"
+                                    }
+                                ]
+                            }
                         }
                     },
                     "401": {
@@ -283,28 +295,17 @@
                                 },
                                 "quota": {
                                     "type": "string"
-                                },
-                                "resources": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "string"
-                                    }
                                 }
                             },
                             "required": [
                                 "email",
-                                "quota",
-                                "resources"
+                                "quota"
                             ]
                         },
                         "examples": {
                             "application/json": {
                                 "email": "me@privacy.net",
-                                "quota": "19",
-                                "resources": [
-                                    "5e5182ec-2342-450c-b379-288fd0736d17",
-                                    "975bb628-059d-4bb2-bc0e-c8e0be80dcaf"
-                                ]
+                                "quota": "19"
                             }
                         }
                     },
@@ -408,7 +409,7 @@
                         "schema": {
                             "type": "object",
                             "properties": {
-                                "output": {
+                                "users": {
                                     "type": "array",
                                     "items": {
                                         "type": "object",
