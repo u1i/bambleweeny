@@ -1,4 +1,4 @@
-![](https://raw.githubusercontent.com/u1i/bambleweeny/master/img/bwy_small.png)
+![](https://raw.githubusercontent.com/u1i/bambleweeny/master/img/bwy2.png)
 
 Bambleweeny is lightweight HTTP/REST based key-value store that offers identity, access & quota management. It's fast, easy to use, and well-documented.
 
