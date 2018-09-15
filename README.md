@@ -4,6 +4,8 @@ Bambleweeny is lightweight HTTP/REST based key-value store that offers identity,
 
 Written in Python, using a Redis backend, deployable in a tiny container.
 
+`curl -X POST http://bambleweeny/resources -d '{"content": "lorem ipsum"}' -H AUTH`
+
 **Performance**:  
 Requests per second: ~800 (read) and ~140 (write)  
 Time per request: ~5ms (read), ~14ms (write) *[1]*
@@ -15,10 +17,6 @@ Time per request: ~5ms (read), ~14ms (write) *[1]*
 Assuming you have Docker and docker-compose installed, simply run this command:
 
 `curl -sSL http://bit.ly/run-bambleweeny | sh`
-
-Bambleweeny should then be available at `http://localhost:8080` and you can create resources using HTTP requests like the following:
-
-`curl -X POST http://localhost:8080/resources -H AUTH -d '{"content": "lorem ipsum"}'`
 
 Check out the [Getting Started Guide](GettingStarted.md) for a detailed run-through.
 
