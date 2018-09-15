@@ -20,12 +20,13 @@ Assuming you have Docker and docker-compose installed, simply run this command:
 
 `curl -sSL http://bit.ly/run-bambleweeny | sh`
 
-## REST API
+## Using the REST API
+
+Check out the [Getting Started Guide](GettingStarted.md) for a detailed run-through for managing users and resources.
 
 [Swagger File](https://github.com/u1i/bambleweeny/blob/master/swagger.json) | [Swagger UI](http://bambleweeny.sotong.io/) | [Postman Collection](postman_collection.json) | [Postman Docu](https://documenter.getpostman.com/view/1926148/RWaKT8rF)
 
-Check out the [Getting Started Guide](GettingStarted.md) for a detailed run-through for creating users and resources.
-
+Download SDK: [Python](https://github.com/u1i/bambleweeny/blob/master/sdk/python.zip) | [Java](https://github.com/u1i/bambleweeny/blob/master/sdk/java.zip) | [Ruby](https://github.com/u1i/bambleweeny/blob/master/sdk/ruby.zip) | [PHP](https://github.com/u1i/bambleweeny/blob/master/sdk/php.zip) | [JavaScript](https://github.com/u1i/bambleweeny/blob/master/sdk/javascript.zip)
 
 [![](https://raw.githubusercontent.com/u1i/bambleweeny/master/img/api.png)](http://bambleweeny.sotong.io/)
 
