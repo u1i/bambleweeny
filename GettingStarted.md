@@ -20,9 +20,9 @@ The default password for 'admin' is 'changeme', let's get a token so we can acce
 
 > eyJpIjogMCwgInUiOiAiYWRtaW4iLCAidCI6ICIxNTM3MDA0NzcwIn0=.576f5f00df3b6e5ac8430df435f0f6e586a57e3dddc3f26b1e5fc19535543092
 
-We've received a token, which we can now use to make an authenticated request (as admin) and create a new user with email address (username) 'me@privacy.net' and password 'changeme':
+We've received a token (copy it and replace `TOKEN` in the following cURL command), which we can now use to make an authenticated request (as admin) and create a new user with email address (username) 'me@privacy.net' and password 'changeme':
 
-`curl -X POST http://localhost:8080/users -H "Authorization: Bearer $token" -H 'Content-Type: application/json' -d '{ "email": "me@privacy.net", "password": "changeme" }'`
+`curl -X POST http://localhost:8080/users -H "Authorization: Bearer TOKEN" -H 'Content-Type: application/json' -d '{ "email": "me@privacy.net", "password": "changeme" }'`
 
 > {"info": "created", "id": 1}
 
@@ -30,7 +30,13 @@ We've received a token, which we can now use to make an authenticated request (a
 
 Now we have a user account and can create resources (admin can have resources as well, but why would you do such a thing?):
 
-`curl -X POST http://localhost:8080/resources -H "Authorization: Bearer $token" -H 'Content-Type: application/json' -d '{ "content": "lorem ipsum" }'`
+So first, we need to login with that new user:
+
+`curl -X POST "http://localhost:8080/auth/token?raw" -H 'Content-Type: application/json' -d '{ "username": "me@privacy.net", "password": "changeme"}'`
+
+Copy the output again and replace `TOKEN` in the following command with the token we received:
+
+`curl -X POST http://localhost:8080/resources -H "Authorization: Bearer TOKEN" -H 'Content-Type: application/json' -d '{ "content": "lorem ipsum" }'`
 
 > {"info": "created", "id": "145a6f04-6775-4479-9832-e082f91ae7dd"}
 
