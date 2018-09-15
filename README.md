@@ -4,6 +4,7 @@ Bambleweeny is lightweight HTTP/REST based key-value store that offers identity,
 
 Written in Python, using a Redis backend, deployable in a tiny container.
 
+**Usage**:  
 `curl -X POST http://bambleweeny/resources -d '{"content": "lorem ipsum"}' -H AUTH`
 
 **Performance**:  
