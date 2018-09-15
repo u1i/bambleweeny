@@ -4,6 +4,10 @@ Bambleweeny is lightweight HTTP/REST based key-value store that offers identity,
 
 Written in Python, using a Redis backend, deployable in a tiny container.
 
+**Performance**:  
+Requests per second: ~800 (read) and ~140 (write)  
+Time per request: ~5ms (read), ~14ms (write) *[1]*
+
 ## Deploy using Docker
 
 [Image on DockerHub](https://hub.docker.com/r/u1ih/bambleweeny/tags/) | [Dockerfile](Dockerfile) | [docker-compose.yml](docker-compose.yml) 
@@ -24,12 +28,6 @@ Check out the [Getting Started Guide](GettingStarted.md) for a detailed run-thro
 
 [![](https://raw.githubusercontent.com/u1i/bambleweeny/master/img/api.png)](http://bambleweeny.sotong.io/)
 
-# Performance
-
-**Requests per second:** ~800 (read) and ~140 (write)  
-**Time per request:** ~5ms (read), ~14ms (write)
-
-Tested with Apache Bench on a 4x2.0 GHz 32 GB RAM machine at [packet.net](https://www.packet.net/cloud/servers/x1-small/)
 
 ## Behind the Scenes
 ### Design Principles:
@@ -44,3 +42,6 @@ Tested with Apache Bench on a 4x2.0 GHz 32 GB RAM machine at [packet.net](https:
 * Redis
 * Docker
 
+[1] Tested with Apache Bench on a 4x2.0 GHz 32 GB RAM machine at [packet.net](https://www.packet.net/cloud/servers/x1-small/)
+
+*[Where does the name come from?](http://hitchhikers.wikia.com/wiki/Bambleweeny_57_Submeson_Brain)*
