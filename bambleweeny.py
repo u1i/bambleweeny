@@ -257,8 +257,17 @@ def get_res(id):
 	# Get User ID
 	user_id = api_auth["id"]
 
-	# Construct Resource Location
+	# Construct Resource Location from user_id and id
 	redis_key = "RES:"+str(user_id)+"::"+str(id)
+
+	# Resource location for admin access - find in Redis
+	if api_auth["admin"] == "True":
+		try:
+			redis_find = rc.scan_iter("*"+str(id))
+			redis_key = redis_find.next()
+		except:
+			response.status = 404
+			return dict({"info":"Not found."})
 
 	# Read from Redis
 	try:
@@ -290,14 +299,20 @@ def get_all_res():
 	# Construct Resource Location
 	redis_key = "RES:"+str(user_id)+":*"
 
+	# Resource Location is different for admin access
+	# Since in that case we want all resources
+	if api_auth["admin"] == "True":
+		redis_key = "RES:*"
+
 	output = []
 	resources_list = rc.scan_iter(redis_key)
 	for res in resources_list:
 
 		res_obj={}
 		pos = res.find("::")
+		pos1 = res.find(":")
 		res_obj["id"] = res[pos+2:]
-		res_obj["owner"] = user_id
+		res_obj["owner"] = res[pos1+1:pos]
 		res_obj["acl"] = "nil"
 		output.append(res_obj)
 
@@ -320,6 +335,15 @@ def del_res(id):
 	# Construct Resource Location
 	redis_key = "RES:"+str(user_id)+"::"+str(id)
 
+	# Resource location for admin access - find in Redis
+	if api_auth["admin"] == "True":
+		try:
+			redis_find = rc.scan_iter("*"+str(id))
+			redis_key = redis_find.next()
+		except:
+			response.status = 404
+			return dict({"info":"Not found."})
+
 	# Does the resource exist?
 	if rc.get(redis_key) == None:
 		response.status = 404
@@ -327,7 +351,7 @@ def del_res(id):
 
 	# Delete from Redis
 	try:
-		rc.delete("RES:"+str(user_id)+":"+str(id))
+		rc.delete(redis_key)
 	except:
 		response.status = 404
 		return(dict(info="not found"))
