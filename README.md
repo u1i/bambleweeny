@@ -7,6 +7,7 @@ Written in Python, using a Redis backend, deployable in a tiny container.
 **Usage**:  
 `curl -X POST http://bambleweeny/resources -d '{"content": "lorem ipsum"}' -H AUTH`
 
+
 **Performance**:  
 Requests per second: ~800 (read) and ~140 (write)  
 Time per request: ~5ms (read), ~14ms (write) *[1]*
@@ -19,11 +20,12 @@ Assuming you have Docker and docker-compose installed, simply run this command:
 
 `curl -sSL http://bit.ly/run-bambleweeny | sh`
 
-Check out the [Getting Started Guide](GettingStarted.md) for a detailed run-through.
-
 ## REST API
 
 [Swagger File](https://github.com/u1i/bambleweeny/blob/master/swagger.json) | [Swagger UI](http://bambleweeny.sotong.io/) | [Postman Collection](postman_collection.json) | [Postman Docu](https://documenter.getpostman.com/view/1926148/RWaKT8rF)
+
+Check out the [Getting Started Guide](GettingStarted.md) for a detailed run-through for creating users and resources.
+
 
 [![](https://raw.githubusercontent.com/u1i/bambleweeny/master/img/api.png)](http://bambleweeny.sotong.io/)
 
