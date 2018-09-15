@@ -1,6 +1,8 @@
 ![](https://raw.githubusercontent.com/u1i/bambleweeny/master/img/bwy_small.png)
 
-Bambleweeny is lightweight HTTP/REST based key-value store that offers identity, access & quota management. Written in Python, using a Redis backend, deployable in a tiny container. It's fast, easy to use, and well-documented.
+Bambleweeny is lightweight HTTP/REST based key-value store that offers identity, access & quota management. It's fast, easy to use, and well-documented.
+
+Written in Python, using a Redis backend, deployable in a tiny container.
 
 ## Deploy using Docker
 
@@ -14,7 +16,7 @@ Bambleweeny should then be available at `http://localhost:8080` and you can crea
 
 `curl -X POST http://localhost:8080/resources -H AUTH -d '{"content": "lorem ipsum"}'`
 
-Details on authentication and the endpoints below. The default password for admin is 'changeme'.
+Check out the [Getting Started Guide](GettingStarted.md) for a detailed run-through.
 
 ## REST API
 
