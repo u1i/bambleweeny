@@ -34,11 +34,13 @@ So first, we need to login with that new user:
 
 `curl -X POST "http://localhost:8080/auth/token?raw" -H 'Content-Type: application/json' -d '{ "username": "me@privacy.net", "password": "changeme"}'`
 
-Copy the output again and replace `TOKEN` in the following command with the token we received:
+Copy the output again and replace `TOKEN` in the following command with the token we received. Because now we're creating our first resource, with `lorem ipsum` as a content.
 
 `curl -X POST http://localhost:8080/resources -H "Authorization: Bearer TOKEN" -H 'Content-Type: application/json' -d '{ "content": "lorem ipsum" }'`
 
 > {"info": "created", "id": "145a6f04-6775-4479-9832-e082f91ae7dd"}
+
+We receive the unique ID of the newly created resource which we can use to access it with a GET request on the object.
 
 That's it! Check out the full API documentation for read, delete, and quota & identity management requests.
 
