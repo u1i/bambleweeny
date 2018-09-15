@@ -1,5 +1,5 @@
-curl -i -X POST \
-  http://localhost:8080/auth/token \
+curl -X POST \
+  "http://localhost:8080/auth/token?raw" \
   -H 'Cache-Control: no-cache' \
   -H 'Content-Type: application/json' \
   -d '{
