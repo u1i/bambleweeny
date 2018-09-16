@@ -9,7 +9,7 @@ Written in Python, using a Redis backend, deployable in a tiny container.
 
 
 **Performance**:  
-Requests per second: ~800 (read) and ~140 (write)  
+Requests per second: ~800 (read) and ~450 (write)  
 Time per request: ~5ms (read), ~14ms (write) *[1]*
 
 ## Deploy using Docker
@@ -44,6 +44,6 @@ Download SDK: [Python](https://github.com/u1i/bambleweeny/raw/master/sdk/python.
 * Redis
 * Docker
 
-[1] Tested with Apache Bench on a 4x2.0 GHz 32 GB RAM machine at [packet.net](https://www.packet.net/cloud/servers/x1-small/)
+[1] Tested with Apache Bench on an [x1.small machine](https://www.packet.net/cloud/servers/x1-small) at packet.net
 
 *[Where does the name come from?](http://hitchhikers.wikia.com/wiki/Bambleweeny_57_Submeson_Brain)*

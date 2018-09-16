@@ -241,6 +241,9 @@ def create_res():
 
 	rc.set("RES:"+str(user_id)+"::"+str(new_resource_id), json.dumps(resource_record, ensure_ascii=False))
 
+	# Increase the counter of resources for this user_record
+	rc.incr("NUMRES:"+str(user_id))
+
 	return(dict(info="created", id=str(new_resource_id)))
 
 # Get Resource
@@ -257,17 +260,13 @@ def get_res(id):
 	# Get User ID
 	user_id = api_auth["id"]
 
+	# If authenticated as admin, we need to search for the resource first
+	if api_auth["admin"] == "True":
+		r = _find_resource(id)
+		user_id = r["owner"]
+
 	# Construct Resource Location from user_id and id
 	redis_key = "RES:"+str(user_id)+"::"+str(id)
-
-	# Resource location for admin access - find in Redis
-	if api_auth["admin"] == "True":
-		try:
-			redis_find = rc.scan_iter("*"+str(id))
-			redis_key = redis_find.next()
-		except:
-			response.status = 404
-			return dict({"info":"Not found."})
 
 	# Read from Redis
 	try:
@@ -332,17 +331,13 @@ def del_res(id):
 	# Get User ID
 	user_id = api_auth["id"]
 
+	# If authenticated as admin, we need to search for the resource first
+	if api_auth["admin"] == "True":
+		r = _find_resource(id)
+		user_id = r["owner"]
+
 	# Construct Resource Location
 	redis_key = "RES:"+str(user_id)+"::"+str(id)
-
-	# Resource location for admin access - find in Redis
-	if api_auth["admin"] == "True":
-		try:
-			redis_find = rc.scan_iter("*"+str(id))
-			redis_key = redis_find.next()
-		except:
-			response.status = 404
-			return dict({"info":"Not found."})
 
 	# Does the resource exist?
 	if rc.get(redis_key) == None:
@@ -356,9 +351,32 @@ def del_res(id):
 		response.status = 404
 		return(dict(info="not found"))
 
+	# Decrease the counter of resources for this user_record
+	rc.decr("NUMRES:"+str(user_id))
+
 	return(dict(info="deleted", id=str(id)))
 
 ####### Helper functions
+
+def _find_resource(id):
+
+	result={}
+	result["error"] = "0"
+	result["id"] = "-1"
+	result["owner"] = "-1"
+
+	try:
+		redis_find = rc.scan_iter("*"+str(id))
+		found_id = redis_find.next()
+		result["id"] = found_id
+		pos = found_id.find("::")
+		pos1 = found_id.find(":")
+		result["owner"] = found_id[pos1+1:pos]
+
+	except:
+		result["error"] = "1"
+
+	return(result)
 
 def _get_user_quota(uid):
 
@@ -368,12 +386,11 @@ def _get_user_quota(uid):
 
 def _user_resources_number(uid):
 
-	n = 0
-	reslist = rc.scan_iter("RES:"+str(uid)+":*")
-	for res in reslist:
-		n = n+1
-
-	return(n)
+	n = rc.get("NUMRES:"+str(uid))
+	if n == None:
+		return 0
+	else:
+		return(int(n))
 
 def _issue_token(user, expiry, id, salt):
 
@@ -449,6 +466,9 @@ def _authenticate():
 		# valid
 		data["authenticated"] = "True"
 		data["info"] = "Session expires in " + str(token_expiry_seconds - delta) + " seconds."
+
+	# Set response header: username
+	response.headers["B9Y-AUTHENTICATED-USER"] = data["user"]
 
 	return(dict(data))
 

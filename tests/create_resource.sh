@@ -3,7 +3,7 @@
 token=$(./get_user_token.sh)
 
 # Create Resource
-curl -X POST \
+curl -i -X POST \
   http://localhost:8080/resources \
   -H "Authorization: Bearer $token" \
   -H 'Cache-Control: no-cache' \
