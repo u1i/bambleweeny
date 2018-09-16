@@ -1,4 +1,4 @@
-for lang in python php ruby java javascript
+for lang in python php ruby java javascript android html
 do
 	f=$(curl -X POST -H "Content-Type: application/json" -d '{"swaggerUrl":"https://raw.githubusercontent.com/u1i/bambleweeny/master/swagger.json"}' "http://generator.swagger.io/api/gen/clients/$lang" | tr "," "\n" | grep link | sed "s/\"}//;" | sed 's/.*":"//;' )
 
