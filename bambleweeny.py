@@ -41,16 +41,6 @@ def get_token():
 		response.status = 400
 		return dict({"message":"No valid JSON found in post body or mandatory fields missing."})
 
-	# ADMIN access
-	if username == 'admin' and password == admin_password:
-		admin_token = _issue_token(user=username, id=0, expiry=token_expiry_seconds, salt=secret_salt)
-
-		if 'raw' in request.query:
-			return(admin_token)
-		else:
-			return(dict(token_type="bearer", access_token=admin_token))
-
-	# Normal User
 	user_list = rc.scan_iter("USER:*")
 	for user in user_list:
 		user_record = json.loads(rc.get(user))
@@ -172,6 +162,11 @@ def delete_user(id):
 		response.status = 401
 		return dict({"info":"Unauthorized."})
 
+	# Do not allow deleting admin
+	if id == 0:
+		response.status = 400
+		return dict({"info":"Cannot delete admin user."})
+
 	# Does the user exist?
 	if rc.get("USER:"+str(id)) == None:
 		response.status = 404
@@ -203,6 +198,34 @@ def list_user():
 		output.append(user_out)
 
 	return(dict(users=output))
+
+# Change Admin Password
+@app.route('/config/admin', method='PUT')
+def set_admin_password():
+
+	api_auth = _authenticate()
+
+	# Only Admin can do this
+	if api_auth["admin"] != "True" or api_auth["authenticated"] == "False":
+		response.status = 401
+		return dict({"info":"Unauthorized."})
+
+	try:
+		payload = json.load(request.body)
+		new_password = payload["password"]
+	except:
+		response.status = 400
+		return dict({"info":"No valid JSON found in post body or mandatory fields missing."})
+
+	# Read record for admin user
+	admin_record = json.loads(rc.get("USER:0"))
+
+	# Hash and write new password
+	hash_object = hashlib.sha1(new_password)
+	admin_record["hash"] = hash_object.hexdigest()
+	rc.set("USER:0", json.dumps(admin_record, ensure_ascii=False))
+
+	return(dict(info="updated"))
 
 # Create Resource
 @app.route('/resources', method='POST')
@@ -358,6 +381,19 @@ def del_res(id):
 
 ####### Helper functions
 
+def _create_admin():
+
+	hash_object = hashlib.sha1(admin_password)
+	pwhash = hash_object.hexdigest()
+	user_record = {}
+	user_record["email"] = "admin"
+	user_record["hash"] = pwhash
+	user_record["quota"] = "0"
+
+	rc.set("USER:0", json.dumps(user_record, ensure_ascii=False))
+
+	return
+
 def _find_resource(id):
 
 	result={}
@@ -442,7 +478,6 @@ def _get_token_data(token, salt):
 
     return(token_data)
 
-
 def _authenticate():
 	bearer = request.environ.get('HTTP_AUTHORIZATION','')
 	access_token=bearer[7:]
@@ -483,9 +518,4 @@ rc = redis.StrictRedis(host=redis_host, port=redis_port, db=0)
 
 # Create record for admin user if it doesn't exist
 if rc.get("USER:0") == None:
-		user_record = {}
-		user_record["email"] = "admin@admin"
-		user_record["hash"] = "nil"
-		user_record["quota"] = "0"
-
-		rc.set("USER:0", json.dumps(user_record, ensure_ascii=False))
+	_create_admin()

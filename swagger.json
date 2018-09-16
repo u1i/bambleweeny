@@ -519,6 +519,46 @@
                     }
                 ]
             }
+        },
+        "/config/admin": {
+            "put": {
+                "operationId": "PUT_config-admin",
+                "summary": "Change Admin Password",
+                "tags": [
+                    "Config"
+                ],
+                "description": "Update the admin password - default password is 'changeme'.",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "password": {
+                                    "type": "string"
+                                }
+                            },
+                            "example": {
+                                "password": "c5XU3l901Jp"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    },
+                    "400": {
+                        "description": ""
+                    }
+                },
+                "security": [
+                    {
+                        "oauth2": []
+                    }
+                ]
+            }
         }
     },
     "definitions": {}
