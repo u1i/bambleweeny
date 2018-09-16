@@ -36,6 +36,7 @@
                 "tags": [
                     "Resources"
                 ],
+                "description": "Retrieve a resource identified by the UUID.",
                 "responses": {
                     "200": {
                         "description": "",
@@ -77,6 +78,7 @@
                 "tags": [
                     "Resources"
                 ],
+                "description": "Delete a resource identified by a UUID.",
                 "responses": {
                     "401": {
                         "description": ""
@@ -96,6 +98,7 @@
                 "tags": [
                     "Resources"
                 ],
+                "description": "List all resources of the user. Admin will see a list of resources for all users.",
                 "responses": {
                     "200": {
                         "description": "",
@@ -169,6 +172,7 @@
                 "tags": [
                     "Resources"
                 ],
+                "description": "Create a resource from JSON data.",
                 "parameters": [
                     {
                         "name": "body",
@@ -208,6 +212,7 @@
                 "tags": [
                     "Auth"
                 ],
+                "description": "This endpoint is used to retrieve an access token to perform authenticated requests against the 'resources' endpoints. Login with username (email) and password. For admin, the username is simply 'admin'.",
                 "parameters": [
                     {
                         "name": "body",
