@@ -289,6 +289,7 @@
                 "tags": [
                     "Users"
                 ],
+                "description": "Get a user record identified by a numceric user id.",
                 "responses": {
                     "200": {
                         "description": "",
@@ -333,6 +334,7 @@
                 "tags": [
                     "Users"
                 ],
+                "description": "Set the quota for a user (number of resources a user can have).",
                 "parameters": [
                     {
                         "name": "body",
@@ -386,6 +388,7 @@
                 "tags": [
                     "Users"
                 ],
+                "description": "Delete a user record identified by a numceric user id.",
                 "responses": {
                     "200": {
                         "description": ""
@@ -408,6 +411,7 @@
                 "tags": [
                     "Users"
                 ],
+                "description": "List all users in the system.",
                 "responses": {
                     "200": {
                         "description": "",
@@ -466,6 +470,7 @@
                 "tags": [
                     "Users"
                 ],
+                "description": "Create a user. The new user can then make authenticated requests with access tokens retrieved from the /auth/token endpoint.",
                 "parameters": [
                     {
                         "name": "body",
