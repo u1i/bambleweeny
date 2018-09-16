@@ -26,7 +26,7 @@
                 "operationId": "POST_auth-token",
                 "summary": "Get Access Token",
                 "tags": [
-                    "Auth"
+                    "Authentication"
                 ],
                 "description": "This endpoint is used to retrieve an access token to perform authenticated requests against the 'resources' endpoints. Login with username (email) and password. For admin, the username is simply 'admin'.",
                 "parameters": [
@@ -287,7 +287,7 @@
                 "operationId": "GET-user",
                 "summary": "Get User",
                 "tags": [
-                    "Users"
+                    "User Management"
                 ],
                 "description": "Get a user record identified by a numceric user id.",
                 "responses": {
@@ -332,7 +332,7 @@
                 "operationId": "PUT-user",
                 "summary": "Set Quota",
                 "tags": [
-                    "Users"
+                    "User Management"
                 ],
                 "description": "Set the quota for a user (number of resources a user can have).",
                 "parameters": [
@@ -386,7 +386,7 @@
                 "operationId": "DELETE-user",
                 "summary": "Delete User",
                 "tags": [
-                    "Users"
+                    "User Management"
                 ],
                 "description": "Delete a user record identified by a numceric user id.",
                 "responses": {
@@ -409,7 +409,7 @@
                 "operationId": "LIST-users",
                 "summary": "List Users",
                 "tags": [
-                    "Users"
+                    "User Management"
                 ],
                 "description": "List all users in the system.",
                 "responses": {
@@ -468,7 +468,7 @@
                 "operationId": "POST-user",
                 "summary": "Create User",
                 "tags": [
-                    "Users"
+                    "User Management"
                 ],
                 "description": "Create a user. The new user can then make authenticated requests with access tokens retrieved from the /auth/token endpoint.",
                 "parameters": [
@@ -525,7 +525,7 @@
                 "operationId": "PUT_config-admin",
                 "summary": "Change Admin Password",
                 "tags": [
-                    "Config"
+                    "Configuration"
                 ],
                 "description": "Update the admin password - default password is 'changeme'.",
                 "parameters": [
