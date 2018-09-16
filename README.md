@@ -13,8 +13,6 @@ Written in Python, using a Redis backend, deployable in a tiny container.
 * **~300 reads per second, ~220 writes per second** - 1x vCPU 1GB RAM (linode)
 * **~800 reads per second, ~520 writes per second** - 4x vCPU 32GB RAM (baremetal x1.small on packet)
 
-Requests per second: ~800 (read) and ~450 (write)  
-
 ## Deploy using Docker
 
 [Image on DockerHub](https://hub.docker.com/r/u1ih/bambleweeny/tags/) | [Dockerfile](Dockerfile) | [docker-compose.yml](docker-compose.yml) 
