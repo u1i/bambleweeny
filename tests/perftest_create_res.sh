@@ -1,3 +1,5 @@
-# perftest: create resources
+# Get Token
 
-wrk2 -d30 -R10 -s wrk2_post.lua http://localhost:8080
+token=$(./get_user_token.sh)
+
+ab -p create.txt -l -n 1000 -c 2 -T application/json -H "Authorization: Bearer $token" http://127.0.0.1:8080/resources

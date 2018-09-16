@@ -8,9 +8,12 @@ Written in Python, using a Redis backend, deployable in a tiny container.
 `curl -X POST http://bambleweeny/resources -d '{"content": "lorem ipsum"}' -H AUTH`
 
 
-**Performance**:  
+**Performance** (Apache Bench):
+
+* **~300 reads per second, ~220 writes per second** - 2x vCPU 4 GB RAM (linode4)
+* **~800 reads per second, ~520 writes per second** - 4x vCPU 32 GB RAM (x1.small on packet)
+
 Requests per second: ~800 (read) and ~450 (write)  
-Time per request: ~5ms (read), ~14ms (write) *[1]*
 
 ## Deploy using Docker
 
@@ -43,7 +46,5 @@ Download SDK: [Python](https://github.com/u1i/bambleweeny/raw/master/sdk/python.
 * Python, [Bottle](https://bottlepy.org/) WSGI Framework, [CherryPy](http://cherrypy.org/) thread-pooled webserver
 * Redis
 * Docker
-
-[1] Tested with Apache Bench on an [x1.small machine](https://www.packet.net/cloud/servers/x1-small) at packet.net
 
 *[Where does the name come from?](http://hitchhikers.wikia.com/wiki/Bambleweeny_57_Submeson_Brain)*
