@@ -21,6 +21,75 @@
         }
     },
     "paths": {
+        "/auth/token": {
+            "post": {
+                "operationId": "POST_auth-token",
+                "summary": "Get Access Token",
+                "tags": [
+                    "Auth"
+                ],
+                "description": "This endpoint is used to retrieve an access token to perform authenticated requests against the 'resources' endpoints. Login with username (email) and password. For admin, the username is simply 'admin'.",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "username": {
+                                    "type": "string"
+                                },
+                                "password": {
+                                    "type": "string"
+                                }
+                            },
+                            "example": {
+                                "username": "joe",
+                                "password": "secret"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "access_token": {
+                                    "type": "string"
+                                },
+                                "token_type": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "examples": {
+                            "application/json": {
+                                "access_token": "token",
+                                "token_type": "bearer"
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "examples": {
+                            "application/json": {
+                                "message": "info"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/resources/{id}": {
             "parameters": [
                 {
@@ -203,75 +272,6 @@
                         "oauth2": []
                     }
                 ]
-            }
-        },
-        "/auth/token": {
-            "post": {
-                "operationId": "POST_auth-token",
-                "summary": "Get Access Token",
-                "tags": [
-                    "Auth"
-                ],
-                "description": "This endpoint is used to retrieve an access token to perform authenticated requests against the 'resources' endpoints. Login with username (email) and password. For admin, the username is simply 'admin'.",
-                "parameters": [
-                    {
-                        "name": "body",
-                        "in": "body",
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "username": {
-                                    "type": "string"
-                                },
-                                "password": {
-                                    "type": "string"
-                                }
-                            },
-                            "example": {
-                                "username": "joe",
-                                "password": "secret"
-                            }
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "access_token": {
-                                    "type": "string"
-                                },
-                                "token_type": {
-                                    "type": "string"
-                                }
-                            }
-                        },
-                        "examples": {
-                            "application/json": {
-                                "access_token": "token",
-                                "token_type": "bearer"
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "",
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "message": {
-                                    "type": "string"
-                                }
-                            }
-                        },
-                        "examples": {
-                            "application/json": {
-                                "message": "info"
-                            }
-                        }
-                    }
-                }
             }
         },
         "/users/{id}": {
