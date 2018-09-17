@@ -13,9 +13,9 @@ Written in Python, using a Redis backend, deployable in a tiny container.
 * **~540 reads per second, ~400 writes per second** - 1x vCPU 1 GB RAM (AWS t2.micro)
 * **~800 reads per second, ~530 writes per second** - MacBook Pro 2.9GHz i7 16GB RAM
 
-## Deploy using Docker
+## Deploy using Docker or Kubernetes
 
-[Image on DockerHub](https://hub.docker.com/r/u1ih/bambleweeny/tags/) | [Dockerfile](Dockerfile) | [docker-compose.yml](docker-compose.yml) 
+[Image on DockerHub](https://hub.docker.com/r/u1ih/bambleweeny/tags/) | [Dockerfile](Dockerfile) | [docker-compose.yml](docker-compose.yml) | [Run on Kubernetes](kube-run.sh)
 
 Assuming you have Docker and docker-compose installed, simply run this command:
 
