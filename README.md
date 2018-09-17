@@ -23,9 +23,9 @@ Assuming you have Docker and docker-compose installed, simply run this command:
 
 ## Using the REST API
 
-Check out the [Getting Started Guide](GettingStarted.md) for a detailed run-through for managing users and resources.
+Check out the [Getting Started Guide](GettingStarted.md) and the [API Documentation](http://bambleweeny.sotong.io/) for detailed information on managing users and resources.
 
-[Swagger File](https://github.com/u1i/bambleweeny/blob/master/swagger.json) | [Swagger UI](http://bambleweeny.sotong.io/) | [Postman Collection](postman_collection.json) | [Postman Docu](https://documenter.getpostman.com/view/1926148/RWaKT8rF)
+[Swagger File](https://github.com/u1i/bambleweeny/blob/master/swagger.json) | [Postman Collection](postman_collection.json) | [Postman Docu](https://documenter.getpostman.com/view/1926148/RWaKT8rF)
 
 Download SDK: [Python](https://github.com/u1i/bambleweeny/raw/master/sdk/python.zip) | [Java](https://github.com/u1i/bambleweeny/raw/master/sdk/java.zip) | [Ruby](https://github.com/u1i/bambleweeny/raw/master/sdk/ruby.zip) | [PHP](https://github.com/u1i/bambleweeny/raw/master/sdk/php.zip) | [JavaScript](https://github.com/u1i/bambleweeny/raw/master/sdk/javascript.zip) | [Android](https://github.com/u1i/bambleweeny/raw/master/sdk/android.zip) | [HTML](https://github.com/u1i/bambleweeny/raw/master/sdk/html.zip)
 
