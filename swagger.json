@@ -5,7 +5,6 @@
         "title": "bambleweeny",
         "description": ""
     },
-    "basePath": "/v1",
     "consumes": [
         "application/json"
     ],
