@@ -1,5 +1,5 @@
 from bottle import Bottle, request, view, response
-import json, os, uuid, base64, redis, time, hmac, hashlib
+import json, os, uuid, base64, redis, time, hmac, hashlib, random
 
 # Settings
 admin_password = u"changeme"
@@ -35,8 +35,9 @@ def get_token():
 
 		username = payload["username"]
 		password = payload["password"]
-		hash_object = hashlib.sha1(password)
-		pwhash = hash_object.hexdigest()
+		#hash_object = hashlib.sha1(password)
+		#pwhash = hash_object.hexdigest()
+		pwhash = _get_password_hash(password)
 	except:
 		response.status = 400
 		return dict({"message":"No valid JSON found in post body or mandatory fields missing."})
@@ -83,8 +84,9 @@ def create_user():
 
 	# Set ID and password hash for user
 	new_userid = rc.incr("_USERID_")
-	hash_object = hashlib.sha1(password)
-	pwhash = hash_object.hexdigest()
+	#hash_object = hashlib.sha1(password)
+	#pwhash = hash_object.hexdigest()
+	pwhash = _get_password_hash(password)
 
 	user_record = {}
 	user_record["email"] = username
@@ -221,8 +223,10 @@ def set_admin_password():
 	admin_record = json.loads(rc.get("USER:0"))
 
 	# Hash and write new password
-	hash_object = hashlib.sha1(new_password)
-	admin_record["hash"] = hash_object.hexdigest()
+	#hash_object = hashlib.sha1(new_password)
+	#admin_record["hash"] = hash_object.hexdigest()
+
+	admin_record["hash"] = _get_password_hash(new_password)
 	rc.set("USER:0", json.dumps(admin_record, ensure_ascii=False))
 
 	return(dict(info="updated"))
@@ -381,10 +385,16 @@ def del_res(id):
 
 ####### Helper functions
 
+def _get_password_hash(pw):
+
+	hash_object = hashlib.sha1(pw+secret_salt)
+	return(hash_object.hexdigest())
+
 def _create_admin():
 
-	hash_object = hashlib.sha1(admin_password)
-	pwhash = hash_object.hexdigest()
+	#hash_object = hashlib.sha1(admin_password)
+	#pwhash = hash_object.hexdigest()
+	pwhash = _get_password_hash(admin_password)
 	user_record = {}
 	user_record["email"] = "admin"
 	user_record["hash"] = pwhash
@@ -430,19 +440,19 @@ def _user_resources_number(uid):
 
 def _issue_token(user, expiry, id, salt):
 
-    # Dict containing user info
-    content={}
-    content["u"] = user
-    content["t"] = str(int(time.time()))
-    content["i"] = id
+	# Dict containing user info
+	content={}
+	content["u"] = user
+	content["t"] = str(int(time.time()))
+	content["i"] = id
 
-    # Create base64 encoded version
-    c = base64.urlsafe_b64encode(json.dumps(content))
+	# Create base64 encoded version
+	c = base64.urlsafe_b64encode(json.dumps(content))
 
-    # Get an hmac signature
-    hmac1 = hmac.new(salt, c, hashlib.sha256 )
+	# Get an hmac signature
+	hmac1 = hmac.new(salt, c, hashlib.sha256 )
 
-    return(c + "." + hmac1.hexdigest())
+	return(c + "." + hmac1.hexdigest())
 
 def _get_token_data(token, salt):
     token_data = {}
