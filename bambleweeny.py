@@ -82,6 +82,10 @@ def create_user():
 		response.status = 400
 		return dict({"info":"No valid JSON found in post body or mandatory fields missing."})
 
+	if _find_email(username) == "found":
+		response.status = 400
+		return dict({"info":"A user with this email address exists already."})
+
 	# Set ID and password hash for user
 	new_userid = rc.incr("_USERID_")
 	#hash_object = hashlib.sha1(password)
@@ -403,6 +407,16 @@ def _create_admin():
 	rc.set("USER:0", json.dumps(user_record, ensure_ascii=False))
 
 	return
+
+def _find_email(email):
+
+        user_list = rc.scan_iter("USER:*")
+        for user in user_list:
+                user_record = json.loads(rc.get(user))
+                if user_record["email"] == email:
+                        return("found")
+
+        return("not found")
 
 def _find_resource(id):
 
