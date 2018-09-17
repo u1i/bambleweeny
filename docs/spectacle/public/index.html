@@ -1,0 +1,1344 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>bambleweeny | API Reference</title>
+    <link rel="stylesheet" href="stylesheets/foundation.min.css" />
+    <link rel="stylesheet" href="stylesheets/spectacle.min.css" />
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <!-- <script src="javascripts/foundation.js"></script> -->
+    <script src="javascripts/spectacle.min.js"></script>
+  </head>
+  <body id="spectacle">
+    <div id="page" class="drawer-layout drawer-slide-right-large">
+      <div id="sidebar">
+        <button class="close-button" aria-label="Close menu" type="button" data-drawer-close>
+          <span aria-hidden="true">×</span>
+        </button>
+        <nav id="nav" role="navigation">
+          <h5>Topics</h5>
+          <a href="#introduction">Introduction</a>
+          <a href="#authentication">Authentication</a>
+          <h5>Operations</h5>
+          <section>
+            <a href="#tag-Authentication">Authentication</a>
+            <ul>
+              <li>
+                <a href="#operation--auth-token-post"> Get Access Token </a>
+              </li>
+            </ul>
+          </section>
+          <section>
+            <a href="#tag-Resources">Resources</a>
+            <ul>
+              <li>
+                <a href="#operation--resources--id--get"> Get Resource </a>
+              </li>
+              <li>
+                <a href="#operation--resources--id--delete"> Delete Resource </a>
+              </li>
+              <li>
+                <a href="#operation--resources-get"> List Resources </a>
+              </li>
+              <li>
+                <a href="#operation--resources-post"> Create Resource </a>
+              </li>
+            </ul>
+          </section>
+          <section>
+            <a href="#tag-User-Management">User Management</a>
+            <ul>
+              <li>
+                <a href="#operation--users--id--get"> Get User </a>
+              </li>
+              <li>
+                <a href="#operation--users--id--put"> Set Quota </a>
+              </li>
+              <li>
+                <a href="#operation--users--id--delete"> Delete User </a>
+              </li>
+              <li>
+                <a href="#operation--users-get"> List Users </a>
+              </li>
+              <li>
+                <a href="#operation--users-post"> Create User </a>
+              </li>
+            </ul>
+          </section>
+          <section>
+            <a href="#tag-Configuration">Configuration</a>
+            <ul>
+              <li>
+                <a href="#operation--config-admin-put"> Change Admin Password </a>
+              </li>
+            </ul>
+          </section>
+          <h5>Schema Definitions</h5>
+        </nav>
+      </div>
+      <div id="docs" class="row collapse expanded drawer" data-drawer>
+        <button class="floating-menu-icon" type="button" data-drawer-slide="right">
+          <span class="hamburger"></span>
+        </button>
+        <div class="example-box doc-content"></div>
+        <article>
+          <h1 class="doc-title">bambleweeny
+            <span>API Reference</span>
+          </h1>
+          <div id="introduction" data-traverse-target="introduction">
+            <div class="doc-row">
+              <div class="doc-copy"> </div>
+              <div class="doc-examples">
+                <section>
+                  <h5>Request Content-Types:
+                    <span>application/json</span>
+                  </h5>
+                  <h5>Response Content-Types:
+                    <span>application/json</span>
+                  </h5>
+                </section>
+              </div>
+            </div>
+          </div>
+          <!-- <h1 id="security" data-traverse-target="security">Security</h1> -->
+          <h1 id="authentication" data-traverse-target="authentication">Authentication</h1>
+          <div id="security-definition-oauth2" class="panel">
+            <div class="doc-row">
+              <div class="doc-copy">
+                <h3 class="security-definition-title">
+                  <span class="security-name">oauth2</span>
+                  <span class="swagger-security-definition-oauth2"></span>
+                </h3>
+                <section class="swagger-security-definition-properties">
+                  <div class="prop-row security-definition-property">
+                    <div class="prop-name">
+                      <div class="prop-title security-definition-property-name">type</div>
+                    </div>
+                    <div class="prop-value security-definition-property-type"> oauth2 </div>
+                  </div>
+                  <div class="prop-row security-definition-property">
+                    <div class="prop-name">
+                      <div class="prop-title security-definition-property-name">flow</div>
+                    </div>
+                    <div class="prop-value security-definition-property-type"> password </div>
+                  </div>
+                  <div class="prop-row security-definition-property">
+                    <div class="prop-name">
+                      <div class="prop-title security-definition-property-name">scopes</div>
+                    </div>
+                    <div class="prop-value security-definition-property-type"> </div>
+                  </div>
+                  <div class="prop-row security-definition-property">
+                    <div class="prop-name">
+                      <div class="prop-title security-definition-property-name">tokenUrl</div>
+                    </div>
+                    <div class="prop-value security-definition-property-type"> /auth/token </div>
+                  </div>
+                </section>
+              </div>
+            </div>
+          </div>
+          <h1 id="tag-Authentication" class="swagger-summary-tag" data-traverse-target="tag-Authentication">Authentication</h1>
+          <div id="operation--auth-token-post" class="operation panel" data-traverse-target="operation--auth-token-post">
+            <!-- <section class="operation-tags row"> -->
+            <!-- <div class="doc-copy"> -->
+            <div class="operation-tags">
+              <a class="label" href="#tag-Authentication">Authentication</a>
+              <!---->
+            </div>
+            <!-- </div> -->
+            <!-- </section> -->
+            <h2 class="operation-title">
+              <span class="operation-summary">Get Access Token</span>
+            </h2>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-operation-path">
+                  <span class="operation-method">POST</span>
+                  <span class="operation-path">/auth/token</span>
+                </section>
+              </div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-operation-description">
+                  <p>This endpoint is used to retrieve an access token to perform authenticated requests against the &#39;resources&#39; endpoints. Login with username (email) and password. For admin, the username is simply &#39;admin&#39;.</p>
+                </section>
+              </div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-request-body">
+                  <section class="json-schema-properties">
+                    <dl>
+                      <dt data-property-name="username">
+                        <span class="json-property-name">username:</span>
+                        <span class="json-property-type">string</span>
+                        <span class="json-property-range" title="Value limits"></span>
+                      </dt>
+                      <dt data-property-name="password">
+                        <span class="json-property-name">password:</span>
+                        <span class="json-property-type">string</span>
+                        <span class="json-property-range" title="Value limits"></span>
+                      </dt>
+                    </dl>
+                  </section>
+                </section>
+              </div>
+              <div class="doc-examples">
+                <section>
+                  <h5>Request Example</h5>
+                  <!-- <div class="hljs"> --><pre><code class="hljs lang-json">{
+  <span class="hljs-attr">&quot;username&quot;</span>: <span class="hljs-string">&quot;joe&quot;</span>,
+  <span class="hljs-attr">&quot;password&quot;</span>: <span class="hljs-string">&quot;secret&quot;</span>
+}
+</code></pre>
+                  <!-- </div> -->
+                </section>
+              </div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-responses">
+                  <div class="prop-row prop-group">
+                    <div class="prop-name">
+                      <div class="prop-title">200 OK</div>
+                      <div class="prop-ref"> </div>
+                      <!-- <span class="swagger-global"></span> <span class="json-schema-reference"><a href=""></a></span> -->
+                    </div>
+                    <div class="prop-value"> </div>
+                  </div>
+                  <div class="prop-row prop-inner">
+                    <div class="prop-name">type</div>
+                    <div class="prop-value">
+                      <span class="json-property-type">object</span>
+                      <span class="json-property-range" title="Value limits"></span>
+                    </div>
+                  </div>
+                  <div class="prop-row prop-group">
+                    <div class="prop-name">
+                      <div class="prop-title">403 Forbidden</div>
+                      <div class="prop-ref"> </div>
+                      <!-- <span class="swagger-global"></span> <span class="json-schema-reference"><a href=""></a></span> -->
+                    </div>
+                    <div class="prop-value"> </div>
+                  </div>
+                  <div class="prop-row prop-inner">
+                    <div class="prop-name">type</div>
+                    <div class="prop-value">
+                      <span class="json-property-type">object</span>
+                      <span class="json-property-range" title="Value limits"></span>
+                    </div>
+                  </div>
+                </section>
+              </div>
+              <div class="doc-examples">
+                <section>
+                  <h5>Response Example
+                    <span>(200 OK)</span>
+                  </h5>
+                  <!-- <div class="hljs"> --><pre><code class="hljs lang-json">{
+  <span class="hljs-attr">&quot;access_token&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
+  <span class="hljs-attr">&quot;token_type&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>
+}
+</code></pre>
+                  <!-- </div> -->
+                </section>
+                <section>
+                  <h5>Response Example
+                    <span>(403 Forbidden)</span>
+                  </h5>
+                  <!-- <div class="hljs"> --><pre><code class="hljs lang-json">{
+  <span class="hljs-attr">&quot;message&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>
+}
+</code></pre>
+                  <!-- </div> -->
+                </section>
+              </div>
+            </div>
+          </div>
+          <h1 id="tag-Resources" class="swagger-summary-tag" data-traverse-target="tag-Resources">Resources</h1>
+          <div id="operation--resources--id--get" class="operation panel" data-traverse-target="operation--resources--id--get">
+            <!-- <section class="operation-tags row"> -->
+            <!-- <div class="doc-copy"> -->
+            <div class="operation-tags">
+              <a class="label" href="#tag-Resources">Resources</a>
+              <!---->
+            </div>
+            <!-- </div> -->
+            <!-- </section> -->
+            <h2 class="operation-title">
+              <span class="operation-summary">Get Resource</span>
+            </h2>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-operation-path">
+                  <span class="operation-method">GET</span>
+                  <span class="operation-path">/resources/{id}</span>
+                </section>
+              </div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-operation-description">
+                  <p>Retrieve a resource identified by the UUID.</p>
+                </section>
+              </div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-request-params">
+                  <div class="prop-row prop-group">
+                    <div class="prop-name">
+                      <div class="prop-title">id:
+                        <span class="prop-type">
+                          <span class="json-property-type">string</span>
+                          <span class="json-property-range" title="Value limits"></span>
+                        </span>
+                      </div>
+                      <span class="json-property-required"></span>
+                      <div class="prop-subtitle"> in path </div>
+                    </div>
+                    <div class="prop-value">
+                      <p class="no-description">(no description)</p>
+                    </div>
+                  </div>
+                </section>
+              </div>
+              <div class="doc-examples"></div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-responses">
+                  <div class="prop-row prop-group">
+                    <div class="prop-name">
+                      <div class="prop-title">200 OK</div>
+                      <div class="prop-ref"> </div>
+                      <!-- <span class="swagger-global"></span> <span class="json-schema-reference"><a href=""></a></span> -->
+                    </div>
+                    <div class="prop-value"> </div>
+                  </div>
+                  <div class="prop-row prop-inner">
+                    <div class="prop-name">type</div>
+                    <div class="prop-value">
+                      <span class="json-property-type">object</span>
+                      <span class="json-property-range" title="Value limits"></span>
+                    </div>
+                  </div>
+                  <div class="prop-row prop-group">
+                    <div class="prop-name">
+                      <div class="prop-title">401 Unauthorized</div>
+                    </div>
+                    <div class="prop-value"> </div>
+                  </div>
+                </section>
+              </div>
+              <div class="doc-examples">
+                <section>
+                  <h5>Response Example
+                    <span>(200 OK)</span>
+                  </h5>
+                  <!-- <div class="hljs"> --><pre><code class="hljs lang-json">{
+  <span class="hljs-attr">&quot;content&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
+  <span class="hljs-attr">&quot;owner&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
+  <span class="hljs-attr">&quot;acl&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>
+}
+</code></pre>
+                  <!-- </div> -->
+                </section>
+              </div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-request-security">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th class="swagger-request-security-schema"></th>
+                        <th class="swagger-request-security-scopes"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <a href="#security-definition-oauth2">oauth2</a>
+                        </td>
+                        <td> </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </section>
+              </div>
+            </div>
+          </div>
+          <div id="operation--resources--id--delete" class="operation panel" data-traverse-target="operation--resources--id--delete">
+            <!-- <section class="operation-tags row"> -->
+            <!-- <div class="doc-copy"> -->
+            <div class="operation-tags">
+              <a class="label" href="#tag-Resources">Resources</a>
+              <!---->
+            </div>
+            <!-- </div> -->
+            <!-- </section> -->
+            <h2 class="operation-title">
+              <span class="operation-summary">Delete Resource</span>
+            </h2>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-operation-path">
+                  <span class="operation-method">DELETE</span>
+                  <span class="operation-path">/resources/{id}</span>
+                </section>
+              </div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-operation-description">
+                  <p>Delete a resource identified by a UUID.</p>
+                </section>
+              </div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-request-params">
+                  <div class="prop-row prop-group">
+                    <div class="prop-name">
+                      <div class="prop-title">id:
+                        <span class="prop-type">
+                          <span class="json-property-type">string</span>
+                          <span class="json-property-range" title="Value limits"></span>
+                        </span>
+                      </div>
+                      <span class="json-property-required"></span>
+                      <div class="prop-subtitle"> in path </div>
+                    </div>
+                    <div class="prop-value">
+                      <p class="no-description">(no description)</p>
+                    </div>
+                  </div>
+                </section>
+              </div>
+              <div class="doc-examples"></div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-responses">
+                  <div class="prop-row prop-group">
+                    <div class="prop-name">
+                      <div class="prop-title">401 Unauthorized</div>
+                    </div>
+                    <div class="prop-value"> </div>
+                  </div>
+                </section>
+              </div>
+              <div class="doc-examples"> </div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-request-security">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th class="swagger-request-security-schema"></th>
+                        <th class="swagger-request-security-scopes"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <a href="#security-definition-oauth2">oauth2</a>
+                        </td>
+                        <td> </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </section>
+              </div>
+            </div>
+          </div>
+          <div id="operation--resources-get" class="operation panel" data-traverse-target="operation--resources-get">
+            <!-- <section class="operation-tags row"> -->
+            <!-- <div class="doc-copy"> -->
+            <div class="operation-tags">
+              <a class="label" href="#tag-Resources">Resources</a>
+              <!---->
+            </div>
+            <!-- </div> -->
+            <!-- </section> -->
+            <h2 class="operation-title">
+              <span class="operation-summary">List Resources</span>
+            </h2>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-operation-path">
+                  <span class="operation-method">GET</span>
+                  <span class="operation-path">/resources</span>
+                </section>
+              </div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-operation-description">
+                  <p>List all resources of the user. Admin will see a list of resources for all users.</p>
+                </section>
+              </div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy"> </div>
+              <div class="doc-examples"></div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-responses">
+                  <div class="prop-row prop-group">
+                    <div class="prop-name">
+                      <div class="prop-title">200 OK</div>
+                      <div class="prop-ref"> </div>
+                      <!-- <span class="swagger-global"></span> <span class="json-schema-reference"><a href=""></a></span> -->
+                    </div>
+                    <div class="prop-value"> </div>
+                  </div>
+                  <div class="prop-row prop-inner">
+                    <div class="prop-name">type</div>
+                    <div class="prop-value">
+                      <span class="json-property-type">object</span>
+                      <span class="json-property-range" title="Value limits"></span>
+                    </div>
+                  </div>
+                  <div class="prop-row prop-group">
+                    <div class="prop-name">
+                      <div class="prop-title">401 Unauthorized</div>
+                    </div>
+                    <div class="prop-value"> </div>
+                  </div>
+                </section>
+              </div>
+              <div class="doc-examples">
+                <section>
+                  <h5>Response Example
+                    <span>(200 OK)</span>
+                  </h5>
+                  <!-- <div class="hljs"> --><pre><code class="hljs lang-json">{
+  <span class="hljs-attr">&quot;resources&quot;</span>: [
+    {
+      <span class="hljs-attr">&quot;owner&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
+      <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
+      <span class="hljs-attr">&quot;acl&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>
+    }
+  ]
+}
+</code></pre>
+                  <!-- </div> -->
+                </section>
+              </div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-request-security">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th class="swagger-request-security-schema"></th>
+                        <th class="swagger-request-security-scopes"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <a href="#security-definition-oauth2">oauth2</a>
+                        </td>
+                        <td> </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </section>
+              </div>
+            </div>
+          </div>
+          <div id="operation--resources-post" class="operation panel" data-traverse-target="operation--resources-post">
+            <!-- <section class="operation-tags row"> -->
+            <!-- <div class="doc-copy"> -->
+            <div class="operation-tags">
+              <a class="label" href="#tag-Resources">Resources</a>
+              <!---->
+            </div>
+            <!-- </div> -->
+            <!-- </section> -->
+            <h2 class="operation-title">
+              <span class="operation-summary">Create Resource</span>
+            </h2>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-operation-path">
+                  <span class="operation-method">POST</span>
+                  <span class="operation-path">/resources</span>
+                </section>
+              </div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-operation-description">
+                  <p>Create a resource from JSON data.</p>
+                </section>
+              </div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-request-body">
+                  <section class="json-schema-properties">
+                    <dl>
+                      <dt data-property-name="content">
+                        <span class="json-property-name">content:</span>
+                        <span class="json-property-type">string</span>
+                        <span class="json-property-range" title="Value limits"></span>
+                      </dt>
+                    </dl>
+                  </section>
+                </section>
+              </div>
+              <div class="doc-examples">
+                <section>
+                  <h5>Request Example</h5>
+                  <!-- <div class="hljs"> --><pre><code class="hljs lang-json">{
+  <span class="hljs-attr">&quot;content&quot;</span>: <span class="hljs-string">&quot;lorem ipsum&quot;</span>
+}
+</code></pre>
+                  <!-- </div> -->
+                </section>
+              </div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-responses">
+                  <div class="prop-row prop-group">
+                    <div class="prop-name">
+                      <div class="prop-title">201 Created</div>
+                      <div class="prop-ref"> </div>
+                      <!-- <span class="swagger-global"></span> <span class="json-schema-reference"><a href=""></a></span> -->
+                    </div>
+                    <div class="prop-value"> </div>
+                  </div>
+                  <div class="prop-row prop-inner">
+                    <div class="prop-name">type</div>
+                    <div class="prop-value">
+                      <span class="json-property-type">object</span>
+                      <span class="json-property-range" title="Value limits"></span>
+                    </div>
+                  </div>
+                </section>
+              </div>
+              <div class="doc-examples">
+                <section>
+                  <h5>Response Example
+                    <span>(201 Created)</span>
+                  </h5>
+                  <!-- <div class="hljs"> --><pre><code class="hljs lang-json"><span class="hljs-string">&quot;object&quot;</span>
+</code></pre>
+                  <!-- </div> -->
+                </section>
+              </div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-request-security">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th class="swagger-request-security-schema"></th>
+                        <th class="swagger-request-security-scopes"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <a href="#security-definition-oauth2">oauth2</a>
+                        </td>
+                        <td> </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </section>
+              </div>
+            </div>
+          </div>
+          <h1 id="tag-User-Management" class="swagger-summary-tag" data-traverse-target="tag-User-Management">User Management</h1>
+          <div id="operation--users--id--get" class="operation panel" data-traverse-target="operation--users--id--get">
+            <!-- <section class="operation-tags row"> -->
+            <!-- <div class="doc-copy"> -->
+            <div class="operation-tags">
+              <a class="label" href="#tag-User-Management">User Management</a>
+              <!---->
+            </div>
+            <!-- </div> -->
+            <!-- </section> -->
+            <h2 class="operation-title">
+              <span class="operation-summary">Get User</span>
+            </h2>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-operation-path">
+                  <span class="operation-method">GET</span>
+                  <span class="operation-path">/users/{id}</span>
+                </section>
+              </div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-operation-description">
+                  <p>Get a user record identified by a numceric user id.</p>
+                </section>
+              </div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-request-params">
+                  <div class="prop-row prop-group">
+                    <div class="prop-name">
+                      <div class="prop-title">id:
+                        <span class="prop-type">
+                          <span class="json-property-type">string</span>
+                          <span class="json-property-range" title="Value limits"></span>
+                        </span>
+                      </div>
+                      <span class="json-property-required"></span>
+                      <div class="prop-subtitle"> in path </div>
+                    </div>
+                    <div class="prop-value">
+                      <p class="no-description">(no description)</p>
+                    </div>
+                  </div>
+                </section>
+              </div>
+              <div class="doc-examples"></div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-responses">
+                  <div class="prop-row prop-group">
+                    <div class="prop-name">
+                      <div class="prop-title">200 OK</div>
+                      <div class="prop-ref"> </div>
+                      <!-- <span class="swagger-global"></span> <span class="json-schema-reference"><a href=""></a></span> -->
+                    </div>
+                    <div class="prop-value"> </div>
+                  </div>
+                  <div class="prop-row prop-inner">
+                    <div class="prop-name">type</div>
+                    <div class="prop-value">
+                      <span class="json-property-type">object</span>
+                      <span class="json-property-range" title="Value limits"></span>
+                    </div>
+                  </div>
+                  <div class="prop-row prop-group">
+                    <div class="prop-name">
+                      <div class="prop-title">401 Unauthorized</div>
+                      <div class="prop-ref"> </div>
+                      <!-- <span class="swagger-global"></span> <span class="json-schema-reference"><a href=""></a></span> -->
+                    </div>
+                    <div class="prop-value"> </div>
+                  </div>
+                  <div class="prop-row prop-inner">
+                    <div class="prop-name">type</div>
+                    <div class="prop-value">
+                      <span class="json-property-type">object</span>
+                      <span class="json-property-range" title="Value limits"></span>
+                    </div>
+                  </div>
+                </section>
+              </div>
+              <div class="doc-examples">
+                <section>
+                  <h5>Response Example
+                    <span>(200 OK)</span>
+                  </h5>
+                  <!-- <div class="hljs"> --><pre><code class="hljs lang-json">{
+  <span class="hljs-attr">&quot;email&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
+  <span class="hljs-attr">&quot;quota&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>
+}
+</code></pre>
+                  <!-- </div> -->
+                </section>
+                <section>
+                  <h5>Response Example
+                    <span>(401 Unauthorized)</span>
+                  </h5>
+                  <!-- <div class="hljs"> --><pre><code class="hljs lang-json"><span class="hljs-string">&quot;object&quot;</span>
+</code></pre>
+                  <!-- </div> -->
+                </section>
+              </div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-request-security">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th class="swagger-request-security-schema"></th>
+                        <th class="swagger-request-security-scopes"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <a href="#security-definition-oauth2">oauth2</a>
+                        </td>
+                        <td> </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </section>
+              </div>
+            </div>
+          </div>
+          <div id="operation--users--id--put" class="operation panel" data-traverse-target="operation--users--id--put">
+            <!-- <section class="operation-tags row"> -->
+            <!-- <div class="doc-copy"> -->
+            <div class="operation-tags">
+              <a class="label" href="#tag-User-Management">User Management</a>
+              <!---->
+            </div>
+            <!-- </div> -->
+            <!-- </section> -->
+            <h2 class="operation-title">
+              <span class="operation-summary">Set Quota</span>
+            </h2>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-operation-path">
+                  <span class="operation-method">PUT</span>
+                  <span class="operation-path">/users/{id}</span>
+                </section>
+              </div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-operation-description">
+                  <p>Set the quota for a user (number of resources a user can have).</p>
+                </section>
+              </div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-request-body">
+                  <section class="json-schema-properties">
+                    <dl>
+                      <dt data-property-name="quota">
+                        <span class="json-property-name">quota:</span>
+                        <span class="json-property-type">string</span>
+                        <span class="json-property-range" title="Value limits"></span>
+                        <span class="json-property-required"></span>
+                      </dt>
+                    </dl>
+                  </section>
+                </section>
+                <section class="swagger-request-params">
+                  <div class="prop-row prop-group">
+                    <div class="prop-name">
+                      <div class="prop-title">id:
+                        <span class="prop-type">
+                          <span class="json-property-type">string</span>
+                          <span class="json-property-range" title="Value limits"></span>
+                        </span>
+                      </div>
+                      <span class="json-property-required"></span>
+                      <div class="prop-subtitle"> in path </div>
+                    </div>
+                    <div class="prop-value">
+                      <p class="no-description">(no description)</p>
+                    </div>
+                  </div>
+                </section>
+              </div>
+              <div class="doc-examples">
+                <section>
+                  <h5>Request Example</h5>
+                  <!-- <div class="hljs"> --><pre><code class="hljs lang-json">{
+  <span class="hljs-attr">&quot;quota&quot;</span>: <span class="hljs-string">&quot;19&quot;</span>
+}
+</code></pre>
+                  <!-- </div> -->
+                </section>
+              </div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-responses">
+                  <div class="prop-row prop-group">
+                    <div class="prop-name">
+                      <div class="prop-title">200 OK</div>
+                      <div class="prop-ref"> </div>
+                      <!-- <span class="swagger-global"></span> <span class="json-schema-reference"><a href=""></a></span> -->
+                    </div>
+                    <div class="prop-value"> </div>
+                  </div>
+                  <div class="prop-row prop-inner">
+                    <div class="prop-name">type</div>
+                    <div class="prop-value">
+                      <span class="json-property-type">object</span>
+                      <span class="json-property-range" title="Value limits"></span>
+                    </div>
+                  </div>
+                  <div class="prop-row prop-group">
+                    <div class="prop-name">
+                      <div class="prop-title">401 Unauthorized</div>
+                    </div>
+                    <div class="prop-value"> </div>
+                  </div>
+                </section>
+              </div>
+              <div class="doc-examples">
+                <section>
+                  <h5>Response Example
+                    <span>(200 OK)</span>
+                  </h5>
+                  <!-- <div class="hljs"> --><pre><code class="hljs lang-json">{
+  <span class="hljs-attr">&quot;message&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>
+}
+</code></pre>
+                  <!-- </div> -->
+                </section>
+              </div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-request-security">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th class="swagger-request-security-schema"></th>
+                        <th class="swagger-request-security-scopes"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <a href="#security-definition-oauth2">oauth2</a>
+                        </td>
+                        <td> </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </section>
+              </div>
+            </div>
+          </div>
+          <div id="operation--users--id--delete" class="operation panel" data-traverse-target="operation--users--id--delete">
+            <!-- <section class="operation-tags row"> -->
+            <!-- <div class="doc-copy"> -->
+            <div class="operation-tags">
+              <a class="label" href="#tag-User-Management">User Management</a>
+              <!---->
+            </div>
+            <!-- </div> -->
+            <!-- </section> -->
+            <h2 class="operation-title">
+              <span class="operation-summary">Delete User</span>
+            </h2>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-operation-path">
+                  <span class="operation-method">DELETE</span>
+                  <span class="operation-path">/users/{id}</span>
+                </section>
+              </div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-operation-description">
+                  <p>Delete a user record identified by a numceric user id.</p>
+                </section>
+              </div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-request-params">
+                  <div class="prop-row prop-group">
+                    <div class="prop-name">
+                      <div class="prop-title">id:
+                        <span class="prop-type">
+                          <span class="json-property-type">string</span>
+                          <span class="json-property-range" title="Value limits"></span>
+                        </span>
+                      </div>
+                      <span class="json-property-required"></span>
+                      <div class="prop-subtitle"> in path </div>
+                    </div>
+                    <div class="prop-value">
+                      <p class="no-description">(no description)</p>
+                    </div>
+                  </div>
+                </section>
+              </div>
+              <div class="doc-examples"></div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-responses">
+                  <div class="prop-row prop-group">
+                    <div class="prop-name">
+                      <div class="prop-title">200 OK</div>
+                    </div>
+                    <div class="prop-value"> </div>
+                  </div>
+                  <div class="prop-row prop-group">
+                    <div class="prop-name">
+                      <div class="prop-title">401 Unauthorized</div>
+                    </div>
+                    <div class="prop-value"> </div>
+                  </div>
+                </section>
+              </div>
+              <div class="doc-examples"> </div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-request-security">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th class="swagger-request-security-schema"></th>
+                        <th class="swagger-request-security-scopes"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <a href="#security-definition-oauth2">oauth2</a>
+                        </td>
+                        <td> </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </section>
+              </div>
+            </div>
+          </div>
+          <div id="operation--users-get" class="operation panel" data-traverse-target="operation--users-get">
+            <!-- <section class="operation-tags row"> -->
+            <!-- <div class="doc-copy"> -->
+            <div class="operation-tags">
+              <a class="label" href="#tag-User-Management">User Management</a>
+              <!---->
+            </div>
+            <!-- </div> -->
+            <!-- </section> -->
+            <h2 class="operation-title">
+              <span class="operation-summary">List Users</span>
+            </h2>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-operation-path">
+                  <span class="operation-method">GET</span>
+                  <span class="operation-path">/users</span>
+                </section>
+              </div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-operation-description">
+                  <p>List all users in the system.</p>
+                </section>
+              </div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy"> </div>
+              <div class="doc-examples"></div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-responses">
+                  <div class="prop-row prop-group">
+                    <div class="prop-name">
+                      <div class="prop-title">200 OK</div>
+                      <div class="prop-ref"> </div>
+                      <!-- <span class="swagger-global"></span> <span class="json-schema-reference"><a href=""></a></span> -->
+                    </div>
+                    <div class="prop-value"> </div>
+                  </div>
+                  <div class="prop-row prop-inner">
+                    <div class="prop-name">type</div>
+                    <div class="prop-value">
+                      <span class="json-property-type">object</span>
+                      <span class="json-property-range" title="Value limits"></span>
+                    </div>
+                  </div>
+                  <div class="prop-row prop-group">
+                    <div class="prop-name">
+                      <div class="prop-title">401 Unauthorized</div>
+                    </div>
+                    <div class="prop-value"> </div>
+                  </div>
+                </section>
+              </div>
+              <div class="doc-examples">
+                <section>
+                  <h5>Response Example
+                    <span>(200 OK)</span>
+                  </h5>
+                  <!-- <div class="hljs"> --><pre><code class="hljs lang-json">{
+  <span class="hljs-attr">&quot;users&quot;</span>: [
+    {
+      <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
+      <span class="hljs-attr">&quot;email&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>,
+      <span class="hljs-attr">&quot;quota&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>
+    }
+  ]
+}
+</code></pre>
+                  <!-- </div> -->
+                </section>
+              </div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-request-security">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th class="swagger-request-security-schema"></th>
+                        <th class="swagger-request-security-scopes"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <a href="#security-definition-oauth2">oauth2</a>
+                        </td>
+                        <td> </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </section>
+              </div>
+            </div>
+          </div>
+          <div id="operation--users-post" class="operation panel" data-traverse-target="operation--users-post">
+            <!-- <section class="operation-tags row"> -->
+            <!-- <div class="doc-copy"> -->
+            <div class="operation-tags">
+              <a class="label" href="#tag-User-Management">User Management</a>
+              <!---->
+            </div>
+            <!-- </div> -->
+            <!-- </section> -->
+            <h2 class="operation-title">
+              <span class="operation-summary">Create User</span>
+            </h2>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-operation-path">
+                  <span class="operation-method">POST</span>
+                  <span class="operation-path">/users</span>
+                </section>
+              </div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-operation-description">
+                  <p>Create a user. The new user can then make authenticated requests with access tokens retrieved from the /auth/token endpoint.</p>
+                </section>
+              </div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-request-body">
+                  <section class="json-schema-properties">
+                    <dl>
+                      <dt data-property-name="email">
+                        <span class="json-property-name">email:</span>
+                        <span class="json-property-type">string</span>
+                        <span class="json-property-range" title="Value limits"></span>
+                      </dt>
+                      <dt data-property-name="password">
+                        <span class="json-property-name">password:</span>
+                        <span class="json-property-type">string</span>
+                        <span class="json-property-range" title="Value limits"></span>
+                      </dt>
+                    </dl>
+                  </section>
+                </section>
+              </div>
+              <div class="doc-examples">
+                <section>
+                  <h5>Request Example</h5>
+                  <!-- <div class="hljs"> --><pre><code class="hljs lang-json">{
+  <span class="hljs-attr">&quot;email&quot;</span>: <span class="hljs-string">&quot;me@privacy.net&quot;</span>,
+  <span class="hljs-attr">&quot;password&quot;</span>: <span class="hljs-string">&quot;changeme&quot;</span>
+}
+</code></pre>
+                  <!-- </div> -->
+                </section>
+              </div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-responses">
+                  <div class="prop-row prop-group">
+                    <div class="prop-name">
+                      <div class="prop-title">201 Created</div>
+                      <div class="prop-ref"> </div>
+                      <!-- <span class="swagger-global"></span> <span class="json-schema-reference"><a href=""></a></span> -->
+                    </div>
+                    <div class="prop-value"> </div>
+                  </div>
+                  <div class="prop-row prop-inner">
+                    <div class="prop-name">type</div>
+                    <div class="prop-value">
+                      <span class="json-property-type">object</span>
+                      <span class="json-property-range" title="Value limits"></span>
+                    </div>
+                  </div>
+                  <div class="prop-row prop-group">
+                    <div class="prop-name">
+                      <div class="prop-title">401 Unauthorized</div>
+                    </div>
+                    <div class="prop-value"> </div>
+                  </div>
+                </section>
+              </div>
+              <div class="doc-examples">
+                <section>
+                  <h5>Response Example
+                    <span>(201 Created)</span>
+                  </h5>
+                  <!-- <div class="hljs"> --><pre><code class="hljs lang-json">{
+  <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;string&quot;</span>
+}
+</code></pre>
+                  <!-- </div> -->
+                </section>
+              </div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-request-security">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th class="swagger-request-security-schema"></th>
+                        <th class="swagger-request-security-scopes"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <a href="#security-definition-oauth2">oauth2</a>
+                        </td>
+                        <td> </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </section>
+              </div>
+            </div>
+          </div>
+          <h1 id="tag-Configuration" class="swagger-summary-tag" data-traverse-target="tag-Configuration">Configuration</h1>
+          <div id="operation--config-admin-put" class="operation panel" data-traverse-target="operation--config-admin-put">
+            <!-- <section class="operation-tags row"> -->
+            <!-- <div class="doc-copy"> -->
+            <div class="operation-tags">
+              <a class="label" href="#tag-Configuration">Configuration</a>
+              <!---->
+            </div>
+            <!-- </div> -->
+            <!-- </section> -->
+            <h2 class="operation-title">
+              <span class="operation-summary">Change Admin Password</span>
+            </h2>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-operation-path">
+                  <span class="operation-method">PUT</span>
+                  <span class="operation-path">/config/admin</span>
+                </section>
+              </div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-operation-description">
+                  <p>Update the admin password - default password is &#39;changeme&#39;.</p>
+                </section>
+              </div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-request-body">
+                  <section class="json-schema-properties">
+                    <dl>
+                      <dt data-property-name="password">
+                        <span class="json-property-name">password:</span>
+                        <span class="json-property-type">string</span>
+                        <span class="json-property-range" title="Value limits"></span>
+                      </dt>
+                    </dl>
+                  </section>
+                </section>
+              </div>
+              <div class="doc-examples">
+                <section>
+                  <h5>Request Example</h5>
+                  <!-- <div class="hljs"> --><pre><code class="hljs lang-json">{
+  <span class="hljs-attr">&quot;password&quot;</span>: <span class="hljs-string">&quot;c5XU3l901Jp&quot;</span>
+}
+</code></pre>
+                  <!-- </div> -->
+                </section>
+              </div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-responses">
+                  <div class="prop-row prop-group">
+                    <div class="prop-name">
+                      <div class="prop-title">200 OK</div>
+                    </div>
+                    <div class="prop-value"> </div>
+                  </div>
+                  <div class="prop-row prop-group">
+                    <div class="prop-name">
+                      <div class="prop-title">400 Bad Request</div>
+                    </div>
+                    <div class="prop-value"> </div>
+                  </div>
+                </section>
+              </div>
+              <div class="doc-examples"> </div>
+            </div>
+            <div class="doc-row">
+              <div class="doc-copy">
+                <section class="swagger-request-security">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th class="swagger-request-security-schema"></th>
+                        <th class="swagger-request-security-scopes"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <a href="#security-definition-oauth2">oauth2</a>
+                        </td>
+                        <td> </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </section>
+              </div>
+            </div>
+          </div>
+          <h1>Schema Definitions</h1>
+          <div class="doc-row no-margin">
+            <div class="doc-copy doc-separator">
+              <a class="powered-by" href="https://sourcey.com/spectacle">Documentation by
+                <span>Spectacle</span>
+              </a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </body>
+</html>
