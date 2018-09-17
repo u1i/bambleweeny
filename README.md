@@ -11,7 +11,7 @@ Written in Python, using a Redis backend, deployable in a tiny container.
 **Performance** (Apache Bench):
 
 * **~300 reads per second, ~220 writes per second** - 1x vCPU 1GB RAM (linode)
-* **~800 reads per second, ~520 writes per second** - 4x vCPU 32GB RAM (baremetal x1.small on packet)
+* **~800 reads per second, ~520 writes per second** - MacBook Pro 2.9GHz i7 16 RAM
 
 ## Deploy using Docker
 
