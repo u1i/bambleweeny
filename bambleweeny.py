@@ -459,6 +459,7 @@ def _issue_token(user, expiry, id, salt):
 	content["u"] = user
 	content["t"] = str(int(time.time()))
 	content["i"] = id
+	content["c"] = str(cluster_id)
 
 	# Create base64 encoded version
 	c = base64.urlsafe_b64encode(json.dumps(content))
@@ -492,6 +493,7 @@ def _get_token_data(token, salt):
             token_data["timestamp"] = int(content["t"])
             token_data["user"] = content["u"]
             token_data["id"] = content["i"]
+            token_data["cluster_id"] = content["c"]
 
             if content["u"] == 'admin':
                 token_data["admin"] = "True"
@@ -513,6 +515,10 @@ def _authenticate():
 	if data["error"] != "0":
 		return(dict(data))
 
+	# Was the token issued by this cluster?
+	if data["cluster_id"] != cluster_id:
+		return(dict(data))
+
 	# Is the access token still valid?
 	token_timestamp = data["timestamp"]
 	current_time = int(time.time())
@@ -531,7 +537,16 @@ def _authenticate():
 
 	return(dict(data))
 
+def _cluster_init():
+
+	cid = str(uuid.uuid4())
+	rc.set("_B9Y_ID_", cid[:8])
+
+	return(cid)
+
 # Initialization
+
+# We need a Redis connection. Check if the environment variables exist
 if not "redis_host" in os.environ or not "redis_port" in os.environ:
 	exit("ERROR: please set the environment variables for Redis host")
 
@@ -543,3 +558,12 @@ rc = redis.StrictRedis(host=redis_host, port=redis_port, db=0)
 # Create record for admin user if it doesn't exist
 if rc.get("USER:0") == None:
 	_create_admin()
+
+# Read unique ID for this instance / cluster
+# Or initialize if it doesn't exist
+cluster_id = rc.get("_B9Y_ID_")
+
+if cluster_id == None:
+	cluster_id = _cluster_init()
+
+#
