@@ -7,7 +7,6 @@ Written in Python, using a Redis backend, deployable in a tiny container.
 **Usage**:  
 `curl -X POST http://bambleweeny/resources -d '{"content": "lorem ipsum"}' -H AUTH`
 
-
 **Performance** (Apache Bench):
 
 * **~540 reads per second, ~400 writes per second** - 1x vCPU 1 GB RAM (AWS t2.micro)
@@ -20,6 +19,14 @@ Written in Python, using a Redis backend, deployable in a tiny container.
 Assuming you have Docker and docker-compose installed, simply run this command:
 
 `curl -sSL http://bit.ly/run-bambleweeny | sh`
+
+#### Hang on. Can I have all of that in one container please?
+
+Yes. You can run a self-contained version of bambleweeny with the following command:
+
+`docker run -d -p 8080:8080 -e b9y_mode=lite u1ih/bambleweeny:latest`
+
+This will create a stateful container with an embedded Redis server, good enough for a single node test deployment. 
 
 ## Using the REST API
 

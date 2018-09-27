@@ -546,7 +546,8 @@ def _cluster_init():
 
 # Initialization
 
-# We need a Redis connection. Check if the environment variables exist
+# We need a Redis connection
+
 if not "redis_host" in os.environ or not "redis_port" in os.environ:
 	exit("ERROR: please set the environment variables for Redis host")
 
