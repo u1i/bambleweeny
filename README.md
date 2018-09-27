@@ -26,7 +26,7 @@ Yes. You can run a self-contained version of bambleweeny with the following comm
 
 `docker run -d -p 8080:8080 -e b9y_mode=lite u1ih/bambleweeny:latest`
 
-This will create a stateful container with an embedded Redis server, good enough for a single node test deployment. 
+This will create a stateful container with an embedded Redis server, good enough for a single node test deployment. Here's how you [do this on OpenShift](openshift-run.sh).
 
 ## Using the REST API
 
