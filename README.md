@@ -1,6 +1,6 @@
 ![](https://raw.githubusercontent.com/u1i/bambleweeny/master/img/bwy2.png)
 
-[![Python 2.7](https://img.shields.io/badge/python-2.7-blue.svg)](https://www.python.org/downloads/release/python-270/) [![GitHub release](https://img.shields.io/github/release/u1i/bambleweeny.svg)](https://GitHub.com/Naereen/u1i/bambleweeny/) [![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/Naereen/StrapDown.js/blob/master/LICENSE) [![GitHub issues](https://img.shields.io/github/issues/u1i/bambleweeny.svg)](https://GitHub.com/u1i/bambleweeny/issues/)
+[![Python 2.7](https://img.shields.io/badge/python-2.7-blue.svg)](https://www.python.org/downloads/release/python-270/) [![GitHub release](https://img.shields.io/github/release/u1i/bambleweeny.svg)](https://GitHub.com/u1i/bambleweeny/) [![GitHub license](https://img.shields.io/github/license/u1i/bambleweeny.svg)](https://github.com/u1i/bambleweeny/blob/master/LICENSE) [![GitHub issues](https://img.shields.io/github/issues/u1i/bambleweeny.svg)](https://GitHub.com/u1i/bambleweeny/issues/)
 
 
 Bambleweeny is lightweight HTTP/REST based key-value store that offers identity, access & quota management. It's fast, easy to use, and well-documented.
