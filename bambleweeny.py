@@ -5,13 +5,14 @@ import json, os, uuid, base64, redis, time, hmac, hashlib, random
 admin_password = u"changeme"
 secret_salt = "iKm4SyH6JCtA8l"
 token_expiry_seconds = 3000
+b9y_release = "0.21"
 
 app = Bottle()
 
 # The default path renders a hello world JSON message
 @app.get('/')
 def get_home():
-	return(dict(msg="This is bambleweeny."))
+	return(dict(msg="This is bambleweeny " + str(b9y_release)))
 
 # Default 404 handler
 @app.error(404)
@@ -24,6 +25,15 @@ def error404(error):
 def error405(error):
     #return 'Nothing here, sorry'
 	return("Method not allowed for this endpoint.")
+
+# Swagger
+@app.get('/swagger')
+def get_swagger():
+	with open("/app/swagger.json", mode='r') as file_handle:
+		file_content = file_handle.read()
+	file_handle.close()
+	sw = json.loads(file_content)
+	return(dict(sw))
 
 # Get Auth Token
 @app.route('/auth/token', method='POST')

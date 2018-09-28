@@ -13,5 +13,6 @@ RUN pip install cherrypy bottle redis
 COPY b9y.sh /app
 COPY server.py /app/server.py
 COPY bambleweeny.py /app/bambleweeny.py
+COPY swagger.json /app/swagger.json
 
 CMD ["/app/b9y.sh"]

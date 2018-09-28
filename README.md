@@ -12,21 +12,19 @@ Written in Python, using a Redis backend, deployable in a tiny container.
 * **~540 reads per second, ~400 writes per second** - 1x vCPU 1 GB RAM (AWS t2.micro)
 * **~800 reads per second, ~530 writes per second** - MacBook Pro 2.9GHz i7 16GB RAM
 
-## Deploy using Docker or Kubernetes
+## Run it
 
-[Image on DockerHub](https://hub.docker.com/r/u1ih/bambleweeny/tags/) | [Dockerfile](Dockerfile) | [docker-compose.yml](docker-compose.yml) | [Run on Kubernetes](kube-run.sh)
+`docker run -d -p 8080:8080 u1ih/bambleweeny`
+
+This gives you a single, stateful and self-contained instance. Good enough for demos and tests.
+
+## Deploy as a topology on Docker or Kubernetes
+
+[Image on DockerHub](https://hub.docker.com/r/u1ih/bambleweeny/tags/) | [Dockerfile](Dockerfile) | [docker-compose.yml](docker-compose.yml) | [Run on Kubernetes](kube-run.sh) | [Run on OpenShift](openshift-run.sh)
 
 Assuming you have Docker and docker-compose installed, simply run this command:
 
 `curl -sSL http://bit.ly/run-bambleweeny | sh`
-
-#### Hang on. Can I have all of that in one container please?
-
-Yes. You can run a self-contained version of bambleweeny with the following command:
-
-`docker run -d -p 8080:8080 -e b9y_mode=lite u1ih/bambleweeny:latest`
-
-This will create a stateful container with an embedded Redis server, good enough for a single node test deployment. Here's how you [do this on OpenShift](openshift-run.sh).
 
 ## Using the REST API
 

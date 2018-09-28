@@ -1,6 +1,7 @@
 #!/bin/sh
 
-if [ "$b9y_mode" = "lite" ]
+# Run an embedded Redis instance if Redis connection info is not provided
+if [ "$redis_host" = "" ]
 then
   echo "Starting embedded Redis instance"
   export redis_host=localhost

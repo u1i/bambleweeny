@@ -1,2 +1,2 @@
-oc new-app u1ih/bambleweeny -e b9y_mode=lite
+oc new-app u1ih/bambleweeny
 oc expose svc/bambleweeny

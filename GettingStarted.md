@@ -2,7 +2,11 @@
 
 ## Run with Docker
 
-Assuming you have Docker and docker-compose installed on your machine, the following command pulls and runs Bambleweeny for you:
+You'll quickly get a simple, self-contained version running with the following command:
+
+`docker run -d -p 8080:8080 u1ih/bambleweeny`
+
+Assuming you have Docker and docker-compose installed on your machine, you could also do this a little better and deploy a topology instead:
 
 `curl -sSL http://bit.ly/run-bambleweeny | sh`
 
