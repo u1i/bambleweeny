@@ -89,6 +89,111 @@
                 }
             }
         },
+        "/keys/": {
+            "get": {
+                "operationId": "READ-key",
+                "summary": "List Keys",
+                "tags": [
+                    "Keys"
+                ],
+                "description": "List all keys.",
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "security": [
+                    {
+                        "oauth2": []
+                    }
+                ]
+            }
+        },
+        "/keys/(id}": {
+            "get": {
+                "operationId": "READ-key",
+                "summary": "Read Key",
+                "tags": [
+                    "Keys"
+                ],
+                "description": "Read a key.",
+                "produces": [
+                    "text/plain"
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "security": [
+                    {
+                        "oauth2": []
+                    }
+                ]
+            },
+            "put": {
+                "operationId": "WRITE-key",
+                "summary": "Write Key",
+                "tags": [
+                    "Keys"
+                ],
+                "description": "Set key to a specific value. Key names contain numbers, characters, underscores and colons. Valid key names are 'foo', 'my_key1', 'debug:b1:Hello' 'RogerRabbit'.",
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "security": [
+                    {
+                        "oauth2": []
+                    }
+                ]
+            },
+            "delete": {
+                "operationId": "DEL-key",
+                "summary": "Delete Key",
+                "tags": [
+                    "Keys"
+                ],
+                "description": "Deletes a key.",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "oauth2": []
+                    }
+                ]
+            }
+        },
+        "/incr/(id}": {
+            "get": {
+                "operationId": "INCR-key",
+                "summary": "Increase Key",
+                "tags": [
+                    "Keys"
+                ],
+                "description": "Increments the number stored at key by one.",
+                "produces": [
+                    "text/plain"
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "security": [
+                    {
+                        "oauth2": []
+                    }
+                ]
+            }
+        },
         "/resources/{id}": {
             "parameters": [
                 {

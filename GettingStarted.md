@@ -22,7 +22,7 @@ The default password for 'admin' is 'changeme', let's get a token so we can acce
 
 `curl -X POST "http://localhost:8080/auth/token?raw" -H 'Content-Type: application/json' -d '{ "username": "admin", "password": "changeme"}'`
 
-> eyJpIjogMCwgInUiOiAiYWRtaW4iLCAidCI6ICIxNTM3MDA0NzcwIn0=.576f5f00df3b6e5ac8430df435f0f6e586a57e3dddc3f26b1e5fc19535543092
+> eyJpIjogIjAiLCAiYyI6ICI4MjgxNWU4NiIsICJ1IjogImFkbWluIiwgInQiOiAiMTUzODI3MjYxOCJ9.57f8e251
 
 We've received a token (copy it and replace `TOKEN` in the following cURL command), which we can now use to make an authenticated request (as admin) and create a new user with email address (username) 'me@privacy.net' and password 'changeme':
 
@@ -30,15 +30,28 @@ We've received a token (copy it and replace `TOKEN` in the following cURL comman
 
 > {"info": "created", "id": 1}
 
-## Create a Resource as a User
+## Create Keys and Resources as a User
 
-Now we have a user account and can create resources (admin can have resources as well, but why would you do such a thing?):
+Now we have a user account and can create keys and resources (admin can have resources as well, but why would you do such a thing?)
 
-So first, we need to login with that new user:
+Keys are like system wide variables, every authenticated user can read and write them. Resources are like files, and at the moment, they are private to the individual user only. When to use which? Well - that's up to you!
+
+### Keys
+Let's create a key! First, we need to login with that new user:
 
 `curl -X POST "http://localhost:8080/auth/token?raw" -H 'Content-Type: application/json' -d '{ "username": "me@privacy.net", "password": "changeme"}'`
 
-Copy the output again and replace `TOKEN` in the following command with the token we received. Because now we're creating our first resource, with `lorem ipsum` as a content.
+Copy the output again and replace `TOKEN` in the following command with the token we received.
+
+`echo $RANDOM | curl -X PUT -d @- http://localhost:8080/keys/mykey1 -H "Authorization: Bearer TOKEN"`
+
+That was easy, right? You can now read the key (in fact, any authenticated user can) with:
+
+`curl http://localhost:8080/keys/mykey1 -H "Authorization: Bearer TOKEN"`
+
+### Resources
+
+Now we're creating our first resource, with `lorem ipsum` as a content.
 
 `curl -X POST http://localhost:8080/resources -H "Authorization: Bearer TOKEN" -H 'Content-Type: application/json' -d '{ "content": "lorem ipsum" }'`
 

@@ -1,5 +1,5 @@
 from bottle import Bottle, request, view, response
-import json, os, uuid, base64, redis, time, hmac, hashlib, random
+import json, os, uuid, base64, redis, time, hmac, hashlib, random, keyword, re
 
 # Settings
 admin_password = u"changeme"
@@ -245,6 +245,142 @@ def set_admin_password():
 
 	return(dict(info="updated"))
 
+# Read Key
+@app.route('/keys/<id>', method='GET')
+def get_key(id):
+
+	api_auth = _authenticate()
+
+	# Authorization is needed for this endpoint
+	if api_auth["authenticated"] == "False":
+		response.status = 401
+		return dict({"info":"Unauthorized."})
+
+	# Does the key have a valid format?
+	if _valid_identifier(str(id)) != True:
+		response.status = 400
+		return dict({"info":"Key format invalid."})
+
+	# Construct Resource Location from user_id and id
+	redis_key = "KEY:"+str(id)
+
+	# Read from Redis
+	try:
+		key_content = rc.get(redis_key)
+	except:
+		response.status = 404
+		return dict({"info":"Not found."})
+
+	response.content_type = 'text/plain'
+	return(key_content)
+
+# Increase Key
+@app.route('/incr/<id>', method='GET')
+def incr_key(id):
+
+	api_auth = _authenticate()
+
+	# Authorization is needed for this endpoint
+	if api_auth["authenticated"] == "False":
+		response.status = 401
+		return dict({"info":"Unauthorized."})
+
+	# Does the key have a valid format?
+	if _valid_identifier(str(id)) != True:
+		response.status = 400
+		return dict({"info":"Key format invalid."})
+
+	# Construct Resource Location from user_id and id
+	redis_key = "KEY:"+str(id)
+
+	# Read from Redis
+	try:
+		key_content = rc.incr(redis_key)
+	except:
+		response.status = 400
+		return dict({"info":"Error - key is probably not INT."})
+
+	response.content_type = 'text/plain'
+	return(str(key_content))
+
+# Write Key
+@app.route('/keys/<id>', method='PUT')
+def write_key(id):
+
+	api_auth = _authenticate()
+
+	# Authorization is needed for this endpoint
+	if api_auth["authenticated"] == "False":
+		response.status = 401
+		return dict({"info":"Unauthorized."})
+
+	# Does the key have a valid format?
+	if _valid_identifier(str(id)) != True:
+		response.status = 400
+		return dict({"info":"Key format invalid."})
+
+	# Construct Resource Location from user_id and id
+	redis_key = "KEY:"+str(id)
+
+	# Write to Redis
+	try:
+		res = rc.set(redis_key, request.body.read())
+	except:
+		response.status = 400
+		return dict({"info":"not a valid request"})
+
+	return(dict(info="ok"))
+
+# Delete Key
+@app.route('/keys/<id>', method='DELETE')
+def write_key(id):
+
+	api_auth = _authenticate()
+
+	# Authorization is needed for this endpoint
+	if api_auth["authenticated"] == "False":
+		response.status = 401
+		return dict({"info":"Unauthorized."})
+
+	# Does the key have a valid format?
+	if _valid_identifier(str(id)) != True:
+		response.status = 400
+		return dict({"info":"Key format invalid."})
+
+	# Construct Resource Location from user_id and id
+	redis_key = "KEY:"+str(id)
+
+	# Delete from Redis
+	try:
+		res = rc.delete(redis_key)
+	except:
+		response.status = 400
+		return dict({"info":"not a valid request"})
+
+	return(dict(info="ok"))
+
+# List all Keys
+@app.route('/keys', method='GET')
+def get_all_keys():
+
+	api_auth = _authenticate()
+
+	# Authorization is needed for this endpoint
+	if api_auth["authenticated"] == "False":
+		response.status = 401
+		return dict({"info":"Unauthorized."})
+
+	# Construct Resource Location
+	redis_key = "KEY:*"
+
+	output = []
+	keys_list = rc.scan_iter(redis_key)
+	for res in keys_list:
+		r = res.replace("KEY:","")
+		output.append(r)
+
+	return(dict(keys=output))
+
 # Create Resource
 @app.route('/resources', method='POST')
 def create_res():
@@ -311,7 +447,6 @@ def get_res(id):
 
 	# Read from Redis
 	try:
-		# resource_record = json.loads(rc.get("RES:"+str(user_id)+":"+str(id)))
 		resource_record = json.loads(rc.get(redis_key))
 	except:
 		response.status = 404
@@ -398,6 +533,9 @@ def del_res(id):
 	return(dict(info="deleted", id=str(id)))
 
 ####### Helper functions
+
+def _valid_identifier(i):
+	return(re.match("[_A-Za-z:][_a-zA-Z0-9:]*$",i) and not keyword.iskeyword(i))
 
 def _get_password_hash(pw):
 
@@ -557,7 +695,6 @@ def _cluster_init():
 # Initialization
 
 # We need a Redis connection
-
 if not "redis_host" in os.environ or not "redis_port" in os.environ:
 	exit("ERROR: please set the environment variables for Redis host")
 
@@ -576,5 +713,3 @@ cluster_id = rc.get("_B9Y_ID_")
 
 if cluster_id == None:
 	cluster_id = _cluster_init()
-
-#

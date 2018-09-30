@@ -6,10 +6,23 @@ Bambleweeny is lightweight HTTP/REST based key-value store that offers identity,
 
 Written in Python, using a Redis backend, deployable in a tiny container.
 
-**Usage**:  
-`curl -X POST http://bambleweeny/resources -d '{"content": "lorem ipsum"}' -H AUTH`
+## Usage
 
-**Performance** (Apache Bench):
+### Get 'foo'
+
+`curl http://b9y/keys/foo -H AUTH`
+
+### Set 'foo' = 'bar'
+
+`echo bar | curl -X PUT -d @- http://b9y/keys/foo -H AUTH`
+
+### Increase the value of key 'queue_number' by 1 and return the result:
+
+`curl http://b9y/incr/queue_number -H AUTH`
+
+The [Getting Started Guide](GettingStarted.md) gives you detailed examples, and of course there's the [API Documentation](http://bambleweeny.sotong.io/).
+
+### Performance (Apache Bench)
 
 * **~540 reads per second, ~400 writes per second** - 1x vCPU 1 GB RAM (AWS t2.micro)
 * **~800 reads per second, ~530 writes per second** - MacBook Pro 2.9GHz i7 16GB RAM
@@ -20,7 +33,7 @@ Written in Python, using a Redis backend, deployable in a tiny container.
 
 This gives you a single, stateful and self-contained instance. Good enough for demos and tests.
 
-## Deploy as a topology on Docker or Kubernetes
+### Deploy as a topology on Docker or Kubernetes
 
 [Image on DockerHub](https://hub.docker.com/r/u1ih/bambleweeny/tags/) | [Dockerfile](Dockerfile) | [docker-compose.yml](docker-compose.yml) | [Run on Kubernetes](kube-run.sh) | [Run on OpenShift](openshift-run.sh)
 
@@ -32,7 +45,7 @@ How about running this as a topology instead, with one Redis container and one (
 
 ## Using the REST API
 
-Check out the [Getting Started Guide](GettingStarted.md) and the [API Documentation](http://bambleweeny.sotong.io/) for detailed information on managing users and resources.
+Bambleweeny gives you keys and resources. Keys are like system variables, resources are like files. Check out the [Getting Started Guide](GettingStarted.md) and the [API Documentation](http://bambleweeny.sotong.io/) for detailed information on managing users, keys, and resources.
 
  [Swagger File](https://raw.githubusercontent.com/u1i/bambleweeny/master/swagger.json) | [Postman Collection](postman_collection.json) | [Postman Docu](https://documenter.getpostman.com/view/1926148/RWaKT8rF)
 
