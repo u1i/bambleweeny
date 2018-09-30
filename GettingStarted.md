@@ -57,7 +57,7 @@ Now we're creating our first resource, with `lorem ipsum` as a content.
 
 > {"info": "created", "id": "145a6f04-6775-4479-9832-e082f91ae7dd"}
 
-We receive the unique ID of the newly created resource which we can use to access it with a GET request on the object.
+We receive the unique ID of the newly created resource which we can use to access it with a GET request on the object. Again, only the user who created the resource can view it.
 
 That's it! Check out the full API documentation for read, delete, and quota & identity management requests.
 
