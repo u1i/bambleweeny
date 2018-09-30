@@ -17,6 +17,7 @@ if __name__ == '__main__':
     server.socket_host = "0.0.0.0"
     server.socket_port = 8080
     server.thread_pool = 30
+    server.max_request_body_size = 50000
 
     # For SSL Support
     # server.ssl_module            = 'pyopenssl'

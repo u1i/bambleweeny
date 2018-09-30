@@ -18,7 +18,11 @@ Written in Python, using a Redis backend, deployable in a tiny container.
 
 `echo bar | curl -X PUT -d @- http://b9y/keys/foo -H AUTH`
 
-### Create a counter - get a'queue number'
+### Upload binary files
+
+`curl --upload-file image.png http://b9y/keys/pic -H AUTH`
+
+### Create a counter - get a 'queue number'
 
 `curl http://b9y/incr/queue_number -H AUTH`
 
