@@ -477,7 +477,7 @@ def _issue_token(user, expiry, id, salt):
 	# Get an hmac signature
 	hmac1 = hmac.new(salt, c, hashlib.sha256 )
 
-	return(c + "." + hmac1.hexdigest())
+	return(c + "." + hmac1.hexdigest()[:8])
 
 def _get_token_data(token, salt):
     token_data = {}
@@ -495,7 +495,7 @@ def _get_token_data(token, salt):
         # Create signature
         c = base64.urlsafe_b64encode(json.dumps(content))
         hmac1 = hmac.new(salt, c, hashlib.sha256 )
-        sig_check = hmac1.hexdigest()
+        sig_check = hmac1.hexdigest()[:8]
 
         # Only get the data if the signature is valid
         if sig_token == sig_check:
