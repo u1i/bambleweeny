@@ -1,5 +1,13 @@
-# Get Token
+endpoint=http://127.0.0.1:8080
+echo $endpoint > endpoint.txt
 
+# Get Token
 token=$(./get_user_token.sh)
 
-ab -p create.txt -l -n 1000 -c 2 -T application/json -H "Authorization: Bearer $token" http://127.0.0.1:8080/resources
+# Set Key Name
+key=perftest_write
+
+echo -e "\n\nKey is: $endpoint/keys/$key"
+
+# Performance Test: Write
+ab -u create.txt -l -n 1000 -c 2 -T application/json -H "Authorization: Bearer $token" $endpoint/keys/$key

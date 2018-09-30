@@ -161,7 +161,7 @@
                 "tags": [
                     "Keys"
                 ],
-                "description": "Read a key.",
+                "description": "Read a key.\n\nAdministrators can access & manipulate keys from users by adding ?userid=<user_id> to the request. E.g. /keys/foo?userid=2",
                 "produces": [
                     "text/plain"
                 ],
@@ -182,7 +182,7 @@
                 "tags": [
                     "Keys"
                 ],
-                "description": "Set key to a specific value. Key names contain numbers, characters, underscores and colons. Valid key names are 'foo', 'my_key1', 'debug:b1:Hello' 'RogerRabbit'.",
+                "description": "Set key to a specific value. Key names contain numbers, characters, underscores and colons. Valid key names are 'foo', 'my_key1', 'debug:b1:Hello' 'RogerRabbit'.\n\nAdministrators can access & manipulate keys from users by adding ?userid=<user_id> to the request. E.g. /keys/foo?userid=2",
                 "responses": {
                     "200": {
                         "description": ""
@@ -200,7 +200,7 @@
                 "tags": [
                     "Keys"
                 ],
-                "description": "Deletes a key.",
+                "description": "Deletes a key.\n\nAdministrators can delete keys from users by adding ?userid=<user_id> to the request. E.g. /keys/foo?userid=2",
                 "responses": {
                     "200": {
                         "description": "",
@@ -515,190 +515,6 @@
                         "description": ""
                     },
                     "400": {
-                        "description": ""
-                    }
-                },
-                "security": [
-                    {
-                        "oauth2": []
-                    }
-                ]
-            }
-        },
-        "/resources": {
-            "post": {
-                "operationId": "POST-resource",
-                "summary": "Create Resource",
-                "tags": [
-                    "Deprecated"
-                ],
-                "description": "Create a resource from JSON data.",
-                "parameters": [
-                    {
-                        "name": "body",
-                        "in": "body",
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "content": {
-                                    "type": "string"
-                                }
-                            },
-                            "example": {
-                                "content": "lorem ipsum"
-                            }
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "",
-                        "schema": {
-                            "type": "object"
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "oauth2": []
-                    }
-                ]
-            },
-            "get": {
-                "operationId": "LIST-resources",
-                "summary": "List Resources",
-                "tags": [
-                    "Deprecated"
-                ],
-                "description": "List all resources of the user. Admin will see a list of resources for all users.",
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "resources": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "object",
-                                        "properties": {
-                                            "owner": {
-                                                "type": "string"
-                                            },
-                                            "id": {
-                                                "type": "string"
-                                            },
-                                            "acl": {
-                                                "type": "string"
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        "examples": {
-                            "application/json": {
-                                "resources": [
-                                    {
-                                        "owner": "1",
-                                        "id": "d67a0e8c-87f0-4687-9fee-d9c4c2c94ebc",
-                                        "acl": "nil"
-                                    },
-                                    {
-                                        "owner": "1",
-                                        "id": "4dd8dbf3-e9fe-434a-b9cc-93f5113d32ed",
-                                        "acl": "nil"
-                                    },
-                                    {
-                                        "owner": "1",
-                                        "id": "318a9347-b97d-4c24-8a50-472a6374604a",
-                                        "acl": "nil"
-                                    },
-                                    {
-                                        "owner": "1",
-                                        "id": "8b7b42c2-c30b-46f8-a8f2-acfbbd71d155",
-                                        "acl": "nil"
-                                    },
-                                    {
-                                        "owner": "1",
-                                        "id": "db08a864-900d-4acd-b80f-ed7c9ac25664",
-                                        "acl": "nil"
-                                    }
-                                ]
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": ""
-                    }
-                },
-                "security": [
-                    {
-                        "oauth2": []
-                    }
-                ]
-            }
-        },
-        "/resources/{id}": {
-            "parameters": [
-                {
-                    "name": "id",
-                    "in": "path",
-                    "required": true,
-                    "type": "string"
-                }
-            ],
-            "get": {
-                "operationId": "GET-resource",
-                "summary": "Get Resource",
-                "tags": [
-                    "Deprecated"
-                ],
-                "description": "Retrieve a resource identified by the UUID.",
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "content": {
-                                    "type": "string"
-                                },
-                                "owner": {
-                                    "type": "string"
-                                },
-                                "acl": {
-                                    "type": "string"
-                                }
-                            }
-                        },
-                        "examples": {
-                            "application/json": {
-                                "content": "lorem ipsum",
-                                "owner": "1",
-                                "acl": ""
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": ""
-                    }
-                },
-                "security": [
-                    {
-                        "oauth2": []
-                    }
-                ]
-            },
-            "delete": {
-                "operationId": "DELETE-resource",
-                "summary": "Delete Resource",
-                "tags": [
-                    "Deprecated"
-                ],
-                "description": "Delete a resource identified by a UUID.",
-                "responses": {
-                    "401": {
                         "description": ""
                     }
                 },

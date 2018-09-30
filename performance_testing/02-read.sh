@@ -1,20 +1,22 @@
-# Get Token
+endpoint=http://127.0.0.1:8080
+echo $endpoint > endpoint.txt
 
+# Get Token
 token=$(./get_user_token.sh)
 
-# Create Resource
-out=$(curl -sS -X POST \
-  http://localhost:8080/resources \
-  -H "Authorization: Bearer $token" \
-  -H 'Cache-Control: no-cache' \
-  -H 'Content-Type: application/json' \
-  -H 'Postman-Token: d50c277d-fabb-4eb2-8541-5d6e5d08685b' \
-  -d '{
-  "content": "lorem ipsum"
-}' 2>/dev/null)
+# Set Key Name and value
+key=perftest_read
+val="lorem ipsum"
+echo -e "\n\nKey is: $endpoint/keys/$key - Value is: '$val'"
 
-res=$(echo $out | tr "," "\n" | grep '"id"' | sed 's/"}//; s/.*"//;')
+# Write Key
+echo "WRITE key"
+echo $val | curl -s -X PUT -d @- $endpoint/keys/$key -H "Authorization: Bearer $token" 
 
-# curl -sS -H "Authorization: Bearer $token" http://localhost:8080/resources/$res 2>/dev/null
+# Get Key
 
-ab -n 1000 -c 4 -H "Authorization: Bearer $token" http://127.0.0.1:8080/resources/$res
+echo -e "\n\nGET key"
+curl -s $endpoint/keys/$key -H "Authorization: Bearer $token"
+
+# Performance Test: Read
+ab -n 1000 -c 4 -H "Authorization: Bearer $token" $endpoint/keys/$key
