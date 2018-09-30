@@ -40,11 +40,11 @@ Want to run it on a Raspberry Pi?
 
 `docker run -d -p 8080:8080 u1ih/bambleweeny:arm-0.24`
 
-### Deploy as a topology on Docker or Kubernetes
+## Deploy as a topology
+
+![](https://raw.githubusercontent.com/u1i/bambleweeny/master/img/b9yms2.png)
 
 [Image on DockerHub](https://hub.docker.com/r/u1ih/bambleweeny/tags/) | [Dockerfile](Dockerfile) | [docker-compose.yml](docker-compose.yml) | [Run on Kubernetes](kube-run.sh) | [Run on OpenShift](openshift-run.sh)
-
-![](https://raw.githubusercontent.com/u1i/bambleweeny/master/img/b9yms.png)
 
 How about running this as a topology instead, with one Redis container and one (and then later more) instances of b9y? Assuming you have Docker and docker-compose installed, simply run this command:
 
