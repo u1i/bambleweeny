@@ -2,11 +2,13 @@
 
 [![Python 2.7](https://img.shields.io/badge/python-2.7-blue.svg)](https://www.python.org/downloads/release/python-270/) [![GitHub release](https://img.shields.io/github/release/u1i/bambleweeny.svg)](https://GitHub.com/u1i/bambleweeny/releases) [![Docker Pulls](https://img.shields.io/badge/dynamic/json.svg?label=Docker%20Pulls&url=https%3A%2F%2Fhub.docker.com%2Fv2%2Frepositories%2Fu1ih%2Fbambleweeny%2F&query=$.pull_count&colorB=2)](https://hub.docker.com/r/u1ih/bambleweeny/) [![GitHub license](https://img.shields.io/github/license/u1i/bambleweeny.svg)](https://github.com/u1i/bambleweeny/blob/master/LICENSE) [![GitHub issues](https://img.shields.io/github/issues/u1i/bambleweeny.svg)](https://GitHub.com/u1i/bambleweeny/issues/) ![](https://img.shields.io/swagger/valid/2.0/https/raw.githubusercontent.com/u1i/bambleweeny/master/swagger.json.svg)
 
-Bambleweeny is lightweight HTTP/REST based key-value store that offers identity, access & quota management. It's fast, easy to use, and well-documented. Use case include data ingest for mobile / IOT, configuration management and coordination for distributed systems.
+Bambleweeny is lightweight HTTP/REST based key-value store that offers identity, access & quota management. It's fast, easy to use, and well-documented.
 
 Written in Python, using a Redis backend, deployable in a tiny container.
 
-## Usage
+**Use cases**: data ingest for mobile / IOT, configuration management and coordination for distributed systems.
+
+## Simple HTTP based Key/Value Access
 
 ### Get 'foo'
 
@@ -27,7 +29,7 @@ The [Getting Started Guide](GettingStarted.md) gives you detailed examples, and 
 * **~540 reads per second, ~400 writes per second** - 1x vCPU 1 GB RAM (AWS t2.micro)
 * **~800 reads per second, ~530 writes per second** - MacBook Pro 2.9GHz i7 16GB RAM
 
-## Run it
+## Run Bambleweeny
 
 `docker run -d -p 8080:8080 u1ih/bambleweeny`
 
