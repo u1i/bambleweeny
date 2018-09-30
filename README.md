@@ -47,7 +47,7 @@ How about running this as a topology instead, with one Redis container and one (
 
 ## Using the REST API
 
-Bambleweeny gives you keys and resources. Keys are like system variables, resources are like files. Check out the [Getting Started Guide](GettingStarted.md) and the [API Documentation](http://bambleweeny.sotong.io/) for detailed information on managing users, keys, and resources.
+Check out the [Getting Started Guide](GettingStarted.md) and the [API Documentation](http://bambleweeny.sotong.io/) for detailed information on managing users and keys.
 
  [Swagger File](https://raw.githubusercontent.com/u1i/bambleweeny/master/swagger.json) | [Postman Collection](docs/postman_collection.json) | [Postman Docu](https://documenter.getpostman.com/view/1926148/RWaKT8rF)
 

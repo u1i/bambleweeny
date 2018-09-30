@@ -1,13 +1,28 @@
+endpoint=http://localhost:8080
+echo $endpoint > endpoint.txt
+
+# Create User
+echo "Create User"
+./create_user.sh
+
 # Get Token
+token=$(./get_user_token.sh)
 
-token=$(./get_admin_token.sh)
-
+# Set Key Name and value
 key=key_$RANDOM
-
-echo $key
+val="lorem ipsum $random $(date)"
+echo -e "\n\nKey is: $endpoint/keys/$key - Value is: '$val'"
 
 # Write Key
-echo $RANDOM | curl -X PUT -d @- http://localhost:8080/keys/$key -H "Authorization: Bearer $token"
+echo "WRITE key"
+echo $val | curl -s -X PUT -d @- $endpoint/keys/$key -H "Authorization: Bearer $token" 
 
 # Get Key
-curl http://localhost:8080/keys/$key -H "Authorization: Bearer $token"
+
+echo -e "\n\nGET key"
+curl -s $endpoint/keys/$key -H "Authorization: Bearer $token"
+
+# Delete Key
+
+echo -e "\n\nDEL key"
+curl -X DELETE $endpoint/keys/$key -H "Authorization: Bearer $token" 

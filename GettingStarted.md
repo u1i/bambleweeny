@@ -14,7 +14,7 @@ Assuming you have Docker and docker-compose installed on your machine, you could
 
 Bambleweeny should now be available at `http://localhost:8080` - however, there's not much to see. It's all about the API. We'll use cURL examples here.
 
-To work with resources we need to make authenticated requests, so as a first step we are getting an access token. For this, we login with username and password.
+To access with the key/value store we need to make authenticated requests, so as a first step we are getting an access token. For this, we login with username and password.
 
 ### Create a new user
 
@@ -30,13 +30,11 @@ We've received a token (copy it and replace `TOKEN` in the following cURL comman
 
 > {"info": "created", "id": 1}
 
-## Create Keys and Resources as a User
+## Create and Access Keys
 
-Now we have a user account and can create keys and resources (admin can have resources as well, but why would you do such a thing?)
+Now we have a user account and can create and access keys and resources.
 
-Keys are like system wide variables, every authenticated user can read and write them. Resources are like files, and at the moment, they are private to the individual user only. When to use which? Well - that's up to you!
-
-### Keys
+### Write a key
 Let's create a key! First, we need to login with that new user:
 
 `curl -X POST "http://localhost:8080/auth/token?raw" -H 'Content-Type: application/json' -d '{ "username": "me@privacy.net", "password": "changeme"}'`
@@ -45,20 +43,21 @@ Copy the output again and replace `TOKEN` in the following command with the toke
 
 `echo $RANDOM | curl -X PUT -d @- http://localhost:8080/keys/mykey1 -H "Authorization: Bearer TOKEN"`
 
-That was easy, right? You can now read the key (in fact, any authenticated user can) with:
+### Get a key
+
+That was easy, right? You can now read the key with:
 
 `curl http://localhost:8080/keys/mykey1 -H "Authorization: Bearer TOKEN"`
 
-### Resources
+That's it! Check out the full API documentation for key, quota & identity management requests.
 
-Now we're creating our first resource, with `lorem ipsum` as a content.
+## Increment Keys
 
-`curl -X POST http://localhost:8080/resources -H "Authorization: Bearer TOKEN" -H 'Content-Type: application/json' -d '{ "content": "lorem ipsum" }'`
+Looking for a way to implement a counter, or hand out queue / ticket numbers? It's easy with Bambleweeny!
 
-> {"info": "created", "id": "145a6f04-6775-4479-9832-e082f91ae7dd"}
+`curl http://b9y/incr/queue_number -H "Authorization: Bearer TOKEN"`
 
-We receive the unique ID of the newly created resource which we can use to access it with a GET request on the object. Again, only the user who created the resource can view it.
+Issue this request a couple of times, and the output will increase by 1 each time. Even if you run B9Y in cluster mode, there'll be no overlap.
 
-That's it! Check out the full API documentation for read, delete, and quota & identity management requests.
 
 

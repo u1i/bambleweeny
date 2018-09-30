@@ -256,13 +256,20 @@ def get_key(id):
 		response.status = 401
 		return dict({"info":"Unauthorized."})
 
+	# Get User ID
+	user_id = api_auth["id"]
+
+	# Admin can access keys on the user's behalf
+	if 'userid' in request.query and api_auth["admin"] == "True":
+		user_id = request.query["userid"]
+
 	# Does the key have a valid format?
 	if _valid_identifier(str(id)) != True:
 		response.status = 400
 		return dict({"info":"Key format invalid."})
 
 	# Construct Resource Location from user_id and id
-	redis_key = "KEY:"+str(id)
+	redis_key = "KEY:"+str(user_id)+"::"+str(id)
 
 	# Read from Redis
 	try:
@@ -272,7 +279,7 @@ def get_key(id):
 		return dict({"info":"Not found."})
 
 	response.content_type = 'text/plain'
-	return(key_content)
+	return(str(key_content))
 
 # Increase Key
 @app.route('/incr/<id>', method='GET')
@@ -285,13 +292,28 @@ def incr_key(id):
 		response.status = 401
 		return dict({"info":"Unauthorized."})
 
-	# Does the key have a valid format?
+	# Get User ID and quota
+	user_id = api_auth["id"]
+	user_quota = _get_user_quota(user_id)
+	current_number_of_resources = _user_resources_number(user_id)
+
+ 	# Does the key have a valid format?
 	if _valid_identifier(str(id)) != True:
 		response.status = 400
 		return dict({"info":"Key format invalid."})
 
 	# Construct Resource Location from user_id and id
-	redis_key = "KEY:"+str(id)
+	redis_key = "KEY:"+str(user_id)+"::"+str(id)
+
+	# Does the key exist already?
+	keyexists = rc.get(redis_key)
+	if keyexists == None:
+		if user_quota != 0 and current_number_of_resources >= user_quota:
+			response.status = 400
+			return dict({"info":"Quota exceeded."})
+
+		# Increase the counter of resources for this user_record
+		rc.incr("NUMRES:"+str(user_id))
 
 	# Read from Redis
 	try:
@@ -314,13 +336,34 @@ def write_key(id):
 		response.status = 401
 		return dict({"info":"Unauthorized."})
 
+	# Get User ID and quota
+	user_id = api_auth["id"]
+
+	# Admin can access keys on the user's behalf
+	if 'userid' in request.query and api_auth["admin"] == "True":
+		user_id = request.query["userid"]
+
+	user_quota = _get_user_quota(user_id)
+	current_number_of_resources = _user_resources_number(user_id)
+
 	# Does the key have a valid format?
 	if _valid_identifier(str(id)) != True:
 		response.status = 400
 		return dict({"info":"Key format invalid."})
 
 	# Construct Resource Location from user_id and id
-	redis_key = "KEY:"+str(id)
+	redis_key = "KEY:"+str(user_id)+"::"+str(id)
+
+	# Does the key exist already?
+	keyexists = rc.get(redis_key)
+	if keyexists == None:
+		# Are we allowed to create more objects?
+		if user_quota != 0 and current_number_of_resources >= user_quota:
+			response.status = 400
+			return dict({"info":"Quota exceeded."})
+
+		# Increase the counter of resources for this user_record
+		rc.incr("NUMRES:"+str(user_id))
 
 	# Write to Redis
 	try:
@@ -342,17 +385,32 @@ def write_key(id):
 		response.status = 401
 		return dict({"info":"Unauthorized."})
 
+	# Get User ID
+	user_id = api_auth["id"]
+
+	# Admin can access keys on the user's behalf
+	if 'userid' in request.query and api_auth["admin"] == "True":
+		user_id = request.query["userid"]
+
 	# Does the key have a valid format?
 	if _valid_identifier(str(id)) != True:
 		response.status = 400
 		return dict({"info":"Key format invalid."})
 
 	# Construct Resource Location from user_id and id
-	redis_key = "KEY:"+str(id)
+	redis_key = "KEY:"+str(user_id)+"::"+str(id)
+
+	# Does the key exist already?
+	keyexists = rc.get(redis_key)
+	if keyexists == None:
+		response.status = 404
+		return dict({"info":"Key not found."})
 
 	# Delete from Redis
 	try:
 		res = rc.delete(redis_key)
+		rc.decr("NUMRES:"+str(user_id))
+
 	except:
 		response.status = 400
 		return dict({"info":"not a valid request"})
@@ -370,14 +428,26 @@ def get_all_keys():
 		response.status = 401
 		return dict({"info":"Unauthorized."})
 
+	# Get User ID
+	user_id = api_auth["id"]
+
 	# Construct Resource Location
-	redis_key = "KEY:*"
+	redis_key = "KEY:"+str(user_id)+"::*"
+
+	# Resource Location is different for admin access
+	# Since in that case we want all resources
+	if api_auth["admin"] == "True":
+		redis_key = "KEY:*"
 
 	output = []
 	keys_list = rc.scan_iter(redis_key)
 	for res in keys_list:
-		r = res.replace("KEY:","")
-		output.append(r)
+
+		res_obj={}
+		details = _get_key_data(res)
+		res_obj["key"] = details["id"]
+		res_obj["owner"] = details["owner"]
+		output.append(res_obj)
 
 	return(dict(keys=output))
 
@@ -536,6 +606,21 @@ def del_res(id):
 
 def _valid_identifier(i):
 	return(re.match("[_A-Za-z:][_a-zA-Z0-9:]*$",i) and not keyword.iskeyword(i))
+
+def _get_key_data(k):
+	out = {}
+	pos = k.find("::")
+	pos1 = k.find(":")
+	out["id"] = k[pos+2:]
+	out["owner"] = k[pos1+1:pos]
+	return(out)
+
+def _get_key_data_admin(k):
+	out = {}
+	pos = k.find(":")
+	out["id"] = k[pos+1:]
+	out["owner"] = k[:pos]
+	return(out)
 
 def _get_password_hash(pw):
 

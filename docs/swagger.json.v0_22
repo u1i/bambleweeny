@@ -99,52 +99,7 @@
                 "description": "List all keys.",
                 "responses": {
                     "200": {
-                        "description": "",
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "keys": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "object",
-                                        "properties": {
-                                            "owner": {
-                                                "type": "string"
-                                            },
-                                            "key": {
-                                                "type": "string"
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        "examples": {
-                            "application/json": {
-                                "keys": [
-                                    {
-                                        "owner": "1",
-                                        "key": "foo"
-                                    },
-                                    {
-                                        "owner": "1",
-                                        "key": "fred"
-                                    },
-                                    {
-                                        "owner": "2",
-                                        "key": "system:debug"
-                                    },
-                                    {
-                                        "owner": "2",
-                                        "key": "test"
-                                    },
-                                    {
-                                        "owner": "2",
-                                        "key": "myqueue"
-                                    }
-                                ]
-                            }
-                        }
+                        "description": ""
                     }
                 },
                 "security": [
@@ -239,37 +194,49 @@
                 ]
             }
         },
-        "/resources": {
-            "post": {
-                "operationId": "POST-resource",
-                "summary": "Create Resource",
+        "/resources/{id}": {
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "operationId": "GET-resource",
+                "summary": "Get Resource",
                 "tags": [
-                    "Deprecated"
+                    "Resources"
                 ],
-                "description": "Create a resource from JSON data.",
-                "parameters": [
-                    {
-                        "name": "body",
-                        "in": "body",
+                "description": "Retrieve a resource identified by the UUID.",
+                "responses": {
+                    "200": {
+                        "description": "",
                         "schema": {
                             "type": "object",
                             "properties": {
                                 "content": {
                                     "type": "string"
+                                },
+                                "owner": {
+                                    "type": "string"
+                                },
+                                "acl": {
+                                    "type": "string"
                                 }
-                            },
-                            "example": {
-                                "content": "lorem ipsum"
+                            }
+                        },
+                        "examples": {
+                            "application/json": {
+                                "content": "lorem ipsum",
+                                "owner": "1",
+                                "acl": ""
                             }
                         }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "",
-                        "schema": {
-                            "type": "object"
-                        }
+                    },
+                    "401": {
+                        "description": ""
                     }
                 },
                 "security": [
@@ -278,11 +245,31 @@
                     }
                 ]
             },
+            "delete": {
+                "operationId": "DELETE-resource",
+                "summary": "Delete Resource",
+                "tags": [
+                    "Resources"
+                ],
+                "description": "Delete a resource identified by a UUID.",
+                "responses": {
+                    "401": {
+                        "description": ""
+                    }
+                },
+                "security": [
+                    {
+                        "oauth2": []
+                    }
+                ]
+            }
+        },
+        "/resources": {
             "get": {
                 "operationId": "LIST-resources",
                 "summary": "List Resources",
                 "tags": [
-                    "Deprecated"
+                    "Resources"
                 ],
                 "description": "List all resources of the user. Admin will see a list of resources for all users.",
                 "responses": {
@@ -351,69 +338,37 @@
                         "oauth2": []
                     }
                 ]
-            }
-        },
-        "/resources/{id}": {
-            "parameters": [
-                {
-                    "name": "id",
-                    "in": "path",
-                    "required": true,
-                    "type": "string"
-                }
-            ],
-            "get": {
-                "operationId": "GET-resource",
-                "summary": "Get Resource",
+            },
+            "post": {
+                "operationId": "POST-resource",
+                "summary": "Create Resource",
                 "tags": [
-                    "Deprecated"
+                    "Resources"
                 ],
-                "description": "Retrieve a resource identified by the UUID.",
-                "responses": {
-                    "200": {
-                        "description": "",
+                "description": "Create a resource from JSON data.",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
                         "schema": {
                             "type": "object",
                             "properties": {
                                 "content": {
                                     "type": "string"
-                                },
-                                "owner": {
-                                    "type": "string"
-                                },
-                                "acl": {
-                                    "type": "string"
                                 }
-                            }
-                        },
-                        "examples": {
-                            "application/json": {
-                                "content": "lorem ipsum",
-                                "owner": "1",
-                                "acl": ""
+                            },
+                            "example": {
+                                "content": "lorem ipsum"
                             }
                         }
-                    },
-                    "401": {
-                        "description": ""
                     }
-                },
-                "security": [
-                    {
-                        "oauth2": []
-                    }
-                ]
-            },
-            "delete": {
-                "operationId": "DELETE-resource",
-                "summary": "Delete Resource",
-                "tags": [
-                    "Deprecated"
                 ],
-                "description": "Delete a resource identified by a UUID.",
                 "responses": {
-                    "401": {
-                        "description": ""
+                    "201": {
+                        "description": "",
+                        "schema": {
+                            "type": "object"
+                        }
                     }
                 },
                 "security": [

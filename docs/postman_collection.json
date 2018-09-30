@@ -136,6 +136,27 @@
 					"response": []
 				},
 				{
+					"name": "Change Admin Password",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8080/users/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Set Quota",
 					"request": {
 						"method": "PUT",
@@ -170,7 +191,7 @@
 				"bearer": [
 					{
 						"key": "token",
-						"value": "eyJpIjogMCwgInUiOiAiYWRtaW4iLCAidCI6ICIxNTM2OTM0NzE0In0=.2018deaa0b90e0a6476e89986eed26bec9a789641844e42f182e97f3c5c51b67",
+						"value": "eyJpIjogMCwgInUiOiAiYWRtaW4iLCAidCI6ICIxNTM3MDY3NzUyIn0=.2c81a07d0974fcbc1043d9f2a368a06465c317c6acda0b100dd84e5d5f138f3d",
 						"type": "string"
 					}
 				]
@@ -252,10 +273,10 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"username\": \"uli@privacy.net\",\n  \"password\": \"changeme\"\n}"
+							"raw": "{\n  \"username\": \"me@privacy.net\",\n  \"password\": \"changeme\"\n}"
 						},
 						"url": {
-							"raw": "localhost:8080/auth/token",
+							"raw": "localhost:8080/auth/token?raw",
 							"host": [
 								"localhost"
 							],
@@ -263,6 +284,12 @@
 							"path": [
 								"auth",
 								"token"
+							],
+							"query": [
+								{
+									"key": "raw",
+									"value": null
+								}
 							]
 						}
 					},
@@ -314,14 +341,14 @@
 							"raw": "{\n  \"username\": \"me@privacy.net\",\n  \"password\": \"changeme\"\n}"
 						},
 						"url": {
-							"raw": "localhost:8080/resources/25bd09f2-0fec-4fd9-bfab-cb9f35cdd2dd",
+							"raw": "localhost:8080/resources/28db2eb7-d0f2-4284-ab38-a4645983ff61",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"resources",
-								"25bd09f2-0fec-4fd9-bfab-cb9f35cdd2dd"
+								"28db2eb7-d0f2-4284-ab38-a4645983ff61"
 							]
 						}
 					},
@@ -342,14 +369,13 @@
 							"raw": "{\n  \"username\": \"me@privacy.net\",\n  \"password\": \"changeme\"\n}"
 						},
 						"url": {
-							"raw": "localhost:8080/resources/25bd09f2-0fec-4fd9-bfab-cb9f35cdd2dd",
+							"raw": "localhost:8080/resources",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"resources",
-								"25bd09f2-0fec-4fd9-bfab-cb9f35cdd2dd"
+								"resources"
 							]
 						}
 					},
@@ -389,7 +415,7 @@
 				"bearer": [
 					{
 						"key": "token",
-						"value": "eyJpIjogIjEiLCAidSI6ICJ1bGlAcHJpdmFjeS5uZXQiLCAidCI6ICIxNTM2OTM0NzM0In0=.67b2add5c291dcdcf868051ee9c8460ad16287be93626025c4de8cf6ef5c2992",
+						"value": "eyJpIjogIjEiLCAiYyI6ICJhMTZiOTcwMSIsICJ1IjogIm1lQHByaXZhY3kubmV0IiwgInQiOiAiMTUzODI4NjA1OSJ9.60f7a891",
 						"type": "string"
 					}
 				]
@@ -409,6 +435,174 @@
 					"listen": "test",
 					"script": {
 						"id": "e1489758-c9b7-4eef-8562-53ac9b8c3647",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Keys",
+			"item": [
+				{
+					"name": "Read Key",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "localhost:8080/keys/q2",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"keys",
+								"q2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Increase Key",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "localhost:8080/incr/q2",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"incr",
+								"q2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Key",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "localhost:8080/keys/q2",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"keys",
+								"q2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List all keys",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "localhost:8080/keys",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"keys"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List all keys as Admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJpIjogIjAiLCAiYyI6ICJhMTZiOTcwMSIsICJ1IjogImFkbWluIiwgInQiOiAiMTUzODI5MjgxMCJ9.538b1d39",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "localhost:8080/keys",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"keys"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Write Key",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "huhu"
+						},
+						"url": {
+							"raw": "localhost:8080/keys/mykey1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"keys",
+								"mykey1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "eyJpIjogIjEiLCAiYyI6ICJhMTZiOTcwMSIsICJ1IjogIm1lQHByaXZhY3kubmV0IiwgInQiOiAiMTUzODI5NjA4NCJ9.949e0fdf",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "7bde3e32-4d3c-46a4-b4b2-d1c4e94a30c2",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "14db9d5c-b0ff-49c7-84bd-c3ea47deb7d1",
 						"type": "text/javascript",
 						"exec": [
 							""
