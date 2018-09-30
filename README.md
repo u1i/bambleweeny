@@ -18,7 +18,7 @@ Written in Python, using a Redis backend, deployable in a tiny container.
 
 `echo bar | curl -X PUT -d @- http://b9y/keys/foo -H AUTH`
 
-### Increase the value of key 'queue_number' by 1 and return the result:
+### Create a counter - get 'queue_number' + 1:
 
 `curl http://b9y/incr/queue_number -H AUTH`
 
