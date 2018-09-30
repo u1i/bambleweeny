@@ -18,7 +18,7 @@ Written in Python, using a Redis backend, deployable in a tiny container.
 
 `echo bar | curl -X PUT -d @- http://b9y/keys/foo -H AUTH`
 
-### Create a counter - get 'queue_number' + 1:
+### Create a counter - get a'queue number'
 
 `curl http://b9y/incr/queue_number -H AUTH`
 
@@ -26,6 +26,7 @@ The [Getting Started Guide](GettingStarted.md) gives you detailed examples, and 
 
 ### Performance (Apache Bench)
 
+* **~45 reads per second, ~29 writes per second** - Raspberry Pi 3 Model B, ARMv7 1GB RAM
 * **~540 reads per second, ~400 writes per second** - 1x vCPU 1 GB RAM (AWS t2.micro)
 * **~800 reads per second, ~530 writes per second** - MacBook Pro 2.9GHz i7 16GB RAM
 
@@ -34,6 +35,10 @@ The [Getting Started Guide](GettingStarted.md) gives you detailed examples, and 
 `docker run -d -p 8080:8080 u1ih/bambleweeny`
 
 This gives you a single, stateful and self-contained instance. Good enough for demos and tests.
+
+Want to run it on a Raspberry Pi?
+
+`docker run -d -p 8080:8080 u1ih/bambleweeny:arm-0.24`
 
 ### Deploy as a topology on Docker or Kubernetes
 
