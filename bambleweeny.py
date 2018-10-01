@@ -1,5 +1,6 @@
 from bottle import Bottle, request, view, response
 import json, os, uuid, base64, redis, time, hmac, hashlib, random, keyword, re
+from multiprocessing import Queue, Process
 
 # Settings
 admin_password = u"changeme"
@@ -613,3 +614,15 @@ cluster_id = rc.get("_B9Y_ID_")
 
 if cluster_id == None:
 	cluster_id = _cluster_init()
+
+def queue_housekeeping():
+	rc.set("SDSDSD", str(int(time.time())))
+
+def processor():
+
+    while True:
+        time.sleep(10)
+        queue_housekeeping()
+
+multiproc = Process(target=processor)
+multiproc.start()
