@@ -6,7 +6,7 @@ Bambleweeny is lightweight HTTP/REST based key-value store that offers identity,
 
 Written in Python, using a Redis backend, deployable in a tiny container.
 
-**Use cases**: data ingest for mobile / IOT, configuration management and coordination for distributed systems.
+**Use cases**: data ingest for mobile / IOT, configuration management and coordination across distributed systems.
 
 ## Simple HTTP based Key/Value Access
 
@@ -22,7 +22,7 @@ Written in Python, using a Redis backend, deployable in a tiny container.
 
 `curl --upload-file image.png http://b9y/keys/pic -H AUTH`
 
-### Create a counter - get a 'queue number'
+### Create a counter - 'pick a number'
 
 `curl http://b9y/incr/queue_number -H AUTH`
 
