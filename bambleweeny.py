@@ -98,8 +98,6 @@ def create_user():
 
 	# Set ID and password hash for user
 	new_userid = rc.incr("_USERID_")
-	#hash_object = hashlib.sha1(password)
-	#pwhash = hash_object.hexdigest()
 	pwhash = _get_password_hash(password)
 
 	user_record = {}
@@ -235,11 +233,6 @@ def set_admin_password():
 
 	# Read record for admin user
 	admin_record = json.loads(rc.get("USER:0"))
-
-	# Hash and write new password
-	#hash_object = hashlib.sha1(new_password)
-	#admin_record["hash"] = hash_object.hexdigest()
-
 	admin_record["hash"] = _get_password_hash(new_password)
 	rc.set("USER:0", json.dumps(admin_record, ensure_ascii=False))
 
@@ -462,13 +455,6 @@ def _get_key_data(k):
 	pos1 = k.find(":")
 	out["id"] = k[pos+2:]
 	out["owner"] = k[pos1+1:pos]
-	return(out)
-
-def _get_key_data_admin(k):
-	out = {}
-	pos = k.find(":")
-	out["id"] = k[pos+1:]
-	out["owner"] = k[:pos]
 	return(out)
 
 def _get_password_hash(pw):
