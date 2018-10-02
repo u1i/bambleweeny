@@ -36,8 +36,6 @@ Written in Python, using a Redis backend, deployable in a tiny container.
 
 `curl http://b9y/lists/my_queue -H AUTH`
 
-
-
 The [Getting Started Guide](GettingStarted.md) gives you detailed examples, and of course there's the [API Documentation](http://bambleweeny.sotong.io/).
 
 ### Performance (Apache Bench)
@@ -74,7 +72,7 @@ Check out the [Getting Started Guide](GettingStarted.md) and the [API Documentat
 
 Download SDK: [Python](https://github.com/u1i/bambleweeny/raw/master/sdk/python.zip) | [Java](https://github.com/u1i/bambleweeny/raw/master/sdk/java.zip) | [Ruby](https://github.com/u1i/bambleweeny/raw/master/sdk/ruby.zip) | [PHP](https://github.com/u1i/bambleweeny/raw/master/sdk/php.zip) | [JavaScript](https://github.com/u1i/bambleweeny/raw/master/sdk/javascript.zip) | [Android](https://github.com/u1i/bambleweeny/raw/master/sdk/android.zip) | [HTML](https://github.com/u1i/bambleweeny/raw/master/sdk/html.zip)
 
-[![](https://raw.githubusercontent.com/u1i/bambleweeny/master/img/crud4.png)](http://bambleweeny.sotong.io/)
+[![](https://raw.githubusercontent.com/u1i/bambleweeny/master/img/crud5.png)](http://bambleweeny.sotong.io/)
 
 
 ## Behind the Scenes
