@@ -2,7 +2,7 @@
 
 [![Python 2.7](https://img.shields.io/badge/python-2.7-blue.svg)](https://www.python.org/downloads/release/python-270/) [![GitHub release](https://img.shields.io/github/release/u1i/bambleweeny.svg)](https://GitHub.com/u1i/bambleweeny/releases) [![Docker Pulls](https://img.shields.io/badge/dynamic/json.svg?label=Docker%20Pulls&url=https%3A%2F%2Fhub.docker.com%2Fv2%2Frepositories%2Fu1ih%2Fbambleweeny%2F&query=$.pull_count&colorB=2)](https://hub.docker.com/r/u1ih/bambleweeny/) [![GitHub license](https://img.shields.io/github/license/u1i/bambleweeny.svg)](https://github.com/u1i/bambleweeny/blob/master/LICENSE) [![GitHub issues](https://img.shields.io/github/issues/u1i/bambleweeny.svg)](https://GitHub.com/u1i/bambleweeny/issues/) ![](https://img.shields.io/swagger/valid/2.0/https/raw.githubusercontent.com/u1i/bambleweeny/master/swagger.json.svg)
 
-Bambleweeny is lightweight HTTP/REST based key-value store that offers identity, access & quota management. It's fast, easy to use, and well-documented.
+Bambleweeny is lightweight HTTP/REST based key-value store and message broker that offers identity, access & quota management. It's fast, easy to use, and well-documented.
 
 Written in Python, using a Redis backend, deployable in a tiny container.
 
@@ -21,6 +21,10 @@ Written in Python, using a Redis backend, deployable in a tiny container.
 ### Upload binary files
 
 `curl --upload-file image.png http://b9y/keys/pic -H AUTH`
+
+### Push a message to a queue
+
+`curl test_message http://b9y/lists/my_queue -H AUTH`
 
 ### Create a counter - 'pick a number'
 
@@ -56,7 +60,7 @@ How about running this as a topology instead, with one Redis container and one (
 
 ## Using the REST API
 
-Check out the [Getting Started Guide](GettingStarted.md) and the [API Documentation](http://bambleweeny.sotong.io/) for detailed information on managing users and keys.
+Check out the [Getting Started Guide](GettingStarted.md) and the [API Documentation](http://bambleweeny.sotong.io/) for detailed information on managing users, keys and lists.
 
  [Swagger File](https://raw.githubusercontent.com/u1i/bambleweeny/master/swagger.json) | [Postman Collection](docs/postman_collection.json) | [Postman Docu](https://documenter.getpostman.com/view/1926148/RWaKT8rF)
 
