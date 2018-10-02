@@ -6,7 +6,7 @@ echo "Create User"
 ./create_user.sh
 
 # Get Token
-token=$(./get_user_token.sh)
+token=$(./get_user2_token.sh)
 
 # Set Key Name and value
 key=counter_$RANDOM

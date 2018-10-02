@@ -6,7 +6,7 @@ from multiprocessing import Queue, Process
 admin_password = u"changeme"
 secret_salt = "iKm4SyH6JCtA8l"
 token_expiry_seconds = 3000
-b9y_release = "0.25"
+b9y_release = "0.26"
 
 app = Bottle()
 
@@ -268,6 +268,8 @@ def get_key(id):
 	# Read from Redis
 	try:
 		key_content = rc.get(redis_key)
+		if key_content == None:
+			raise ValueError('not found')
 	except:
 		response.status = 404
 		return dict({"info":"Not found."})
@@ -636,8 +638,6 @@ def _get_password_hash(pw):
 
 def _create_admin():
 
-	#hash_object = hashlib.sha1(admin_password)
-	#pwhash = hash_object.hexdigest()
 	pwhash = _get_password_hash(admin_password)
 	user_record = {}
 	user_record["email"] = "admin"
@@ -672,6 +672,14 @@ def _user_resources_number(uid):
 	else:
 		return(int(n))
 
+def _b64_enc(s):
+
+	return(base64.urlsafe_b64encode(s))
+
+def _b64_dec(s):
+
+	return(base64.urlsafe_b64decode(s))
+
 def _issue_token(user, expiry, id, salt):
 
 	# Dict containing user info
@@ -682,7 +690,7 @@ def _issue_token(user, expiry, id, salt):
 	content["c"] = str(cluster_id)
 
 	# Create base64 encoded version
-	c = base64.urlsafe_b64encode(json.dumps(content))
+	c = _b64_enc(json.dumps(content))
 
 	# Get an hmac signature
 	hmac1 = hmac.new(salt, c, hashlib.sha256 )
@@ -699,7 +707,7 @@ def _get_token_data(token, salt):
         # Get base64 encoded content and the signature from the token
         separator = token.find(".")
         sig_token = token[separator+1:]
-        content_raw = base64.urlsafe_b64decode(token[:separator])
+        content_raw = _b64_dec(token[:separator])
         content = json.loads(content_raw)
 
         # Create signature
@@ -725,8 +733,13 @@ def _get_token_data(token, salt):
     return(token_data)
 
 def _authenticate():
-	bearer = request.environ.get('HTTP_AUTHORIZATION','')
-	access_token=bearer[7:]
+
+	# Token can be in query string or AUTH header
+	if 'token' in request.query:
+		access_token = request.query["token"]
+	else:
+		bearer = request.environ.get('HTTP_AUTHORIZATION','')
+		access_token=bearer[7:]
 
 	# Extract the data from the token
 	data = _get_token_data(token=access_token, salt=secret_salt)
