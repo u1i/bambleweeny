@@ -6,7 +6,7 @@ from multiprocessing import Queue, Process
 admin_password = u"changeme"
 secret_salt = "iKm4SyH6JCtA8l"
 token_expiry_seconds = 3000
-b9y_release = "0.24"
+b9y_release = "0.25"
 
 app = Bottle()
 
@@ -294,7 +294,7 @@ def incr_key(id):
  	# Does the key have a valid format?
 	if _valid_identifier(str(id)) != True:
 		response.status = 400
-		return dict({"info":"Key format invalid."})
+		return dict({"info":"Key name is invalid."})
 
 	# Construct Resource Location from user_id and id
 	redis_key = "KEY:"+str(user_id)+"::"+str(id)
@@ -343,7 +343,7 @@ def write_key(id):
 	# Does the key have a valid format?
 	if _valid_identifier(str(id)) != True:
 		response.status = 400
-		return dict({"info":"Key format invalid."})
+		return dict({"info":"Key name is invalid."})
 
 	# Construct Resource Location from user_id and id
 	redis_key = "KEY:"+str(user_id)+"::"+str(id)
@@ -370,7 +370,7 @@ def write_key(id):
 
 # Delete Key
 @app.route('/keys/<id>', method='DELETE')
-def write_key(id):
+def delete_key(id):
 
 	api_auth = _authenticate()
 
@@ -389,7 +389,7 @@ def write_key(id):
 	# Does the key have a valid format?
 	if _valid_identifier(str(id)) != True:
 		response.status = 400
-		return dict({"info":"Key format invalid."})
+		return dict({"info":"Key name is invalid."})
 
 	# Construct Resource Location from user_id and id
 	redis_key = "KEY:"+str(user_id)+"::"+str(id)
@@ -445,10 +445,181 @@ def get_all_keys():
 
 	return(dict(keys=output))
 
+# List - Add Item
+@app.route('/lists/<id>', method='POST')
+def add_item_to_list(id):
+
+	api_auth = _authenticate()
+
+	# Authorization is needed for this endpoint
+	if api_auth["authenticated"] == "False":
+		response.status = 401
+		return dict({"info":"Unauthorized."})
+
+	# Get User ID and quota
+	user_id = api_auth["id"]
+
+	# Admin can access keys on the user's behalf
+	if 'userid' in request.query and api_auth["admin"] == "True":
+		user_id = request.query["userid"]
+
+	user_quota = _get_user_quota(user_id)
+	current_number_of_resources = _user_resources_number(user_id)
+
+	# Does the key have a valid format?
+	if _valid_identifier_lists(str(id)) != True:
+		response.status = 400
+		return dict({"info":"List name is invalid."})
+
+	# Construct Resource Location from user_id and id
+	redis_key = "LIST:"+str(user_id)+"::"+str(id)
+
+	# Does the list exist already?
+	keyexists = rc.lrange(redis_key,0,0)
+	if not keyexists:
+		# Are we allowed to create more objects?
+		if user_quota != 0 and current_number_of_resources >= user_quota:
+			response.status = 400
+			return dict({"info":"Quota exceeded."})
+
+		# Increase the counter of resources for this user_record
+		rc.incr("NUMRES:"+str(user_id))
+
+	# Write to Redis
+	try:
+		res = rc.lpush(redis_key, request.body.read())
+	except:
+		response.status = 400
+		return dict({"info":"not a valid request"})
+
+	return(dict(info="ok"))
+
+# Lists - Get Item
+@app.route('/lists/<id>', method='GET')
+def get_list_item(id):
+
+	api_auth = _authenticate()
+
+	# Authorization is needed for this endpoint
+	if api_auth["authenticated"] == "False":
+		response.status = 401
+		return dict({"info":"Unauthorized."})
+
+	# Get User ID
+	user_id = api_auth["id"]
+
+	# Admin can access keys on the user's behalf
+	if 'userid' in request.query and api_auth["admin"] == "True":
+		user_id = request.query["userid"]
+
+	# Does the key have a valid format?
+	if _valid_identifier_lists(str(id)) != True:
+		response.status = 400
+		return dict({"info":"List name is invalid."})
+
+	# Construct Resource Location from user_id and id
+	redis_key = "LIST:"+str(user_id)+"::"+str(id)
+
+	# Read from Redis. If there's just one item left we need to
+	# decrease NUMRES
+	try:
+		num_items = rc.llen(redis_key)
+		if num_items == 1:
+			rc.decr("NUMRES:"+str(user_id))
+		key_content = rc.rpop(redis_key)
+	except:
+		response.status = 404
+		return dict({"info":"Not found."})
+
+	response.content_type = 'text/plain'
+	return(str(key_content))
+
+# Lists - Delete
+@app.route('/lists/<id>', method='DELETE')
+def delete_list(id):
+
+	api_auth = _authenticate()
+
+	# Authorization is needed for this endpoint
+	if api_auth["authenticated"] == "False":
+		response.status = 401
+		return dict({"info":"Unauthorized."})
+
+	# Get User ID
+	user_id = api_auth["id"]
+
+	# Admin can access keys on the user's behalf
+	if 'userid' in request.query and api_auth["admin"] == "True":
+		user_id = request.query["userid"]
+
+	# Does the key have a valid format?
+	if _valid_identifier(str(id)) != True:
+		response.status = 400
+		return dict({"info":"Key name is invalid."})
+
+	# Construct Resource Location from user_id and id
+	redis_key = "LIST:"+str(user_id)+"::"+str(id)
+
+	# Does the list exist already?
+	keyexists = rc.lrange(redis_key,0,-1)
+	if not keyexists:
+		response.status = 404
+		return dict({"info":"List not found."})
+
+	# Delete from Redis
+	try:
+		res = rc.delete(redis_key)
+		rc.decr("NUMRES:"+str(user_id))
+
+	except:
+		response.status = 400
+		return dict({"info":"not a valid request"})
+
+	return(dict(info="ok"))
+
+# Lists - Get All
+@app.route('/lists', method='GET')
+def get_all_lists():
+
+	api_auth = _authenticate()
+
+	# Authorization is needed for this endpoint
+	if api_auth["authenticated"] == "False":
+		response.status = 401
+		return dict({"info":"Unauthorized."})
+
+	# Get User ID
+	user_id = api_auth["id"]
+
+	# Construct Resource Location
+	redis_key = "LIST:"+str(user_id)+"::*"
+
+	# Resource Location is different for admin access
+	# Since in that case we want all resources
+	if api_auth["admin"] == "True":
+		redis_key = "LIST:*"
+
+	output = []
+	keys_list = rc.scan_iter(redis_key)
+	for res in keys_list:
+
+		res_obj={}
+		details = _get_key_data(res)
+		res_obj["key"] = details["id"]
+		res_obj["owner"] = details["owner"]
+		output.append(res_obj)
+
+	return(dict(lists=output))
+
 ####### Helper functions
 
+# Key names must match this regex
 def _valid_identifier(i):
 	return(re.match("[_A-Za-z:][_a-zA-Z0-9:]*$",i) and not keyword.iskeyword(i))
+
+# List names must match this regex
+def _valid_identifier_lists(i):
+	return(re.match("[_A-Za-z][_a-zA-Z0-9]*$",i) and not keyword.iskeyword(i))
 
 def _get_key_data(k):
 	out = {}
@@ -593,6 +764,14 @@ def _cluster_init():
 
 	return(cid[:8])
 
+def queue_housekeeping():
+	rc.set("_LASTRUN_", str(int(time.time())))
+
+def processor():
+    while True:
+        time.sleep(60)
+        queue_housekeeping()
+
 # Initialization
 
 # We need a Redis connection
@@ -614,15 +793,6 @@ cluster_id = rc.get("_B9Y_ID_")
 
 if cluster_id == None:
 	cluster_id = _cluster_init()
-
-def queue_housekeeping():
-	rc.set("SDSDSD", str(int(time.time())))
-
-def processor():
-
-    while True:
-        time.sleep(10)
-        queue_housekeeping()
 
 multiproc = Process(target=processor)
 multiproc.start()

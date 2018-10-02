@@ -89,6 +89,68 @@
                 }
             }
         },
+        "/keys/(id}": {
+            "get": {
+                "operationId": "READ-key",
+                "summary": "Read Key",
+                "tags": [
+                    "Keys"
+                ],
+                "description": "Read a key.\n\nAdministrators can access & manipulate keys from users by adding ?userid=<user_id> to the request. E.g. /keys/foo?userid=2",
+                "produces": [
+                    "text/plain"
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "security": [
+                    {
+                        "oauth2": []
+                    }
+                ]
+            },
+            "put": {
+                "operationId": "WRITE-key",
+                "summary": "Write Key",
+                "tags": [
+                    "Keys"
+                ],
+                "description": "Set key to a specific value. Key names contain numbers, characters, underscores and colons. Valid key names are 'foo', 'my_key1', 'debug:b1:Hello' 'RogerRabbit'.\n\nAdministrators can access & manipulate keys from users by adding ?userid=<user_id> to the request. E.g. /keys/foo?userid=2",
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "security": [
+                    {
+                        "oauth2": []
+                    }
+                ]
+            },
+            "delete": {
+                "operationId": "DEL-key",
+                "summary": "Delete Key",
+                "tags": [
+                    "Keys"
+                ],
+                "description": "Deletes a key.\n\nAdministrators can delete keys from users by adding ?userid=<user_id> to the request. E.g. /keys/foo?userid=2",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "oauth2": []
+                    }
+                ]
+            }
+        },
         "/keys/": {
             "get": {
                 "operationId": "READ-key",
@@ -154,68 +216,6 @@
                 ]
             }
         },
-        "/keys/(id}": {
-            "get": {
-                "operationId": "READ-key",
-                "summary": "Read Key",
-                "tags": [
-                    "Keys"
-                ],
-                "description": "Read a key.\n\nAdministrators can access & manipulate keys from users by adding ?userid=<user_id> to the request. E.g. /keys/foo?userid=2",
-                "produces": [
-                    "text/plain"
-                ],
-                "responses": {
-                    "200": {
-                        "description": ""
-                    }
-                },
-                "security": [
-                    {
-                        "oauth2": []
-                    }
-                ]
-            },
-            "put": {
-                "operationId": "WRITE-key",
-                "summary": "Write Key",
-                "tags": [
-                    "Keys"
-                ],
-                "description": "Set key to a specific value. Key names contain numbers, characters, underscores and colons. Valid key names are 'foo', 'my_key1', 'debug:b1:Hello' 'RogerRabbit'.\n\nAdministrators can access & manipulate keys from users by adding ?userid=<user_id> to the request. E.g. /keys/foo?userid=2",
-                "responses": {
-                    "200": {
-                        "description": ""
-                    }
-                },
-                "security": [
-                    {
-                        "oauth2": []
-                    }
-                ]
-            },
-            "delete": {
-                "operationId": "DEL-key",
-                "summary": "Delete Key",
-                "tags": [
-                    "Keys"
-                ],
-                "description": "Deletes a key.\n\nAdministrators can delete keys from users by adding ?userid=<user_id> to the request. E.g. /keys/foo?userid=2",
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "type": "object"
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "oauth2": []
-                    }
-                ]
-            }
-        },
         "/incr/(id}": {
             "get": {
                 "operationId": "INCR-key",
@@ -237,6 +237,85 @@
                         "oauth2": []
                     }
                 ]
+            }
+        },
+        "/lists/{id}": {
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "post": {
+                "operationId": "POST_lists-id",
+                "summary": "Add Item to List",
+                "tags": [
+                    "Lists"
+                ],
+                "description": "Adds an item to a list (\"push\"). The list will be created if it doesn't exist yet.",
+                "consumes": [
+                    "text/plain"
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            },
+            "get": {
+                "operationId": "GET_lists-id",
+                "summary": "Get Item from List",
+                "tags": [
+                    "Lists"
+                ],
+                "description": "Retrieves the last item from a list (\"pop\").",
+                "consumes": [
+                    "text/plain"
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "DELETE_lists-id",
+                "summary": "Delete List",
+                "tags": [
+                    "Lists"
+                ],
+                "description": "Removes a list.",
+                "consumes": [
+                    "text/plain"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/lists": {
+            "get": {
+                "operationId": "GET_lists",
+                "summary": "Get All Lists",
+                "tags": [
+                    "Lists"
+                ],
+                "description": "Gets all lists.",
+                "consumes": [
+                    "text/plain"
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
             }
         },
         "/users/{id}": {
