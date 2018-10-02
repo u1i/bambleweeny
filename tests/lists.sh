@@ -15,7 +15,7 @@ echo -e "\n\nList is: $endpoint/lists/$list"
 for x in $(seq 20)
 do
 curl -X POST \
-  http://localhost:8080/lists/$list \
+  $endpoint/lists/$list \
   -H "Authorization: Bearer $token" \
   -d "$RANDOM"
 done
