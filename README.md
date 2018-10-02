@@ -22,13 +22,21 @@ Written in Python, using a Redis backend, deployable in a tiny container.
 
 `curl --upload-file image.png http://b9y/keys/pic -H AUTH`
 
-### Push a message to a queue
-
-`curl test_message http://b9y/lists/my_queue -H AUTH`
-
 ### Create a counter - 'pick a number'
 
 `curl http://b9y/incr/queue_number -H AUTH`
+
+## Message Broker
+
+### Push a message to a queue
+
+`echo test_message | curl -X POST http://b9y/lists/my_queue -H AUTH`
+
+### Pop a message from a queue
+
+`curl http://b9y/lists/my_queue -H AUTH`
+
+
 
 The [Getting Started Guide](GettingStarted.md) gives you detailed examples, and of course there's the [API Documentation](http://bambleweeny.sotong.io/).
 
