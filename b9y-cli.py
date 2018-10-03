@@ -1,6 +1,7 @@
 from sys import argv
 import requests, json, signal, shlex
 
+b9y_cli_release = "0.01"
 default_user = "admin"
 default_password = "changeme"
 default_host="http://localhost:8080"
@@ -29,18 +30,41 @@ def b9y_get_auth(h, u, p):
         print "Unable to login with these connection details."
         exit(1)
 
+def b9y_get_info(h, t):
+
+    url = h + "/"
+    response = requests.request("GET", url)
+    if response.status_code == 200:
+        res = json.loads(response.text)
+        return res["instance"], res["release"]
+
 def b9y_get(h, t, args):
     if len(args) != 1:
         print "ERROR: expecting exactly 1 argument, " + str(len(args)) + " given"
-        exit
+        return
 
     url = h + "/keys/" + args[0]
     headers = {'Authorization': "Bearer:" + t}
     response = requests.request("GET", url, headers=headers)
     if response.status_code == 200:
-        print "''" + response.text + "''"
+        print response.text
     else:
         print "ERROR: key not found."
+
+def b9y_set(h, t, args):
+    if len(args) != 2:
+        print "ERROR: expecting exactly 2 argument, " + str(len(args)) + " given"
+        return
+
+    url = h + "/keys/" + args[0]
+    headers = {'Authorization': "Bearer:" + t}
+    payload = args[1]
+    response = requests.request("PUT", url, data=payload, headers=headers)
+    if response.status_code == 200:
+        print "OK"
+    else:
+        print "ERROR: key not found."
+
 
 if __name__ == '__main__':
 
@@ -63,22 +87,32 @@ if __name__ == '__main__':
         b9y_password = default_password
 
     token = b9y_get_auth(b9y_host, b9y_user, b9y_password)
+    b9y_instance, b9y_release = b9y_get_info(b9y_host, token)
 
+    print "Bambleweeny CLI Version " + b9y_cli_release + "\nConnected to " + b9y_instance
     commands = ['get','set']
 
     while True:
-        cmd_input = raw_input("> ")
+        cmd_input = raw_input("b9y v" + b9y_release + "> ")
         if cmd_input == "":
             continue
-        # items = cmd_input.split()
         items = shlex.split(cmd_input, posix=False)
         cmd = items[0]
-        cmd_args = items[1:99]
+        cmd_args1 = items[1:99]
+
+        cmd_args = []
+        for arg in cmd_args1:
+            argstr = arg.strip('"')
+            argstr = arg.strip("'")
+            cmd_args.append(argstr)
 
         if cmd not in commands:
             print "??"
-        print "Command: " + cmd
-        print "Args: " + str(cmd_args)
-        exit
+        #print "Command: " + cmd
+        #print "Args: " + str(cmd_args)
+
         if cmd == 'get':
             b9y_get(b9y_host, token, cmd_args)
+
+        if cmd == 'set':
+            b9y_set(b9y_host, token, cmd_args)

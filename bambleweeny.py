@@ -13,7 +13,7 @@ app = Bottle()
 # The default path renders a hello world JSON message
 @app.get('/')
 def get_home():
-	return(dict(msg="This is bambleweeny " + str(b9y_release)))
+	return(dict(msg="This is bambleweeny ", release=str(b9y_release), instance=cluster_id))
 
 # Default 404 handler
 @app.error(404)
@@ -797,8 +797,12 @@ redis_port = os.environ['redis_port']
 rc = redis.StrictRedis(host=redis_host, port=redis_port, db=0)
 
 # Create record for admin user if it doesn't exist
-if rc.get("USER:0") == None:
-	_create_admin()
+try:
+	if rc.get("USER:0") == None:
+		_create_admin()
+except:
+	print "ERROR: Unable to connect to Redis at " + str(redis_host) + ":" + redis_port
+	exit(1)
 
 # Read unique ID for this instance / cluster
 # Or initialize if it doesn't exist
