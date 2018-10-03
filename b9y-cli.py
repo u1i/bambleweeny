@@ -1,9 +1,13 @@
 from sys import argv
-import requests, json
+import requests, json, signal
 
 default_user = "admin"
 default_password = "changeme"
 default_host="http://localhost:8080"
+
+def signal_handler(sig, frame):
+        print('Bye!')
+        exit(0)
 
 def getopts(argv):
     opts = {}
@@ -28,6 +32,9 @@ if __name__ == '__main__':
     print(myargs)
 
     b9y_get_auth()
+
+signal.signal(signal.SIGINT, signal_handler)
+
 cmd = raw_input("> ")
 
 print cmd
