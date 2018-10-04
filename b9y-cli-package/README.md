@@ -1,11 +1,8 @@
-# Bambleweeny - Commandline Client
+![](https://raw.githubusercontent.com/u1i/bambleweeny/master/img/bwy2.png)
+
+# b9y-cli - Commandline Client
 
 A client for [Bamblweeny](https://github.com/u1i/bambleweeny) for the command line.
-
-
-## PyPi
-
-[b9y-cli on pypi](https://pypi.org/project/b9y-cli/)
 
 ## Install
 pip install b9y-cli
@@ -36,3 +33,6 @@ Now you can use get and set commands:
 `get foo`
 > bar
 
+## PyPi
+
+[b9y-cli on pypi](https://pypi.org/project/b9y-cli/)
