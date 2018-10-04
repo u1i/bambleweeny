@@ -5,10 +5,10 @@ A client for [Bamblweeny](https://github.com/u1i/bambleweeny) for the command li
 
 ## PyPi
 
-[b9y-cli on pypi](https://test.pypi.org/project/b9y-cli/)
+[b9y-cli on pypi](https://pypi.org/project/b9y-cli/)
 
 ## Install
-pip install --index-url https://test.pypi.org/simple/ b9y-cli
+pip install b9y-cli
 
 ## Run
 
