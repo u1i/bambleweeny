@@ -6,3 +6,4 @@ share/
 pip-selfcheck.json
 *.pyc
 .DS_Store
+man/
