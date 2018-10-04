@@ -64,6 +64,10 @@ How about running this as a topology instead, with one Redis container and one (
 
 `curl -sSL http://bit.ly/run-bambleweeny | sh`
 
+## Using the CLI
+
+Bambleweeny offers a commandline tool for easy access to data operations: [check it out here](https://github.com/u1i/bambleweeny/tree/master/b9y-cli-package)
+
 ## Using the REST API
 
 Check out the [Getting Started Guide](GettingStarted.md) and the [API Documentation](http://bambleweeny.sotong.io/) for detailed information on managing users, keys and lists.
