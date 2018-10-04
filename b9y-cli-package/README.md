@@ -21,7 +21,7 @@ Alternatively, you can specify the connection parameters like this:
 
 You should see a prompt like the following:
 
-![](https://raw.githubusercontent.com/u1i/bambleweeny/master/img/cli1.jpg)
+![](https://raw.githubusercontent.com/u1i/bambleweeny/master/img/cli2.jpg)
 
 Now you can use get and set commands:
 
