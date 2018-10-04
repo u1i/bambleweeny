@@ -1,0 +1,3 @@
+[console_scripts]
+b9y-cli = b9y_cli.__main__:main
+

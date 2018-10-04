@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from sys import argv
 import requests, json, signal, shlex
 
@@ -22,16 +23,19 @@ def b9y_get_auth(h, u, p):
     url = h + "/auth/token?raw"
     payload = {'username': u, 'password': p}
     headers = {'Content-Type': "application/json"}
-    response = requests.request("POST", url, json=payload, headers=headers)
 
+    try:
+        response = requests.request("POST", url, json=payload, headers=headers)
+    except:
+        print "ERROR: Cannot connect to " + h
+        exit(1)
     if response.status_code == 200:
         return(response.text)
     else:
-        print "Unable to login with these connection details."
+        print "ERROR: Unable to login with these connection details."
         exit(1)
 
 def b9y_get_info(h, t):
-
     url = h + "/"
     response = requests.request("GET", url)
     if response.status_code == 200:
@@ -47,7 +51,7 @@ def b9y_get(h, t, args):
     headers = {'Authorization': "Bearer:" + t}
     response = requests.request("GET", url, headers=headers)
     if response.status_code == 200:
-        print response.text
+        print '"' + response.text + '"'
     else:
         print "ERROR: key not found."
 
@@ -65,8 +69,7 @@ def b9y_set(h, t, args):
     else:
         print "ERROR: key not found."
 
-
-if __name__ == '__main__':
+def main():
 
     signal.signal(signal.SIGINT, signal_handler)
     args = getopts(argv)
@@ -116,3 +119,7 @@ if __name__ == '__main__':
 
         if cmd == 'set':
             b9y_set(b9y_host, token, cmd_args)
+
+
+if __name__ == '__main__':
+    main()

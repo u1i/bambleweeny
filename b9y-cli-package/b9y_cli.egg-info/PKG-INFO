@@ -1,0 +1,14 @@
+Metadata-Version: 2.1
+Name: b9y-cli
+Version: 0.1.6
+Summary: Commandline Interface for Bambleweeny
+Home-page: https://github.com/u1i/bambleweeny
+Author: Uli Hitzel
+Author-email: uli.hitzel@gmail.com
+License: UNKNOWN
+Description: Bambleweeny (b9y) is a lightweight HTTP/REST based key-value store and message broker that offers identity, access & quota management. It's fast, easy to use, and well-documented. This module provides a commandline tool to access b9y.
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 2
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Description-Content-Type: text/markdown
