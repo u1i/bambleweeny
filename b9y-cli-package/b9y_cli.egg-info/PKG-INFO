@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: b9y-cli
-Version: 0.1.10
+Version: 0.1.12
 Summary: Commandline Interface for Bambleweeny
 Home-page: https://github.com/u1i/bambleweeny
 Author: Uli Hitzel
@@ -29,11 +29,7 @@ Description: ![](https://raw.githubusercontent.com/u1i/bambleweeny/master/img/bw
         
         You should see a prompt like the following:
         
-        > Bambleweeny CLI Version 0.01.
-        
-        > Connected to 7adc879f.
-        
-        > b9y v0.26>
+        ![](https://raw.githubusercontent.com/u1i/bambleweeny/master/img/cli2.jpg)
         
         Now you can use get and set commands:
         
@@ -46,6 +42,7 @@ Description: ![](https://raw.githubusercontent.com/u1i/bambleweeny/master/img/bw
         ## PyPi
         
         [b9y-cli on pypi](https://pypi.org/project/b9y-cli/)
+        
 Platform: UNKNOWN
 Classifier: Programming Language :: Python :: 2
 Classifier: License :: OSI Approved :: MIT License
