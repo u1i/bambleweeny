@@ -8,7 +8,7 @@ A client for [Bamblweeny](https://github.com/u1i/bambleweeny) for the command li
 [b9y-cli on pypi](https://test.pypi.org/project/b9y-cli/)
 
 ## Install
-pip install --index-url https://test.pypi.org/simple/ b9y-cli==0.1.6
+pip install --index-url https://test.pypi.org/simple/ b9y-cli
 
 ## Run
 

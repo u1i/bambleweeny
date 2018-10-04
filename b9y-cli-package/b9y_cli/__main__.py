@@ -1,11 +1,13 @@
 #!/usr/bin/env python
 from sys import argv
 import requests, json, signal, shlex
+from cmd import Cmd
 
-b9y_cli_release = "0.01"
+b9y_cli_release = "0.1.7"
 default_user = "admin"
 default_password = "changeme"
 default_host="http://localhost:8080"
+debug = False
 
 def signal_handler(sig, frame):
         print('Bye!')
@@ -42,6 +44,19 @@ def b9y_get_info(h, t):
         res = json.loads(response.text)
         return res["instance"], res["release"]
 
+def b9y_help():
+    print '''
+Commands:
+
+set - Set Key
+Example: set foo bar
+Example: set system:debug True
+Example: set mydata '{"id": "331", "name": "Jane"}'
+
+get - get a Key
+Example: get foo
+    '''
+
 def b9y_get(h, t, args):
     if len(args) != 1:
         print "ERROR: expecting exactly 1 argument, " + str(len(args)) + " given"
@@ -64,15 +79,49 @@ def b9y_set(h, t, args):
     headers = {'Authorization': "Bearer:" + t}
     payload = args[1]
     response = requests.request("PUT", url, data=payload, headers=headers)
+
     if response.status_code == 200:
         print "OK"
     else:
-        print "ERROR: key not found."
+        print "ERROR: key invalid? Quota exceeded? (" + str(response.status_code) + ")"
 
-def main():
+def b9y_push(h, t, args):
+    if len(args) != 2:
+        print "ERROR: expecting exactly 2 argument, " + str(len(args)) + " given"
+        return
 
-    signal.signal(signal.SIGINT, signal_handler)
-    args = getopts(argv)
+    url = h + "/lists/" + args[0]
+    headers = {'Authorization': "Bearer:" + t}
+    payload = args[1]
+    response = requests.request("POST", url, data=payload, headers=headers)
+
+    if response.status_code == 200:
+        print "OK"
+    else:
+        print "ERROR: key invalid? Quota exceeded? (" + str(response.status_code) + ")"
+
+def b9y_incr(h, t, args):
+    if len(args) != 1:
+        print "ERROR: expecting exactly 2 argument, " + str(len(args)) + " given"
+        return
+
+    url = h + "/incr/" + args[0]
+    headers = {'Authorization': "Bearer:" + t}
+    response = requests.request("GET", url, headers=headers)
+
+    if response.status_code == 200:
+        print response.text
+    else:
+        print "ERROR: key invalid? Quota exceeded? (" + str(response.status_code) + ")"
+
+class b9y_prompt(Cmd):
+    try:
+        args = getopts(argv)
+    except:
+        exit(1)
+
+    global b9y_host
+    global token
 
     if '-h' in args:
         b9y_host = args['-h']
@@ -92,34 +141,49 @@ def main():
     token = b9y_get_auth(b9y_host, b9y_user, b9y_password)
     b9y_instance, b9y_release = b9y_get_info(b9y_host, token)
 
-    print "Bambleweeny CLI Version " + b9y_cli_release + "\nConnected to " + b9y_instance
-    commands = ['get','set']
+    print "Bambleweeny CLI Version " + b9y_cli_release + "\nConnected to " + b9y_instance + " as " + b9y_user
 
-    while True:
-        cmd_input = raw_input("b9y v" + b9y_release + "> ")
-        if cmd_input == "":
-            continue
-        items = shlex.split(cmd_input, posix=False)
-        cmd = items[0]
-        cmd_args1 = items[1:99]
+    prompt = "b9y v" + str(b9y_release) + "> "
+    intro = "Welcome! Type ? to list commands"
 
-        cmd_args = []
-        for arg in cmd_args1:
-            argstr = arg.strip('"')
-            argstr = arg.strip("'")
-            cmd_args.append(argstr)
+    def do_exit(self, inp):
+        print("Bye!")
+        return True
 
-        if cmd not in commands:
-            print "??"
-        #print "Command: " + cmd
-        #print "Args: " + str(cmd_args)
+    def help_exit(self):
+        print('Exit the application.')
 
-        if cmd == 'get':
-            b9y_get(b9y_host, token, cmd_args)
+    def do_set(self, inp):
+        items = shlex.split(inp, posix=False)
+        b9y_set(b9y_host, token, items)
 
-        if cmd == 'set':
-            b9y_set(b9y_host, token, cmd_args)
+    def do_incr(self, inp):
+        items = shlex.split(inp, posix=False)
+        b9y_incr(b9y_host, token, items)
 
+    def do_get(self, inp):
+        items = shlex.split(inp, posix=False)
+        b9y_get(b9y_host, token, items)
+
+    def help_set(self):
+        print("Set a Key. Example: set foo bar")
+
+    def help_get(self):
+        print("Get a Key. Example: get foo")
+
+    def help_incr(self):
+        print("Increase Counter. Example: incr ticket_number")
+
+    def default(self, inp):
+        if inp == 'q':
+            return self.do_exit(inp)
+
+    #do_EOF = do_exit
+    #help_EOF = help_exit
+
+def main():
+    signal.signal(signal.SIGINT, signal_handler)
+    b9y_prompt().cmdloop()
 
 if __name__ == '__main__':
     main()
