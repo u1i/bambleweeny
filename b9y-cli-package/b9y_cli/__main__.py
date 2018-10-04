@@ -44,19 +44,6 @@ def b9y_get_info(h, t):
         res = json.loads(response.text)
         return res["instance"], res["release"]
 
-def b9y_help():
-    print '''
-Commands:
-
-set - Set Key
-Example: set foo bar
-Example: set system:debug True
-Example: set mydata '{"id": "331", "name": "Jane"}'
-
-get - get a Key
-Example: get foo
-    '''
-
 def b9y_get(h, t, args):
     if len(args) != 1:
         print "ERROR: expecting exactly 1 argument, " + str(len(args)) + " given"
