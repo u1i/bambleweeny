@@ -165,7 +165,7 @@ class b9y_prompt(Cmd):
         if inp == 'q':
             return self.do_exit(inp)
 
-ef main():
+def main():
     signal.signal(signal.SIGINT, signal_handler)
     b9y_prompt().cmdloop()
 

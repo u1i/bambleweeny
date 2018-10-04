@@ -21,8 +21,8 @@ Alternatively, you can specify the connection parameters like this:
 
 You should see a prompt like the following:
 
-> Bambleweeny CLI Version 0.01.
-
+> Bambleweeny CLI Version 0.X.Y
+> 
 > Connected to 7adc879f.
 
 > b9y v0.26>
