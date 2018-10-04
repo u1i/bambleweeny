@@ -3,7 +3,7 @@ from sys import argv
 import requests, json, signal, shlex
 from cmd import Cmd
 
-b9y_cli_release = "0.1.7"
+b9y_cli_release = "0.1.10"
 default_user = "admin"
 default_password = "changeme"
 default_host="http://localhost:8080"
@@ -165,10 +165,7 @@ class b9y_prompt(Cmd):
         if inp == 'q':
             return self.do_exit(inp)
 
-    #do_EOF = do_exit
-    #help_EOF = help_exit
-
-def main():
+ef main():
     signal.signal(signal.SIGINT, signal_handler)
     b9y_prompt().cmdloop()
 

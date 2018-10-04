@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: b9y-cli
-Version: 0.1.9
+Version: 0.1.10
 Summary: Commandline Interface for Bambleweeny
 Home-page: https://github.com/u1i/bambleweeny
 Author: Uli Hitzel
@@ -21,7 +21,9 @@ Description: ![](https://raw.githubusercontent.com/u1i/bambleweeny/master/img/bw
         
         Alternatively, you can specify the connection parameters like this:
         
-        `b9y-cli -h https://myhost:8080 -u me -p secret`
+        `b9y-cli -u my_user1`  
+        `b9y-cli -h http://myhost:8080 -u me -p secret`  
+        `b9y-cli -h https://b9y.myhost.com`
         
         ## Using the CLI
         
