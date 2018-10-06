@@ -66,7 +66,11 @@ How about running this as a topology instead, with one Redis container and one (
 
 ## Using the CLI
 
-Bambleweeny offers a commandline tool for easy access to data operations: [check it out here](https://github.com/u1i/bambleweeny/tree/master/b9y-cli-package)
+Bambleweeny offers a commandline tool for easy access to data operations: [check it out here](https://github.com/u1i/bambleweeny/tree/master/b9y-cli-package).
+
+## Python Bindings
+
+`pip install b9y` gives you a [b9y library](https://pypi.org/project/b9y/) you can use in your application.
 
 ## Using the REST API
 
