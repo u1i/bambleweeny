@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="b9y",
-    version="0.0.5",
+    version="0.0.6",
     author="Uli Hitzel",
     author_email="uli.hitzel@gmail.com",
     description="Commandline Interface for Bambleweeny",

@@ -12,7 +12,11 @@ pip install b9y
 
 from b9y import B9y
 
-b9y = B9y()
+b9y = B9y() # for default connection
+
+b9y = B9y('http://myhost:8080')
+
+b9y = B9y('http://myhost:8080', 'user', 'password')
 
 #### Get info
 print b9y.info()
