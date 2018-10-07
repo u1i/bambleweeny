@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: b9y
-Version: 0.0.7
+Version: 0.0.8
 Summary: Python Client for Bambleweeny, the HTTP based key-value store and message broker
 Home-page: https://github.com/u1i/bambleweeny
 Author: Uli Hitzel
@@ -46,6 +46,7 @@ Description: ![](https://raw.githubusercontent.com/u1i/bambleweeny/master/img/bw
         
 Platform: UNKNOWN
 Classifier: Programming Language :: Python :: 2
+Classifier: Programming Language :: Python :: 3
 Classifier: License :: OSI Approved :: MIT License
 Classifier: Operating System :: OS Independent
 Description-Content-Type: text/markdown
