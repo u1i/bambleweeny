@@ -1,7 +1,7 @@
 Metadata-Version: 2.1
 Name: b9y
-Version: 0.0.6
-Summary: Commandline Interface for Bambleweeny
+Version: 0.0.7
+Summary: Python Client for Bambleweeny, the HTTP based key-value store and message broker
 Home-page: https://github.com/u1i/bambleweeny
 Author: Uli Hitzel
 Author-email: uli.hitzel@gmail.com
