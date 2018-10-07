@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import requests, json
+import requests, json, re
 
 default_user = "admin"
 default_password = "changeme"
@@ -19,13 +19,13 @@ class B9y:
         try:
             response = requests.request("POST", url, json=payload, headers=headers)
         except:
-            print("ERROR: Cannot connect to " + self.endpoint)
+            raise ValueError("ERROR: Cannot connect to " + self.endpoint)
             exit(1)
         if response.status_code == 200:
             self.token = response.text
             return(None)
         else:
-            print("ERROR: Unable to login with these connection details.")
+            raise ValueError("ERROR: Unable to login with these connection details.")
             exit(1)
 
     def info(self):
@@ -41,6 +41,34 @@ class B9y:
         response = requests.request("GET", url, headers=headers)
         if response.status_code == 200:
             return(response.text)
+        else:
+            return(None)
+
+    def uget(self, key, userid):
+        url = self.endpoint + "/keys/" + str(key) + "?userid=" + str(userid)
+        headers = {'Authorization': "Bearer:" + self.token}
+        response = requests.request("GET", url, headers=headers)
+        if response.status_code == 200:
+            return(response.text)
+        else:
+            return(None)
+
+    def keys(self, search=""):
+        url = self.endpoint + "/keys"
+        headers = {'Authorization': "Bearer:" + self.token}
+        response = requests.request("GET", url, headers=headers)
+        if response.status_code == 200:
+            res = json.loads(response.text)
+            rkeys=[]
+            for k in res['keys']:
+                found_key = k['key']
+                found_owner = k['owner']
+                if re.search(search, found_key):
+                    if self.username == 'admin' and found_owner != "0":
+                        rkeys.append(found_key + " (OWNER:" + found_owner + ")")
+                    else:
+                        rkeys.append(found_key)
+            return(rkeys)
         else:
             return(None)
 
