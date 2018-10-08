@@ -5,7 +5,7 @@ from cmd import Cmd
 from b9y import B9y
 #from b9y_dev import B9y
 
-b9y_cli_release = "0.1.17"
+b9y_cli_release = "0.1.18"
 default_user = "admin"
 default_password = "changeme"
 default_host="http://localhost:8080"
