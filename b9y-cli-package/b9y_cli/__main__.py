@@ -5,7 +5,7 @@ from cmd import Cmd
 from b9y import B9y
 #from b9y_dev import B9y
 
-b9y_cli_release = "0.1.16"
+b9y_cli_release = "0.1.17"
 default_user = "admin"
 default_password = "changeme"
 default_host="http://localhost:8080"
@@ -114,7 +114,10 @@ class b9y_prompt(Cmd):
         if len(items) == 0:
             r = self.b9y.keys()
         else:
-            r = self.b9y.keys(items[0])
+            try:
+                r = self.b9y.keys(items[0])
+            except:
+                return(None)
         for k in r:
             print(k)
 
@@ -146,6 +149,9 @@ class b9y_prompt(Cmd):
 
     def help_incr(self):
         print("Increase Counter. Example: incr ticket_number")
+
+    def emptyline(self):
+        print ("")
 
     def default(self, inp):
         if inp == 'q':
