@@ -52,7 +52,7 @@ This gives you a single, stateful and self-contained instance. Good enough for d
 
 Want to run it on a Raspberry Pi?
 
-`docker run -d -p 8080:8080 u1ih/bambleweeny:arm-0.24`
+`docker run -d -p 8080:8080 u1ih/bambleweeny:arm-0.26`
 
 ## Deploy as a topology
 
