@@ -5,7 +5,7 @@ from cmd import Cmd
 from b9y import B9y
 #from b9y_dev import B9y
 
-b9y_cli_release = "0.1.18"
+b9y_cli_release = "0.1.19"
 default_user = "admin"
 default_password = "changeme"
 default_host="http://localhost:8080"
@@ -73,6 +73,15 @@ class b9y_prompt(Cmd):
         if r:
             print("OK")
 
+    def do_route(self, inp):
+        items = shlex.split(inp, posix=False)
+        if len(items) != 2:
+            print("Error: need exactly two arguments.")
+            return(None)
+        r = self.b9y.create_route(items[0], items[1])
+        if r:
+            print(r)
+
     def do_push(self, inp):
         items = shlex.split(inp, posix=False)
         if len(items) != 2:
@@ -131,6 +140,9 @@ class b9y_prompt(Cmd):
 
     def help_set(self):
         print("Set a Key. Example: set foo bar")
+
+    def help_route(self):
+        print("Make key publicly readable. Example: route foo text/html")
 
     def help_keys(self):
         print("List all Keys. You may specifiy an oprtional search string, 'grep style'.\nExample: keys\nExample: keys sys")
