@@ -613,6 +613,67 @@ def get_all_lists():
 
 	return(dict(lists=output))
 
+# Create Route
+@app.route('/routes/<id>', method='PUT')
+def create_route(id):
+
+	api_auth = _authenticate()
+
+	# Authorization is needed for this endpoint
+	if api_auth["authenticated"] == "False":
+		response.status = 401
+		return dict({"info":"Unauthorized."})
+
+	# Get User ID and quota
+	user_id = api_auth["id"]
+
+	# Admin can access keys on the user's behalf
+	if 'userid' in request.query and api_auth["admin"] == "True":
+		user_id = request.query["userid"]
+
+	user_quota = _get_user_quota(user_id)
+	current_number_of_resources = _user_resources_number(user_id)
+
+	# Does the key have a valid format?
+	if _valid_identifier(str(id)) != True:
+		response.status = 400
+		return dict({"info":"Key name is invalid."})
+
+	# Construct Resource Location from user_id and id
+	redis_key = "ROUTE:"+str(user_id)+"::"+str(id)
+
+	# Write to Redis
+	try:
+		res = rc.set(redis_key, "set")
+	except:
+		response.status = 400
+		return dict({"info":"not a valid request"})
+
+	return(dict(info="ok", path="/"+str(user_id)+"/"+str(id)))
+
+# Route - Read Key
+@app.route('/keys/<user_id>/<id>', method='GET')
+def get_key(user_id, id):
+
+	if _valid_identifier(str(id)) != True:
+		response.status = 400
+		return dict({"info":"Key format invalid."})
+
+	# Construct Resource Location from user_id and id
+	redis_key = "KEY:"+str(user_id)+"::"+str(id)
+
+	# Read from Redis
+	try:
+		key_content = rc.get(redis_key)
+		if key_content == None:
+			raise ValueError('not found')
+	except:
+		response.status = 404
+		return dict({"info":"Not found."})
+
+	response.content_type = 'text/plain'
+	return(str(key_content))
+
 ####### Helper functions
 
 # Key names must match this regex
