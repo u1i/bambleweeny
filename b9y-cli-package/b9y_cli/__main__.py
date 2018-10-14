@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 from sys import argv
-import json, signal, shlex
+import json, signal, shlex, string
 from cmd import Cmd
 from b9y import B9y
 #from b9y_dev import B9y
 
-b9y_cli_release = "0.1.20"
+b9y_cli_release = "0.1.21"
 default_user = "admin"
 default_password = "changeme"
 default_host="http://localhost:8080"
@@ -22,6 +22,15 @@ def getopts(argv):
             opts[argv[0]] = argv[1]
         argv = argv[1:]
     return opts
+
+def remove_quotes(param):
+    if param.startswith('"') and param.endswith('"'):
+        return(param[1:-1])
+
+    if param.startswith("'") and param.endswith("'"):
+        return(param[1:-1])
+
+    return(param)
 
 class b9y_prompt(Cmd):
     try:
@@ -78,18 +87,21 @@ class b9y_prompt(Cmd):
             print("error")
 
     def do_users(self, inp):
-        r = self.b9y.list_users()
+        try:
+            r = self.b9y.list_users()
 
-        for k in r["users"]:
-            #print(k['email'], k['id'], k['quota'])
-            print("USER: " + k['email'] + " ID: " + str(k['id']) + " QUOTA: " + str(k['quota']))
+            for k in r["users"]:
+                print("USER: " + k['email'] + " ID: " + str(k['id']) + " QUOTA: " + str(k['quota']))
+        except:
+            print("Error. Are you admin?")
+
 
     def do_set(self, inp):
         items = shlex.split(inp, posix=False)
         if len(items) != 2:
             print("Error: need exactly two arguments.")
             return(None)
-        r = self.b9y.set(items[0], items[1])
+        r = self.b9y.set(items[0], remove_quotes(items[1]))
         if r:
             print("OK")
 
@@ -98,7 +110,7 @@ class b9y_prompt(Cmd):
         if len(items) != 2:
             print("Error: need exactly two arguments.")
             return(None)
-        r = self.b9y.create_route(items[0], items[1])
+        r = self.b9y.create_route(items[0], remove_quotes(items[1]))
         if r:
             print(r)
 
@@ -107,7 +119,7 @@ class b9y_prompt(Cmd):
         if len(items) != 2:
             print("Error: need exactly two arguments.")
             return(None)
-        r = self.b9y.push(items[0], items[1])
+        r = self.b9y.push(items[0], remove_quotes(items[1]))
         if r:
             print("OK")
 

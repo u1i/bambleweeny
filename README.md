@@ -18,6 +18,16 @@ Written in Python, using a Redis backend, deployable in a tiny container.
 
 `echo bar | curl -X PUT -d @- http://b9y/keys/foo -H AUTH`
 
+### Make 'foo' public, so anyone can read
+
+`echo '{"key":"foo", "content_type":"application/json;charset=utf-8"}' | curl -X POST -d @- http://b9y/routes -H AUTH`
+
+> /routes/125e6a6f-c3f3-403b-b096-89978773139b
+
+`curl http://b9y/routes/125e6a6f-c3f3-403b-b096-89978773139b'
+> bar
+
+
 ### Upload binary files
 
 `curl --upload-file image.png http://b9y/keys/pic -H AUTH`
