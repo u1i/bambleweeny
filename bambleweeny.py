@@ -613,8 +613,8 @@ def get_all_lists():
 
 	return(dict(lists=output))
 
-# Create Route
-@app.route('/routes/<id>', method='PUT')
+# OLD Create Route
+@app.route('/oldroutes/<id>', method='PUT')
 def create_route(id):
 
 	api_auth = _authenticate()
@@ -651,27 +651,87 @@ def create_route(id):
 
 	return(dict(info="ok", path="/"+str(user_id)+"/"+str(id)))
 
-# Route - Read Key
-@app.route('/keys/<user_id>/<id>', method='GET')
-def get_key(user_id, id):
+# Create Route
+@app.route('/routes', method='POST')
+def create_route():
 
-	if _valid_identifier(str(id)) != True:
+	api_auth = _authenticate()
+
+	# Authorization is needed for this endpoint
+	if api_auth["authenticated"] == "False":
+		response.status = 401
+		return dict({"info":"Unauthorized."})
+
+	# Get User ID
+	user_id = api_auth["id"]
+
+	# Admin can access keys on the user's behalf
+	if 'userid' in request.query and api_auth["admin"] == "True":
+		user_id = request.query["userid"]
+
+	try:
+		payload = json.load(request.body)
+
+		key = payload["key"]
+		content_type = payload["content_type"]
+	except:
 		response.status = 400
-		return dict({"info":"Key format invalid."})
+		return dict({"info":"No valid JSON found in post body or mandatory fields missing."})
+
+	id = str(uuid.uuid4())
+
+	# Construct Resource Location
+	redis_key = "ROUTE:"+str(id)
+	route_record = {}
+	route_record["key"] = key
+	route_record["content_type"] = content_type
+	route_record["user_id"] = user_id
+
+	# Write to Redis
+	try:
+		res = rc.set(redis_key, json.dumps(route_record, ensure_ascii=False))
+
+	except:
+		response.status = 400
+		return dict({"info":"not a valid request"})
+
+	return(dict(info="ok", path="/routes/"+str(id)))
+
+# Route - Read Key
+@app.route('/routes/<id>', method='GET')
+def get_key(id):
+
+	route_key = "ROUTE:"+str(id)
+
+	# Read Route from Redis
+	try:
+		route_content = rc.get(route_key)
+		if route_content == None:
+			raise ValueError('not found')
+
+		route_record = json.loads(route_content)
+		user_id = route_record["user_id"]
+		key = route_record["key"]
+		content_type = route_record["content_type"]
+
+	except:
+		response.status = 404
+		return dict({"info":"Not found."})
 
 	# Construct Resource Location from user_id and id
-	redis_key = "KEY:"+str(user_id)+"::"+str(id)
+	redis_key = "KEY:"+str(user_id)+"::"+str(key)
 
 	# Read from Redis
 	try:
 		key_content = rc.get(redis_key)
 		if key_content == None:
-			raise ValueError('not found')
+			raise ValueError('not found.')
 	except:
 		response.status = 404
 		return dict({"info":"Not found."})
 
-	response.content_type = 'text/plain'
+	response.headers['Access-Control-Allow-Origin'] = '*'
+	response.content_type = content_type
 	return(str(key_content))
 
 ####### Helper functions

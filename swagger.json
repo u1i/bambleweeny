@@ -239,6 +239,88 @@
                 ]
             }
         },
+        "/routes/{id}": {
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "operationId": "ROUTE-key",
+                "summary": "Read Key",
+                "tags": [
+                    "Routes"
+                ],
+                "description": "Reads a key from a public route.",
+                "responses": {
+                    "default": {
+                        "description": "",
+                        "schema": {}
+                    }
+                }
+            }
+        },
+        "/routes": {
+            "post": {
+                "operationId": "CREATE-route",
+                "summary": "Create Route",
+                "tags": [
+                    "Routes"
+                ],
+                "description": "Creates a public endpoint for a key.",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "key": {
+                                    "type": "string"
+                                },
+                                "content_type": {
+                                    "type": "string"
+                                }
+                            },
+                            "example": {
+                                "key": "my_key",
+                                "content_type": "text/html"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "info": {
+                                    "type": "string"
+                                },
+                                "path": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "examples": {
+                            "application/json": {
+                                "info": "ok",
+                                "path": "/routes/522df028-8d01-444f-85a3-cb60b28de0ea"
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "oauth2": []
+                    }
+                ]
+            }
+        },
         "/lists/{id}": {
             "parameters": [
                 {
