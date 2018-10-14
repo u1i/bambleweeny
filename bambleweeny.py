@@ -6,7 +6,7 @@ from multiprocessing import Queue, Process
 admin_password = u"changeme"
 secret_salt = "iKm4SyH6JCtA8l"
 token_expiry_seconds = 3000
-b9y_release = "0.26"
+b9y_release = "0.27.1"
 
 app = Bottle()
 
