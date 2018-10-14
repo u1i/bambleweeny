@@ -5,7 +5,7 @@ from cmd import Cmd
 from b9y import B9y
 #from b9y_dev import B9y
 
-b9y_cli_release = "0.1.19"
+b9y_cli_release = "0.1.20"
 default_user = "admin"
 default_password = "changeme"
 default_host="http://localhost:8080"
@@ -63,6 +63,26 @@ class b9y_prompt(Cmd):
 
     def help_exit(self):
         print('Exit the application.')
+
+    def do_create_user(self, inp):
+        items = shlex.split(inp, posix=False)
+        if len(items) != 2:
+            print("Error: need exactly two arguments.")
+            return(None)
+
+        try:
+            r = self.b9y.create_user(items[0], items[1])
+            print r
+            print("OK. New user id is " + str(r))
+        except:
+            print("error")
+
+    def do_users(self, inp):
+        r = self.b9y.list_users()
+
+        for k in r["users"]:
+            #print(k['email'], k['id'], k['quota'])
+            print("USER: " + k['email'] + " ID: " + str(k['id']) + " QUOTA: " + str(k['quota']))
 
     def do_set(self, inp):
         items = shlex.split(inp, posix=False)
@@ -140,6 +160,12 @@ class b9y_prompt(Cmd):
 
     def help_set(self):
         print("Set a Key. Example: set foo bar")
+
+    def help_create_user(self):
+        print("** for admin use** Create a User. Example: create_user user1 secret")
+
+    def help_users(self):
+        print("** for admin use** Lists all users")
 
     def help_route(self):
         print("Make key publicly readable. Example: route foo text/html")

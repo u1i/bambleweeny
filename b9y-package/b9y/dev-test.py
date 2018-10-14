@@ -1,4 +1,5 @@
 from bindings import B9y
+import random
 
 b9y = B9y()
 
@@ -19,5 +20,12 @@ b9y.push('super', 'trouper')
 print b9y.pop('super')
 
 # Create Route
-
 print(b9y.create_route('bla','text/html'))
+
+# Create User
+print(b9y.create_user('user'+str(random.randint(100,999)),'secret'))
+
+# List Users
+users = b9y.list_users()
+
+print(users["users"])

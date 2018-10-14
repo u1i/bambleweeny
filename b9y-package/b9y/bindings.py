@@ -113,6 +113,30 @@ class B9y:
         else:
             return(None)
 
+    def create_user(self, username, password):
+        url = self.endpoint + "/users"
+        headers = {'Authorization': "Bearer:" + self.token, 'Content-Type':'application/json'}
+        payload = {}
+        payload["email"] = username
+        payload["password"] = password
+        response = requests.request("POST", url, json=payload, headers=headers)
+
+        if response.status_code == 200:
+            j = json.loads(response.text)
+            return(j["id"])
+        else:
+            raise ValueError("ERROR (" + str(response.status_code) + ")")
+
+    def list_users(self):
+        url = self.endpoint + "/users"
+        headers = {'Authorization': "Bearer:" + self.token}
+        response = requests.request("GET", url, headers=headers)
+        if response.status_code == 200:
+            return(json.loads(response.text))
+        else:
+            return(None)
+
+
     def create_route(self, key, content_type):
         url = self.endpoint + "/routes"
         headers = {'Authorization': "Bearer:" + self.token, 'Content-Type':'application/json'}
