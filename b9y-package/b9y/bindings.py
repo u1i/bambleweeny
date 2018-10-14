@@ -112,3 +112,17 @@ class B9y:
             return(response.text)
         else:
             return(None)
+
+    def create_route(self, key, content_type):
+        url = self.endpoint + "/routes"
+        headers = {'Authorization': "Bearer:" + self.token, 'Content-Type':'application/json'}
+        payload = {}
+        payload["key"] = key
+        payload["content_type"] = content_type
+        response = requests.request("POST", url, json=payload, headers=headers)
+
+        if response.status_code == 200:
+            j = json.loads(response.text)
+            return(j["path"])
+        else:
+            raise ValueError("ERROR (" + str(response.status_code) + ")")
