@@ -10,6 +10,10 @@ Assuming you have a Python environment, you can install the CLI using this comma
 
 `pip install b9y-cli`
 
+## Windows Version
+
+[b9y-cli-0.1.22.exe](https://github.com/u1i/bambleweeny/raw/master/b9y-cli-package/windows/b9y-cli-0.1.22.exe) is a 'compiled' version that should run on Windows 10.
+
 ## Run
 
 Run `b9y-cli` on the shell to connect using the default credentials (admin/changeme on localhost:8080).
