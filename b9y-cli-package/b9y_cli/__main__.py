@@ -64,7 +64,7 @@ b9y-cli -h http://localhost:8888
 b9y-cli -h http://b9y.myhost.com:8080 -u user1 - p secret
 
 """)
-        exit()
+        sys.exit()
 
     b9y_instance, b9y_release = b9y.info()
 
