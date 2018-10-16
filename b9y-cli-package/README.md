@@ -5,7 +5,10 @@
 A client for [Bamblweeny](https://github.com/u1i/bambleweeny) for the command line.
 
 ## Install
-pip install b9y-cli
+
+Assuming you have a Python environment, you can install the CLI using this command:
+
+`pip install b9y-cli`
 
 ## Run
 
@@ -23,13 +26,16 @@ You should see a prompt like the following:
 
 ![](https://raw.githubusercontent.com/u1i/bambleweeny/master/img/cli2.jpg)
 
-Now you can use get and set commands:
+Type `help` to see the available commands. You can e.g. use get and set commands:
 
 `set foo bar`
 > OK
 
 `get foo`
 > bar
+
+`route foo text/html`
+> /routes/485ecd97-3056-42e8-bdb2-79ced30e6853
 
 ## PyPi
 
