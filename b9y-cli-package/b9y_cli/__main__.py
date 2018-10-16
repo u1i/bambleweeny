@@ -5,7 +5,7 @@ from cmd import Cmd
 from b9y import B9y
 #from b9y_dev import B9y
 
-b9y_cli_release = "0.1.21"
+b9y_cli_release = "0.1.22"
 default_user = "admin"
 default_password = "changeme"
 default_host="http://localhost:8080"
@@ -56,7 +56,13 @@ class b9y_prompt(Cmd):
     try:
         b9y = B9y(b9y_host, b9y_user, b9y_password)
     except:
-        print("ERROR: unable to connect or credentials not valid")
+        print("""ERROR: unable to connect or credentials not valid.
+Try using parameters to specifiy hostname and credentials, e.g.
+
+b9y-cli -h http://localhost:8888
+b9y-cli -h http://b9y.myhost.com:8080 -u user1 - p secret
+
+""")
         exit()
 
     b9y_instance, b9y_release = b9y.info()
@@ -66,7 +72,14 @@ class b9y_prompt(Cmd):
     prompt = "b9y v" + str(b9y_release) + "> "
     intro = "Welcome! Type ? to list commands"
 
+    def do_token(self, inp):
+        print(self.b9y.get_token())
+
     def do_exit(self, inp):
+        print("Bye!")
+        return True
+
+    def do_EOF(self, inp):
         print("Bye!")
         return True
 
@@ -178,6 +191,9 @@ class b9y_prompt(Cmd):
 
     def help_users(self):
         print("** for admin use** Lists all users")
+
+    def help_token(self):
+        print("Gives you a bearer token for including in HTTP requests")
 
     def help_route(self):
         print("Make key publicly readable. Example: route foo text/html")

@@ -1,6 +1,6 @@
-Metadata-Version: 1.1
+Metadata-Version: 2.1
 Name: b9y-cli
-Version: 0.1.21
+Version: 0.1.22
 Summary: Commandline Interface for Bambleweeny
 Home-page: https://github.com/u1i/bambleweeny
 Author: Uli Hitzel
@@ -47,3 +47,4 @@ Platform: UNKNOWN
 Classifier: Programming Language :: Python :: 2
 Classifier: License :: OSI Approved :: MIT License
 Classifier: Operating System :: OS Independent
+Description-Content-Type: text/markdown

@@ -28,12 +28,16 @@ class B9y:
             raise ValueError("ERROR: Unable to login with these connection details.")
             exit(1)
 
+    def get_token(self):
+        return(self.token)
     def info(self):
         url = self.endpoint + "/"
         response = requests.request("GET", url)
         if response.status_code == 200:
             res = json.loads(response.text)
             return res["instance"], res["release"]
+
+
 
     def get(self, key):
         url = self.endpoint + "/keys/" + str(key)

@@ -28,4 +28,6 @@ print(b9y.create_user('user'+str(random.randint(100,999)),'secret'))
 # List Users
 users = b9y.list_users()
 
+print("Token: " + b9y.get_token())
+
 print(users["users"])
