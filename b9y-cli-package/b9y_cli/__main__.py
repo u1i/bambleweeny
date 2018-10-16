@@ -1,11 +1,12 @@
 #!/usr/bin/env python
-from sys import argv
+#from sys import argv
+import sys
 import json, signal, shlex, string
 from cmd import Cmd
 from b9y import B9y
 #from b9y_dev import B9y
 
-b9y_cli_release = "0.1.22"
+b9y_cli_release = "0.1.23"
 default_user = "admin"
 default_password = "changeme"
 default_host="http://localhost:8080"
@@ -13,7 +14,7 @@ debug = False
 
 def signal_handler(sig, frame):
         print('Bye!')
-        exit(0)
+        sys.exit(0)
 
 def getopts(argv):
     opts = {}
@@ -34,9 +35,9 @@ def remove_quotes(param):
 
 class b9y_prompt(Cmd):
     try:
-        args = getopts(argv)
+        args = getopts(sys.argv)
     except:
-        exit(1)
+        sys.exit(1)
 
     if '-h' in args:
         b9y_host = args['-h']
