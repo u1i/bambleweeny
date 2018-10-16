@@ -5,8 +5,8 @@ from multiprocessing import Queue, Process
 # Settings
 admin_password = u"changeme"
 secret_salt = "iKm4SyH6JCtA8l"
-token_expiry_seconds = 3000
-b9y_release = "0.27.1"
+default_token_expiry_seconds = 3000
+b9y_release = "0.28.1"
 
 app = Bottle()
 
@@ -39,15 +39,11 @@ def get_swagger():
 # Get Auth Token
 @app.route('/auth/token', method='POST')
 def get_token():
-
 	# Get JSON Payload
 	try:
 		payload = json.load(request.body)
-
 		username = payload["username"]
 		password = payload["password"]
-		#hash_object = hashlib.sha1(password)
-		#pwhash = hash_object.hexdigest()
 		pwhash = _get_password_hash(password)
 	except:
 		response.status = 400
@@ -69,14 +65,32 @@ def get_token():
 # Test Auth Token
 @app.route('/auth/test', method='GET')
 def validate_token():
-
 	d = _authenticate()
 	return(dict(d))
+
+# Backend Info
+@app.route('/info', method='GET')
+def backend_info():
+	api_auth = _authenticate()
+
+	# Only Admin can do this
+	if api_auth["admin"] != "True" or api_auth["authenticated"] == "False":
+		response.status = 401
+		return dict({"info":"Unauthorized."})
+
+	i = {}
+	i["redis_connection"] = {}
+	i["redis_connection"]["host"] = redis_host
+	i["redis_connection"]["port"] = redis_port
+	i["redis_dbsize"] = rc.dbsize()
+	i["redis_client_list"] = rc.client_list()
+	i["redis_info"] = rc.info()
+
+	return(i)
 
 # Create User
 @app.route('/users', method='POST')
 def create_user():
-
 	api_auth = _authenticate()
 
 	# Only Admin can do this
@@ -86,7 +100,6 @@ def create_user():
 
 	try:
 		payload = json.load(request.body)
-
 		username = payload["email"]
 		password = payload["password"]
 	except:
@@ -100,7 +113,6 @@ def create_user():
 	# Set ID and password hash for user
 	new_userid = rc.incr("_USERID_")
 	pwhash = _get_password_hash(password)
-
 	user_record = {}
 	user_record["email"] = username
 	user_record["hash"] = pwhash
@@ -113,7 +125,6 @@ def create_user():
 # Read User
 @app.route('/users/<id:int>', method='GET')
 def get_user_details(id):
-
 	api_auth = _authenticate()
 
 	# Only Admin can do this
@@ -137,7 +148,6 @@ def get_user_details(id):
 # Set Quota for User
 @app.route('/users/<id:int>', method='PUT')
 def get_user_details(id):
-
 	api_auth = _authenticate()
 
 	# Only Admin can do this
@@ -169,7 +179,6 @@ def get_user_details(id):
 # Delete User
 @app.route('/users/<id:int>', method='DELETE')
 def delete_user(id):
-
 	api_auth = _authenticate()
 
 	# Only Admin can do this
@@ -194,7 +203,6 @@ def delete_user(id):
 # List All Users
 @app.route('/users', method='GET')
 def list_user():
-
 	api_auth = _authenticate()
 
 	# Only Admin can do this
@@ -217,7 +225,6 @@ def list_user():
 # Change Admin Password
 @app.route('/config/admin', method='PUT')
 def set_admin_password():
-
 	api_auth = _authenticate()
 
 	# Only Admin can do this
@@ -242,7 +249,6 @@ def set_admin_password():
 # Read Key
 @app.route('/keys/<id>', method='GET')
 def get_key(id):
-
 	api_auth = _authenticate()
 
 	# Authorization is needed for this endpoint
@@ -280,7 +286,6 @@ def get_key(id):
 # Increase Key
 @app.route('/incr/<id>', method='GET')
 def incr_key(id):
-
 	api_auth = _authenticate()
 
 	# Authorization is needed for this endpoint
@@ -324,7 +329,6 @@ def incr_key(id):
 # Write Key
 @app.route('/keys/<id>', method='PUT')
 def write_key(id):
-
 	api_auth = _authenticate()
 
 	# Authorization is needed for this endpoint
@@ -373,7 +377,6 @@ def write_key(id):
 # Delete Key
 @app.route('/keys/<id>', method='DELETE')
 def delete_key(id):
-
 	api_auth = _authenticate()
 
 	# Authorization is needed for this endpoint
@@ -416,7 +419,6 @@ def delete_key(id):
 # List all Keys
 @app.route('/keys', method='GET')
 def get_all_keys():
-
 	api_auth = _authenticate()
 
 	# Authorization is needed for this endpoint
@@ -450,7 +452,6 @@ def get_all_keys():
 # List - Add Item
 @app.route('/lists/<id>', method='POST')
 def add_item_to_list(id):
-
 	api_auth = _authenticate()
 
 	# Authorization is needed for this endpoint
@@ -499,7 +500,6 @@ def add_item_to_list(id):
 # Lists - Get Item
 @app.route('/lists/<id>', method='GET')
 def get_list_item(id):
-
 	api_auth = _authenticate()
 
 	# Authorization is needed for this endpoint
@@ -539,7 +539,6 @@ def get_list_item(id):
 # Lists - Delete
 @app.route('/lists/<id>', method='DELETE')
 def delete_list(id):
-
 	api_auth = _authenticate()
 
 	# Authorization is needed for this endpoint
@@ -582,7 +581,6 @@ def delete_list(id):
 # Lists - Get All
 @app.route('/lists', method='GET')
 def get_all_lists():
-
 	api_auth = _authenticate()
 
 	# Authorization is needed for this endpoint
@@ -613,48 +611,9 @@ def get_all_lists():
 
 	return(dict(lists=output))
 
-# OLD Create Route
-@app.route('/oldroutes/<id>', method='PUT')
-def create_route(id):
-
-	api_auth = _authenticate()
-
-	# Authorization is needed for this endpoint
-	if api_auth["authenticated"] == "False":
-		response.status = 401
-		return dict({"info":"Unauthorized."})
-
-	# Get User ID and quota
-	user_id = api_auth["id"]
-
-	# Admin can access keys on the user's behalf
-	if 'userid' in request.query and api_auth["admin"] == "True":
-		user_id = request.query["userid"]
-
-	user_quota = _get_user_quota(user_id)
-	current_number_of_resources = _user_resources_number(user_id)
-
-	# Does the key have a valid format?
-	if _valid_identifier(str(id)) != True:
-		response.status = 400
-		return dict({"info":"Key name is invalid."})
-
-	# Construct Resource Location from user_id and id
-	redis_key = "ROUTE:"+str(user_id)+"::"+str(id)
-
-	# Write to Redis
-	try:
-		res = rc.set(redis_key, "set")
-	except:
-		response.status = 400
-		return dict({"info":"not a valid request"})
-
-	return(dict(info="ok", path="/"+str(user_id)+"/"+str(id)))
-
 # Create Route
 @app.route('/routes', method='POST')
 def create_route():
-
 	api_auth = _authenticate()
 
 	# Authorization is needed for this endpoint
@@ -700,7 +659,6 @@ def create_route():
 # Route - Read Key
 @app.route('/routes/<id>', method='GET')
 def get_key(id):
-
 	route_key = "ROUTE:"+str(id)
 
 	# Read Route from Redis
@@ -753,12 +711,10 @@ def _get_key_data(k):
 	return(out)
 
 def _get_password_hash(pw):
-
 	hash_object = hashlib.sha1(pw+secret_salt)
 	return(hash_object.hexdigest())
 
 def _create_admin():
-
 	pwhash = _get_password_hash(admin_password)
 	user_record = {}
 	user_record["email"] = "admin"
@@ -770,7 +726,6 @@ def _create_admin():
 	return
 
 def _find_email(email):
-
         user_list = rc.scan_iter("USER:*")
         for user in user_list:
                 user_record = json.loads(rc.get(user))
@@ -780,13 +735,11 @@ def _find_email(email):
         return("not found")
 
 def _get_user_quota(uid):
-
 	user_record = json.loads(rc.get("USER:"+str(uid)))
 
 	return int(user_record["quota"])
 
 def _user_resources_number(uid):
-
 	n = rc.get("NUMRES:"+str(uid))
 	if n == None:
 		return 0
@@ -794,15 +747,12 @@ def _user_resources_number(uid):
 		return(int(n))
 
 def _b64_enc(s):
-
 	return(base64.urlsafe_b64encode(s))
 
 def _b64_dec(s):
-
 	return(base64.urlsafe_b64decode(s))
 
 def _issue_token(user, expiry, id, salt):
-
 	# Dict containing user info
 	content={}
 	content["u"] = user
@@ -838,7 +788,6 @@ def _get_token_data(token, salt):
 
         # Only get the data if the signature is valid
         if sig_token == sig_check:
-
             token_data["timestamp"] = int(content["t"])
             token_data["user"] = content["u"]
             token_data["id"] = content["i"]
@@ -854,7 +803,6 @@ def _get_token_data(token, salt):
     return(token_data)
 
 def _authenticate():
-
 	# Token can be in query string or AUTH header
 	if 'token' in request.query:
 		access_token = request.query["token"]
@@ -885,14 +833,12 @@ def _authenticate():
 		# valid
 		data["authenticated"] = "True"
 		data["info"] = "Session expires in " + str(token_expiry_seconds - delta) + " seconds."
-
-	# Set response header: username
-	response.headers["B9Y-AUTHENTICATED-USER"] = data["user"]
+		# Set response header: username
+		response.headers["B9Y-AUTHENTICATED-USER"] = data["user"]
 
 	return(dict(data))
 
 def _cluster_init():
-
 	cid = str(uuid.uuid4())
 	rc.set("_B9Y_ID_", cid[:8])
 
@@ -907,7 +853,6 @@ def processor():
         queue_housekeeping()
 
 # Initialization
-
 # We need a Redis connection
 if not "redis_host" in os.environ or not "redis_port" in os.environ:
 	exit("ERROR: please set the environment variables for Redis host")
@@ -917,6 +862,12 @@ redis_host = os.environ['redis_host']
 redis_port = os.environ['redis_port']
 rc = redis.StrictRedis(host=redis_host, port=redis_port, db=0)
 
+# Set Token expiry
+if 'token_expiry' in os.environ:
+	token_expiry_seconds = int(os.environ['token_expiry'])
+else:
+	token_expiry_seconds = default_token_expiry_seconds
+
 # Create record for admin user if it doesn't exist
 try:
 	if rc.get("USER:0") == None:
@@ -925,8 +876,7 @@ except:
 	print "ERROR: Unable to connect to Redis at " + str(redis_host) + ":" + redis_port
 	exit(1)
 
-# Read unique ID for this instance / cluster
-# Or initialize if it doesn't exist
+# Read unique ID for this instance / cluster or initialize if it doesn't exist
 cluster_id = rc.get("_B9Y_ID_")
 
 if cluster_id == None:
