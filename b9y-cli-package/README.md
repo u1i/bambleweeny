@@ -12,9 +12,7 @@ Assuming you have a Python environment, you can install the CLI using this comma
 
 ## Binary Releases
 
-[b9y-cli.exe (Windows 10)](https://github.com/u1i/bambleweeny/raw/master/b9y-cli-package/releases/b9y-cli.exe)
-
-[b9y-cli (MacOS)](https://github.com/u1i/bambleweeny/raw/master/b9y-cli-package/releases/b9y-cli)
+[Windows 64 bit](https://github.com/u1i/bambleweeny/raw/master/b9y-cli-package/releases/b9y-cli-windows-amd64.zip) | [MacOS](https://github.com/u1i/bambleweeny/raw/master/b9y-cli-package/releases/b9y-cli-darwin-386.zip) | [Linux 64 bit](https://github.com/u1i/bambleweeny/raw/master/b9y-cli-package/releases/b9y-cli-linux-amd64.zip)
 
 ## Run
 
