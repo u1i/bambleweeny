@@ -31,3 +31,5 @@ users = b9y.list_users()
 print("Token: " + b9y.get_token())
 
 print(users["users"])
+
+b9y.save()

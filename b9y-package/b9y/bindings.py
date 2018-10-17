@@ -37,7 +37,14 @@ class B9y:
             res = json.loads(response.text)
             return res["instance"], res["release"]
 
-
+    def save(self):
+        url = self.endpoint + "/save"
+        headers = {'Authorization': "Bearer:" + self.token}
+        response = requests.request("GET", url, headers=headers)
+        if response.status_code == 200:
+            return(response.text)
+        else:
+            return(None)
 
     def get(self, key):
         url = self.endpoint + "/keys/" + str(key)

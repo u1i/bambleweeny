@@ -6,7 +6,7 @@ from cmd import Cmd
 from b9y import B9y
 #from b9y_dev import B9y
 
-b9y_cli_release = "0.1.23"
+b9y_cli_release = "0.1.24"
 default_user = "admin"
 default_password = "changeme"
 default_host="http://localhost:8080"
@@ -75,6 +75,14 @@ b9y-cli -h http://b9y.myhost.com:8080 -u user1 - p secret
 
     def do_token(self, inp):
         print(self.b9y.get_token())
+
+    def do_save(self, inp):
+        r = self.b9y.save()
+        print(r)
+        if r == None:
+            print("error - are you admin?")
+        else:
+            print("ok")
 
     def do_exit(self, inp):
         print("Bye!")
@@ -192,6 +200,9 @@ b9y-cli -h http://b9y.myhost.com:8080 -u user1 - p secret
 
     def help_users(self):
         print("** for admin use** Lists all users")
+
+    def help_save(self):
+        print("** trigger a 'save' on Redis to dump data to the filesystem")
 
     def help_token(self):
         print("Gives you a bearer token for including in HTTP requests")

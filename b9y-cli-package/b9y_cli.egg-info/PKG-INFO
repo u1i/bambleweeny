@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: b9y-cli
-Version: 0.1.23
+Version: 0.1.24
 Summary: Commandline Interface for Bambleweeny
 Home-page: https://github.com/u1i/bambleweeny
 Author: Uli Hitzel
@@ -13,7 +13,16 @@ Description: ![](https://raw.githubusercontent.com/u1i/bambleweeny/master/img/bw
         A client for [Bamblweeny](https://github.com/u1i/bambleweeny) for the command line.
         
         ## Install
-        pip install b9y-cli
+        
+        Assuming you have a Python environment, you can install the CLI using this command:
+        
+        `pip install b9y-cli`
+        
+        ## Binary Releases
+        
+        [b9y-cli.exe (Windows 10)](https://github.com/u1i/bambleweeny/raw/master/b9y-cli-package/releases/b9y-cli.exe)
+        
+        [b9y-cli (MacOS)](https://github.com/u1i/bambleweeny/raw/master/b9y-cli-package/releases/b9y-cli)
         
         ## Run
         
@@ -31,13 +40,16 @@ Description: ![](https://raw.githubusercontent.com/u1i/bambleweeny/master/img/bw
         
         ![](https://raw.githubusercontent.com/u1i/bambleweeny/master/img/cli2.jpg)
         
-        Now you can use get and set commands:
+        Type `help` to see the available commands. You can e.g. use get and set commands:
         
         `set foo bar`
         > OK
         
         `get foo`
         > bar
+        
+        `route foo text/html`
+        > /routes/485ecd97-3056-42e8-bdb2-79ced30e6853
         
         ## PyPi
         

@@ -6,7 +6,9 @@ from multiprocessing import Queue, Process
 admin_password = u"changeme"
 secret_salt = "iKm4SyH6JCtA8l"
 default_token_expiry_seconds = 3000
-b9y_release = "0.28.1"
+redis_datadir='/data'
+redis_maxmemory='256mb'
+b9y_release = "0.28.2"
 
 app = Bottle()
 
@@ -87,6 +89,17 @@ def backend_info():
 	i["redis_info"] = rc.info()
 
 	return(i)
+
+# Trigger Redis Save
+@app.route('/save', method='GET')
+def redis_save():
+	api_auth = _authenticate()
+	# Only Admin can do this
+	if api_auth["admin"] != "True" or api_auth["authenticated"] == "False":
+		response.status = 401
+		return dict({"info":"Unauthorized."})
+	rc.save()
+	return(dict(info="ok"))
 
 # Create User
 @app.route('/users', method='POST')
@@ -861,6 +874,8 @@ if not "redis_host" in os.environ or not "redis_port" in os.environ:
 redis_host = os.environ['redis_host']
 redis_port = os.environ['redis_port']
 rc = redis.StrictRedis(host=redis_host, port=redis_port, db=0)
+rc.config_set('dir', redis_datadir)
+rc.config_set('maxmemory', redis_maxmemory)
 
 # Set Token expiry
 if 'token_expiry' in os.environ:
