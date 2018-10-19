@@ -161,3 +161,15 @@ class B9y:
             return(j["path"])
         else:
             raise ValueError("ERROR (" + str(response.status_code) + ")")
+
+    def set_admin_password(self, new_pass):
+        url = self.endpoint + "/config/admin"
+        headers = {'Authorization': "Bearer:" + self.token, 'Content-Type':'application/json'}
+        payload = {}
+        payload["password"] = new_pass
+        response = requests.request("PUT", url, json=payload, headers=headers)
+
+        if response.status_code == 200:
+            return(True)
+        else:
+            raise ValueError("ERROR (" + str(response.status_code) + ")")

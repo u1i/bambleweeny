@@ -32,4 +32,8 @@ print("Token: " + b9y.get_token())
 
 print(users["users"])
 
+# Trigger save on Redis
 b9y.save()
+
+# Set admin password
+b9y.set_admin_password("bla")

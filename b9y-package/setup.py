@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="b9y",
-    version="0.0.16",
+    version="0.0.17",
     author="Uli Hitzel",
     author_email="uli.hitzel@gmail.com",
     description="Python Client for Bambleweeny, the HTTP based key-value store and message broker",

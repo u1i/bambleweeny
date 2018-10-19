@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: b9y-cli
-Version: 0.1.24
+Version: 0.1.25
 Summary: Commandline Interface for Bambleweeny
 Home-page: https://github.com/u1i/bambleweeny
 Author: Uli Hitzel
@@ -20,9 +20,7 @@ Description: ![](https://raw.githubusercontent.com/u1i/bambleweeny/master/img/bw
         
         ## Binary Releases
         
-        [b9y-cli.exe (Windows 10)](https://github.com/u1i/bambleweeny/raw/master/b9y-cli-package/releases/b9y-cli.exe)
-        
-        [b9y-cli (MacOS)](https://github.com/u1i/bambleweeny/raw/master/b9y-cli-package/releases/b9y-cli)
+        [Windows 64 bit](https://github.com/u1i/bambleweeny/raw/master/b9y-cli-package/releases/b9y-cli-windows-amd64.zip) | [MacOS](https://github.com/u1i/bambleweeny/raw/master/b9y-cli-package/releases/b9y-cli-darwin-386.zip) | [Linux 64 bit](https://github.com/u1i/bambleweeny/raw/master/b9y-cli-package/releases/b9y-cli-linux-amd64.zip)
         
         ## Run
         
