@@ -24,7 +24,7 @@ Written in Python, using a Redis backend, deployable in a tiny container.
 
 > /routes/125e6a6f-c3f3-403b-b096-89978773139b
 
-`curl http://b9y/routes/125e6a6f-c3f3-403b-b096-89978773139b'
+`curl http://b9y/routes/125e6a6f-c3f3-403b-b096-89978773139b`
 > bar
 
 
