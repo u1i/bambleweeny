@@ -8,7 +8,7 @@ secret_salt = "iKm4SyH6JCtA8l"
 default_token_expiry_seconds = 3000
 redis_datadir='/data'
 redis_maxmemory='256mb'
-b9y_release = "0.29.1"
+b9y_release = "0.29.2"
 
 app = Bottle()
 
