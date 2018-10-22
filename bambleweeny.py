@@ -703,9 +703,27 @@ def get_key(id):
 
 	response.headers['Access-Control-Allow-Origin'] = '*'
 	response.content_type = content_type
-	return(str(key_content))
+	return(parse_route(str(key_content), user_id))
+	#return(str(key_content))
 
 ####### Helper functions
+
+# Parse Routes for nested keys
+def parse_route(content, user_id):
+	if re.search('!@\[[_a-zA-Z0-9:]*\]', content):
+		response.headers["B9Y-ROUTES"] = "parsed"
+		repl1 = re.sub('!@\[[_a-zA-Z0-9:]*\]', '_B9yPrsE_\\g<0>_B9yPrsE_', content)
+		items = repl1.split("_B9yPrsE_")
+		out = ""
+		for i in items:
+			if i.startswith("!@["):
+				key = re.sub('[^\w:]', "", i)
+				out += rc.get("KEY:"+str(user_id)+"::"+str(key))
+			else:
+				out += str(i)
+		return(out)
+	else:
+		return(content)
 
 # Key names must match this regex
 def _valid_identifier(i):
