@@ -12,6 +12,8 @@ Written in Python, using a Redis backend, deployable in a tiny container.
 
 ## Simple HTTP based Key/Value Access
 
+Bambleweeny has a nice [command-line interface](https://github.com/u1i/bambleweeny/tree/master/b9y-cli-package). Here we'll just show you some cURL examples, since everything happens over HTTP:
+
 ### Get 'foo'
 
 `curl http://b9y/keys/foo -H AUTH`
