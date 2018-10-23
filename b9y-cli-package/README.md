@@ -22,6 +22,7 @@ Alternatively, you can specify the connection parameters like this:
 
 `b9y-cli -u my_user1`  
 `b9y-cli -h http://myhost:8080 -u me -p secret`  
+`b9y-cli -h http://myhost:8080 -u me -p` (for interactive password prompt)  
 `b9y-cli -h https://b9y.myhost.com`
 
 ## Using the CLI

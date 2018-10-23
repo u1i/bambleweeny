@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 #from sys import argv
-import sys
+import sys, getpass
 import json, signal, shlex, string
 from cmd import Cmd
 from b9y import B9y
 #from b9y_dev import B9y
 
-b9y_cli_release = "0.1.26"
+b9y_cli_release = "0.1.27"
 default_user = "admin"
 default_password = "changeme"
 default_host="http://localhost:8080"
@@ -20,7 +20,10 @@ def getopts(argv):
     opts = {}
     while argv:
         if argv[0][0] == '-':
-            opts[argv[0]] = argv[1]
+            try:
+                opts[argv[0]] = argv[1]
+            except:
+                opts[argv[0]] = ""
         argv = argv[1:]
     return opts
 
@@ -34,10 +37,11 @@ def remove_quotes(param):
     return(param)
 
 class b9y_prompt(Cmd):
-    try:
-        args = getopts(sys.argv)
-    except:
-        sys.exit(1)
+    args = getopts(sys.argv)
+
+    if '-v' in args:
+        print("B9y CLI version " + b9y_cli_release)
+        sys.exit(0)
 
     if '-h' in args:
         b9y_host = args['-h']
@@ -51,6 +55,8 @@ class b9y_prompt(Cmd):
 
     if '-p' in args:
         b9y_password = args['-p']
+        if b9y_password == "":
+            b9y_password = getpass.getpass()
     else:
         b9y_password = default_password
 
