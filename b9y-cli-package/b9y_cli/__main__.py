@@ -67,7 +67,8 @@ class b9y_prompt(Cmd):
 Try using parameters to specifiy hostname and credentials, e.g.
 
 b9y-cli -h http://localhost:8888
-b9y-cli -h http://b9y.myhost.com:8080 -u user1 - p secret
+b9y-cli -h http://b9y.myhost.com:8080 -u user1 -p secret
+b9y-cli -h http://b9y.myhost.com:8080 -u user1 -p
 
 """)
         sys.exit()
