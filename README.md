@@ -8,6 +8,8 @@ Written in Python, using a Redis backend, deployable in a tiny container.
 
 **Use cases**: data ingest for mobile / IOT, configuration management and coordination across distributed systems.
 
+![](https://raw.githubusercontent.com/u1i/bambleweeny/master/img/b9y-logic2.png)
+
 ## Simple HTTP based Key/Value Access
 
 ### Get 'foo'
