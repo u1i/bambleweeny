@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 #from sys import argv
-import sys
+import sys, getpass
 import json, signal, shlex, string
 from cmd import Cmd
 from b9y import B9y
 #from b9y_dev import B9y
 
-b9y_cli_release = "0.1.24"
+b9y_cli_release = "0.1.27"
 default_user = "admin"
 default_password = "changeme"
 default_host="http://localhost:8080"
@@ -20,7 +20,10 @@ def getopts(argv):
     opts = {}
     while argv:
         if argv[0][0] == '-':
-            opts[argv[0]] = argv[1]
+            try:
+                opts[argv[0]] = argv[1]
+            except:
+                opts[argv[0]] = ""
         argv = argv[1:]
     return opts
 
@@ -34,10 +37,11 @@ def remove_quotes(param):
     return(param)
 
 class b9y_prompt(Cmd):
-    try:
-        args = getopts(sys.argv)
-    except:
-        sys.exit(1)
+    args = getopts(sys.argv)
+
+    if '-v' in args:
+        print("B9y CLI version " + b9y_cli_release)
+        sys.exit(0)
 
     if '-h' in args:
         b9y_host = args['-h']
@@ -51,6 +55,8 @@ class b9y_prompt(Cmd):
 
     if '-p' in args:
         b9y_password = args['-p']
+        if b9y_password == "":
+            b9y_password = getpass.getpass()
     else:
         b9y_password = default_password
 
@@ -61,7 +67,8 @@ class b9y_prompt(Cmd):
 Try using parameters to specifiy hostname and credentials, e.g.
 
 b9y-cli -h http://localhost:8888
-b9y-cli -h http://b9y.myhost.com:8080 -u user1 - p secret
+b9y-cli -h http://b9y.myhost.com:8080 -u user1 -p secret
+b9y-cli -h http://b9y.myhost.com:8080 -u user1 -p
 
 """)
         sys.exit()
@@ -78,7 +85,7 @@ b9y-cli -h http://b9y.myhost.com:8080 -u user1 - p secret
 
     def do_save(self, inp):
         r = self.b9y.save()
-        print(r)
+        #print(r)
         if r == None:
             print("error - are you admin?")
         else:
@@ -100,11 +107,21 @@ b9y-cli -h http://b9y.myhost.com:8080 -u user1 - p secret
         if len(items) != 2:
             print("Error: need exactly two arguments.")
             return(None)
-
         try:
             r = self.b9y.create_user(items[0], items[1])
-            print r
             print("OK. New user id is " + str(r))
+        except:
+            print("error")
+
+    def do_password(self, inp):
+        items = shlex.split(inp, posix=False)
+        if len(items) != 1:
+            print("Error: need exactly two arguments.")
+            return(None)
+        try:
+            r = self.b9y.set_admin_password(items[0])
+            print("OK. Please login again with the new password.")
+            self.b9y.token = "PLEASELOGINAGAIN"
         except:
             print("error")
 
@@ -198,6 +215,9 @@ b9y-cli -h http://b9y.myhost.com:8080 -u user1 - p secret
     def help_create_user(self):
         print("** for admin use** Create a User. Example: create_user user1 secret")
 
+    def help_password(self):
+        print("** for admin use** Set the admin password. Example: password secret")
+
     def help_users(self):
         print("** for admin use** Lists all users")
 
@@ -235,7 +255,7 @@ b9y-cli -h http://b9y.myhost.com:8080 -u user1 - p secret
         if inp == 'q':
             return self.do_exit(inp)
 
-        print "No idea what you want here. Type 'help' for available commands."
+        print("No idea what you want here. Type 'help' for available commands.")
 
 def main():
     signal.signal(signal.SIGINT, signal_handler)
