@@ -416,67 +416,14 @@
                 }
             }
         },
-        "/users/{id}": {
-            "parameters": [
-                {
-                    "name": "id",
-                    "in": "path",
-                    "required": true,
-                    "type": "string"
-                }
-            ],
-            "get": {
-                "operationId": "GET-user",
-                "summary": "Get User",
+        "/users": {
+            "post": {
+                "operationId": "POST-user",
+                "summary": "Create User",
                 "tags": [
-                    "User Management"
+                    "Administration"
                 ],
-                "description": "Get a user record identified by a numceric user id.",
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "email": {
-                                    "type": "string"
-                                },
-                                "quota": {
-                                    "type": "string"
-                                }
-                            },
-                            "required": [
-                                "email",
-                                "quota"
-                            ]
-                        },
-                        "examples": {
-                            "application/json": {
-                                "email": "me@privacy.net",
-                                "quota": "19"
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "",
-                        "schema": {
-                            "type": "object"
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "oauth2": []
-                    }
-                ]
-            },
-            "put": {
-                "operationId": "PUT-user",
-                "summary": "Set Quota",
-                "tags": [
-                    "User Management"
-                ],
-                "description": "Set the quota for a user (number of resources a user can have).",
+                "description": "Create a user. The new user can then make authenticated requests with access tokens retrieved from the /auth/token endpoint.",
                 "parameters": [
                     {
                         "name": "body",
@@ -484,33 +431,34 @@
                         "schema": {
                             "type": "object",
                             "properties": {
-                                "quota": {
+                                "email": {
+                                    "type": "string"
+                                },
+                                "password": {
                                     "type": "string"
                                 }
                             },
-                            "required": [
-                                "quota"
-                            ],
                             "example": {
-                                "quota": "19"
+                                "email": "me@privacy.net",
+                                "password": "changeme"
                             }
                         }
                     }
                 ],
                 "responses": {
-                    "200": {
+                    "201": {
                         "description": "",
                         "schema": {
                             "type": "object",
                             "properties": {
-                                "message": {
+                                "id": {
                                     "type": "string"
                                 }
                             }
                         },
                         "examples": {
                             "application/json": {
-                                "message": "quota updated"
+                                "id": "1"
                             }
                         }
                     },
@@ -524,34 +472,11 @@
                     }
                 ]
             },
-            "delete": {
-                "operationId": "DELETE-user",
-                "summary": "Delete User",
-                "tags": [
-                    "User Management"
-                ],
-                "description": "Delete a user record identified by a numceric user id.",
-                "responses": {
-                    "200": {
-                        "description": ""
-                    },
-                    "401": {
-                        "description": ""
-                    }
-                },
-                "security": [
-                    {
-                        "oauth2": []
-                    }
-                ]
-            }
-        },
-        "/users": {
             "get": {
                 "operationId": "LIST-users",
                 "summary": "List Users",
                 "tags": [
-                    "User Management"
+                    "Administration"
                 ],
                 "description": "List all users in the system.",
                 "responses": {
@@ -605,14 +530,24 @@
                         "oauth2": []
                     }
                 ]
-            },
-            "post": {
-                "operationId": "POST-user",
-                "summary": "Create User",
+            }
+        },
+        "/users/{id}": {
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "put": {
+                "operationId": "PUT-user",
+                "summary": "Set Quota",
                 "tags": [
-                    "User Management"
+                    "Administration"
                 ],
-                "description": "Create a user. The new user can then make authenticated requests with access tokens retrieved from the /auth/token endpoint.",
+                "description": "Set the quota for a user (number of resources a user can have).",
                 "parameters": [
                     {
                         "name": "body",
@@ -620,36 +555,101 @@
                         "schema": {
                             "type": "object",
                             "properties": {
-                                "email": {
-                                    "type": "string"
-                                },
-                                "password": {
+                                "quota": {
                                     "type": "string"
                                 }
                             },
+                            "required": [
+                                "quota"
+                            ],
                             "example": {
-                                "email": "me@privacy.net",
-                                "password": "changeme"
+                                "quota": "19"
                             }
                         }
                     }
                 ],
                 "responses": {
-                    "201": {
+                    "200": {
                         "description": "",
                         "schema": {
                             "type": "object",
                             "properties": {
-                                "id": {
+                                "message": {
                                     "type": "string"
                                 }
                             }
                         },
                         "examples": {
                             "application/json": {
-                                "id": "1"
+                                "message": "quota updated"
                             }
                         }
+                    },
+                    "401": {
+                        "description": ""
+                    }
+                },
+                "security": [
+                    {
+                        "oauth2": []
+                    }
+                ]
+            },
+            "get": {
+                "operationId": "GET-user",
+                "summary": "Get User",
+                "tags": [
+                    "Administration"
+                ],
+                "description": "Get a user record identified by a numceric user id.",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "email": {
+                                    "type": "string"
+                                },
+                                "quota": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "email",
+                                "quota"
+                            ]
+                        },
+                        "examples": {
+                            "application/json": {
+                                "email": "me@privacy.net",
+                                "quota": "19"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "oauth2": []
+                    }
+                ]
+            },
+            "delete": {
+                "operationId": "DELETE-user",
+                "summary": "Delete User",
+                "tags": [
+                    "Administration"
+                ],
+                "description": "Delete a user record identified by a numceric user id.",
+                "responses": {
+                    "200": {
+                        "description": ""
                     },
                     "401": {
                         "description": ""
