@@ -102,7 +102,7 @@ Download SDK: [Python](https://github.com/u1i/bambleweeny/raw/master/sdk/python.
 
 * minimal use of external libraries
 * readable code over performance
-* prototype / educational nature
+* simplicity over feature overload
 
 ### Stack & Tools
 
