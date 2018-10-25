@@ -62,7 +62,7 @@ The [Getting Started Guide](GettingStarted.md) helps you get going quickly.
 
 The endpoint /swagger gives you the [Swagger File](https://raw.githubusercontent.com/u1i/bambleweeny/master/swagger.json). Check out the [Getting Started Guide](GettingStarted.md) and the [API Documentation](http://bambleweeny.sotong.io/) for detailed information on managing users, keys and lists.
  
-[![](https://raw.githubusercontent.com/u1i/bambleweeny/master/img/crud6.png)](http://bambleweeny.sotong.io/)
+[![](https://raw.githubusercontent.com/u1i/bambleweeny/master/img/crud7.png)](http://bambleweeny.sotong.io/)
 
 ## Performance (Apache Bench)
 
