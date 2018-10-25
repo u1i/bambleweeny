@@ -38,7 +38,7 @@ Bambleweeny has a nice [command-line interface](https://github.com/u1i/bamblewee
 
 ### Create a counter - 'pick a number'
 
-`curl http://b9y/incr/queue_number -H AUTH`
+`curl http://b9y/incr/ticket_number -H AUTH`
 
 ## Message Broker
 
@@ -50,7 +50,7 @@ Bambleweeny has a nice [command-line interface](https://github.com/u1i/bamblewee
 
 `curl http://b9y/lists/my_queue -H AUTH`
 
-The [Getting Started Guide](GettingStarted.md) gives you detailed examples, and of course there's the [API Documentation](http://bambleweeny.sotong.io/).
+Check out the [Getting Started Guide](GettingStarted.md) to get you started quickly. The [Documentation Index](DocumentationIndex.md) has a complete reference of data types and operations, and of course there's the [API Documentation](http://bambleweeny.sotong.io/).
 
 ### Performance (Apache Bench)
 
@@ -95,49 +95,6 @@ Check out the [Getting Started Guide](GettingStarted.md) and the [API Documentat
 Download SDK: [Python](https://github.com/u1i/bambleweeny/raw/master/sdk/python.zip) | [Java](https://github.com/u1i/bambleweeny/raw/master/sdk/java.zip) | [Ruby](https://github.com/u1i/bambleweeny/raw/master/sdk/ruby.zip) | [PHP](https://github.com/u1i/bambleweeny/raw/master/sdk/php.zip) | [JavaScript](https://github.com/u1i/bambleweeny/raw/master/sdk/javascript.zip) | [Android](https://github.com/u1i/bambleweeny/raw/master/sdk/android.zip) | [HTML](https://github.com/u1i/bambleweeny/raw/master/sdk/html.zip)
 
 [![](https://raw.githubusercontent.com/u1i/bambleweeny/master/img/crud6.png)](http://bambleweeny.sotong.io/)
-
-## Bamblweeeny Configuration & Operations
-
-There are several ways to configure Bambleweeny and modify the default settings.
-
-### Redis Connection
-
-By default, B9y rund in 'Lite' mode which essentially starts an embedded Redis engine inside the container. This is good enough for many use cases, but you may want to point it to a 'proper' Redis environment instead. You can do this by setting environment variables:
-
-`docker run [...] -e redis_host=localhost -e redis_port=6379 u1ih/bambleweeny:latest`
-
-### Token Expiry
-
-Provide an environment variable `token_expiry` that overrides the default token expiry of 3000 seconds:
-
-`docker run [...] -e token_expiry=999999999 u1ih/bambleweeny:latest`
-
-### Endpoints for info and db dump
-
-The authenticated admin user can trigger the following endpoints:
-
-#### /info
-
-Provides detailed information on the Redis connection
-
-#### /save
-
-Triggers a 'save' on the Redis side, which dumps the content of the in-memory database to disk. You can map the directory to your host (and persist the data) by running B9y the following way:
-
-`docker run [...] -v data:/data u1ih/bambleweeny:latest`
-
-### Static Settings
-
-The following settings are currently not configurable:
-
-#### max\_request\_body\_size
-Messages cannot be larger than 50kb (set in server.py CherryPy config)
-
-#### redis\_maxmemory
-Limit currently at 256 MB
-
-#### redis\_datadir
-Set to /data
 
 
 ## Behind the Scenes

@@ -12,7 +12,7 @@ Assuming you have Docker and docker-compose installed on your machine, you could
 
 ## Admin Access
 
-Bambleweeny should now be available at `http://localhost:8080` - however, there's not much to see. It's all about the API. We'll use cURL examples here.
+Bambleweeny should now be available at `http://localhost:8080` - however, there's not much to see. It's all about the API. We'll use cURL examples here. For humans, it's even easier using the [command-line interface](https://github.com/u1i/bambleweeny/tree/master/b9y-cli-package) for Bambleweeny.
 
 To access with the key/value store we need to make authenticated requests, so as a first step we are getting an access token. For this, we login with username and password.
 

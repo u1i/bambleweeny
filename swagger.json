@@ -664,10 +664,10 @@
         },
         "/config/admin": {
             "put": {
-                "operationId": "PUT_config-admin",
+                "operationId": "CHANGE-admin-pw",
                 "summary": "Change Admin Password",
                 "tags": [
-                    "Configuration"
+                    "Administration"
                 ],
                 "description": "Update the admin password - default password is 'changeme'.",
                 "parameters": [
@@ -693,6 +693,48 @@
                     },
                     "400": {
                         "description": ""
+                    }
+                },
+                "security": [
+                    {
+                        "oauth2": []
+                    }
+                ]
+            }
+        },
+        "/info": {
+            "get": {
+                "operationId": "GET-info",
+                "summary": "Get Info",
+                "tags": [
+                    "Administration"
+                ],
+                "description": "Gets detailed information on the backend Redis connection, including memory used, number of connections etc.",
+                "responses": {
+                    "default": {
+                        "description": "",
+                        "schema": {}
+                    }
+                },
+                "security": [
+                    {
+                        "oauth2": []
+                    }
+                ]
+            }
+        },
+        "/save": {
+            "get": {
+                "operationId": "SAVE",
+                "summary": "Save to Disk",
+                "tags": [
+                    "Administration"
+                ],
+                "description": "Triggers a save to disk for the backend Redis in-memory database.",
+                "responses": {
+                    "default": {
+                        "description": "",
+                        "schema": {}
                     }
                 },
                 "security": [
