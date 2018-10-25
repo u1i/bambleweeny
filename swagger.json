@@ -89,7 +89,15 @@
                 }
             }
         },
-        "/keys/(id}": {
+        "/keys/{id}": {
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
             "get": {
                 "operationId": "READ-key",
                 "summary": "Read Key",
@@ -216,7 +224,15 @@
                 ]
             }
         },
-        "/incr/(id}": {
+        "/incr/{id}": {
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
             "get": {
                 "operationId": "INCR-key",
                 "summary": "Increase Key",
