@@ -30,7 +30,7 @@ Bambleweeny has a nice [command-line interface](https://github.com/u1i/bamblewee
 
 ### Make 'foo' public, so anyone can read
 
-`echo '{"key":"foo", "content_type":"application/json;charset=utf-8"}' | curl -X POST -d @- http://b9y/routes -H AUTH`
+`echo '{"key":"foo", "content_type":"text/html"}' | curl -X POST -d @- http://b9y/routes -H AUTH`
 
 > /routes/125e6a6f-c3f3-403b-b096-89978773139b
 
