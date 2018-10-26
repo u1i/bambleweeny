@@ -196,11 +196,27 @@ You can modify the [docker-compose.yml](docker-compose.yml) file to your needs.
 
 ### OpenShift
 
-[Run on OpenShift](openshift-run.sh)
+Deploy a single instance of Bambleweeny on OpenShift:
+
+1. **Deployment**   
+`oc new-app u1ih/bambleweeny`   
+
+1. **Expose**   
+`oc expose svc/bambleweeny`
 
 ### Kubernetes
 
-[Run on Kubernetes](kube-run.sh)
+1. **Deployment**   
+`kubectl run b9y --image=u1ih/bambleweeny:latest --env="redis_host=172.17.0.1" --env "redis_port=6379" --port=8080`
+
+1. **Create a Service**  
+`kubectl expose deployment b9y --type=NodePort`
+
+1. **Scale up to 5 replicas**   
+`kubectl scale deployments/b9y --replicas=5`
+
+1. **Show the endpoint**   
+`kubectl get services | grep b9y`
 
 ## Configuration & Operations
 
@@ -208,7 +224,7 @@ There are several ways to configure Bambleweeny and modify the default settings.
 
 ### Redis Connection
 
-By default, B9y rund in 'Lite' mode which essentially starts an embedded Redis engine inside the container. This is good enough for many use cases, but you may want to point it to a 'proper' Redis environment instead. You can do this by setting environment variables:
+By default, b9y rund in 'Lite' mode which essentially starts an embedded Redis engine inside the container. This is good enough for many use cases, but you may want to point it to a 'proper' Redis environment instead. You can do this by setting environment variables:
 
 `docker run [...] -e redis_host=localhost -e redis_port=6379 u1ih/bambleweeny:latest`
 
@@ -228,7 +244,7 @@ Provides detailed information on the Redis connection
 
 #### /save
 
-Triggers a 'save' on the Redis side, which dumps the content of the in-memory database to disk. You can map the directory to your host (and persist the data) by running B9y the following way:
+Triggers a 'save' on the Redis side, which dumps the content of the in-memory database to disk. You can map the directory to your host (and persist the data) by running b9y the following way:
 
 `docker run [...] -v data:/data u1ih/bambleweeny:latest`
 

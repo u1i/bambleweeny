@@ -1,5 +1,6 @@
 #!/bin/sh
 
+# This script is the entry point for the Docker container
 # Run an embedded Redis instance if Redis connection info is not provided
 if [ "$redis_host" = "" ]
 then
