@@ -8,7 +8,7 @@ secret_salt = "iKm4SyH6JCtA8l"
 default_token_expiry_seconds = 3000
 redis_datadir='/data'
 redis_maxmemory='256mb'
-b9y_release = "0.29.2"
+b9y_release = "0.29.3"
 
 app = Bottle()
 
@@ -704,7 +704,6 @@ def get_key(id):
 	response.headers['Access-Control-Allow-Origin'] = '*'
 	response.content_type = content_type
 	return(parse_route(str(key_content), user_id))
-	#return(str(key_content))
 
 ####### Helper functions
 
@@ -718,7 +717,9 @@ def parse_route(content, user_id):
 		for i in items:
 			if i.startswith("!@["):
 				key = re.sub('[^\w:]', "", i)
-				out += rc.get("KEY:"+str(user_id)+"::"+str(key))
+				val = rc.get("KEY:"+str(user_id)+"::"+str(key))
+				if val != None:
+					out += val
 			else:
 				out += str(i)
 		return(out)
