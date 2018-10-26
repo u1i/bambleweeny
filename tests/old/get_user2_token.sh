@@ -1,9 +1,0 @@
-curl -sS -X POST \
-  "http://localhost:8080/auth/token?raw" \
-  -H 'Cache-Control: no-cache' \
-  -H 'Content-Type: application/json' \
-  -H 'Postman-Token: b3cf2aee-7740-463f-95aa-67c3d28cc024' \
-  -d '{
-  "username": "me2@privacy.net",
-  "password": "changeme"
-}' 2>/dev/null
