@@ -6,7 +6,7 @@ Bambleweeny is a lightweight HTTP/REST based key-value store and message broker 
 
 Written in Python, using a Redis backend, deployable in a tiny container.
 
-**Use cases**: web caching, data ingestion for mobile & IOT, mocking API endpoints, configuration management and coordination across distributed systems.
+**Use cases**: web cache, data ingestion for mobile & IOT, mocking API endpoints, configuration management and coordination across distributed systems.
 
 ![](https://raw.githubusercontent.com/u1i/bambleweeny/master/img/b9y-logic7.png)
 
