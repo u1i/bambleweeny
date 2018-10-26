@@ -152,6 +152,21 @@ Routes are parsed dynamically, so the cURL command will return
 
 ### Lists
 
+Lists can store multiple values in one key, you use a `push` command to add an item and `pop` to retrieve an item. Retrieving an item also removes it from the list:
+
+`push mylist cat`   
+`push mylist dog`   
+`pop mylist`   
+> cat.
+
+`pop mylist`   
+> dog
+
+`pop mylist`   
+> None
+
+Lists can be used to implement messaging queues. Reading from the queue removes the message. A future version might see a mechanism to properly dequeue it.
+
 ## Running Bambleweeny
 ### Standalone
 
