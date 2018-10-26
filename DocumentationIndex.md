@@ -2,6 +2,44 @@
 
 # Documentation Index
 
+- [Getting Started](#getting-started)
+- [Using Bambleweeny](#using-bambleweeny)
+	- [HTTP/REST](#httprest)
+	- [Command Line Interface](#command-line-interface)
+	- [Client Libraries](#client-libraries)
+	- [SDKs](#sdks)
+- [Data Types & Concepts](#data-types-concepts)
+	- [Users](#users)
+		- [Admin](#admin)
+		- [Users (Keyspaces)](#users-keyspaces)
+	- [Authentication](#authentication)
+	- [Keys](#keys)
+		- [Set Keys](#set-keys)
+		- [Read Keys](#read-keys)
+		- [Increment Keys](#increment-keys)
+	- [Routes](#routes)
+		- [Create Routes](#create-routes)
+		- [Access Routes](#access-routes)
+		- [Dynamic Routes & Nested Keys](#dynamic-routes-nested-keys)
+	- [Lists](#lists)
+- [Running Bambleweeny](#running-bambleweeny)
+	- [Standalone](#standalone)
+	- [Separate Redis Backend](#separate-redis-backend)
+	- [Topology](#topology)
+	- [OpenShift](#openshift)
+	- [Kubernetes](#kubernetes)
+- [Configuration & Operations](#configuration-operations)
+	- [Redis Connection](#redis-connection)
+	- [Token Expiry](#token-expiry)
+	- [Endpoints for info and db dump](#endpoints-for-info-and-db-dump)
+		- [/info](#info)
+		- [/save](#save)
+	- [Static Settings](#static-settings)
+		- [max\_request\_body\_size](#maxrequestbodysize)
+		- [redis\_maxmemory](#redismaxmemory)
+		- [redis\_datadir](#redisdatadir)
+
+
 ## Getting Started
 
 New to Bambleweeny? This [Getting Started Guide](GettingStarted.md) shows you how to run it and do your first set of data operations.
@@ -66,7 +104,7 @@ Keys represent the essential data type in Bambleweeny as a key-value store. Vali
 
 #### Set Keys
 
-In the [CLI](https://github.com/u1i/bambleweeny/tree/master/b9y-cli-package) you can issue `set foo bar` to create a key called `foo` with the value `bar`, or `set foo 'hello, world!'` for values that include spaces. Do this for simple content only, and use the REST API in Postman or from your application to add complex or UTF-8 encoded data. 
+In the [CLI](https://github.com/u1i/bambleweeny/tree/master/b9y-cli-package) you can issue `set foo bar` to create a key called `foo` with the value `bar`, or `set foo 'hello, world!'` for values that include spaces. Do this for simple content only, and use the REST API in Postman or from your application to add complex or UTF-8 encoded data.
 
 Bambleweeny can handle binary content as well (however, the payload size is currently limited to 50kb):
 
@@ -89,7 +127,7 @@ Routes allow users to 'expose' keys and make them publicly available without the
 #### Create Routes
 
 Using the [CLI](https://github.com/u1i/bambleweeny/tree/master/b9y-cli-package), the following set of commands create a key, exposes it over HTTP with the content type application/json and returns the newly created endpoint:
- 
+
 `set api '{"message": "hello"}'`
 `route api 'application/json;charset=utf-8'`
 
@@ -119,7 +157,7 @@ Routes are parsed dynamically, so the cURL command will return
 
 `docker run -d -p 8080:8080 u1ih/bambleweeny`
 
-This gives you a single, stateful and self-contained instance. Good enough for demos and tests. 
+This gives you a single, stateful and self-contained instance. Good enough for demos and tests.
 
 Want to run it on a Raspberry Pi?
 
@@ -139,7 +177,7 @@ How about running this as a topology instead, with one Redis container and one (
 
 `curl -sSL http://bit.ly/run-bambleweeny | sh`
 
-You can modify the [docker-compose.yml](docker-compose.yml) file to your needs. 
+You can modify the [docker-compose.yml](docker-compose.yml) file to your needs.
 
 ### OpenShift
 
