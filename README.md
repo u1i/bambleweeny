@@ -6,7 +6,7 @@ Bambleweeny is a lightweight HTTP/REST based key-value store and message broker 
 
 Written in Python, using a Redis backend, deployable in a tiny container.
 
-**Use cases**: data ingest for mobile / IOT, configuration management and coordination across distributed systems.
+**Use cases**: web caching, data ingestion for mobile & IOT, mocking API endpoints, configuration management and coordination across distributed systems.
 
 ![](https://raw.githubusercontent.com/u1i/bambleweeny/master/img/b9y-logic7.png)
 
@@ -60,7 +60,7 @@ The [Getting Started Guide](GettingStarted.md) helps you get going quickly.
 
 ## Using the REST API
 
-The endpoint /swagger gives you the [Swagger File](https://raw.githubusercontent.com/u1i/bambleweeny/master/swagger.json). Check out the [Getting Started Guide](GettingStarted.md) and the [API Documentation](http://bambleweeny.sotong.io/) for detailed information on managing users, keys and lists.
+The endpoint /swagger gives you the [Swagger file](https://raw.githubusercontent.com/u1i/bambleweeny/master/swagger.json). Check out the [Getting Started Guide](GettingStarted.md) and the [API Documentation](http://bambleweeny.sotong.io/) for detailed information on managing users, keys and lists.
  
 [![](https://raw.githubusercontent.com/u1i/bambleweeny/master/img/crud7.png)](http://bambleweeny.sotong.io/)
 

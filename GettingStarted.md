@@ -24,7 +24,7 @@ The default password for 'admin' is 'changeme', let's get a token so we can acce
 
 > eyJpIjogIjAiLCAiYyI6ICI4MjgxNWU4NiIsICJ1IjogImFkbWluIiwgInQiOiAiMTUzODI3MjYxOCJ9.57f8e251
 
-We've received a token (copy it and replace `TOKEN` in the following cURL command), which we can now use to make an authenticated request (as admin) and create a new user with email address (username) 'me@privacy.net' and password 'changeme':
+We've received a token (copy it and replace `TOKEN` in the following cURL command), which we can now use to make an authenticated request (as admin) and create a new 'user' with email address (username) 'me@privacy.net' and password 'changeme':
 
 `curl -X POST http://localhost:8080/users -H "Authorization: Bearer TOKEN" -H 'Content-Type: application/json' -d '{ "email": "me@privacy.net", "password": "changeme" }'`
 

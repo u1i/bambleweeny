@@ -4,29 +4,92 @@
 
 ## Getting Started
 
-[Getting Started Guide](GettingStarted.md)
+New to Bambleweeny? This [Getting Started Guide](GettingStarted.md) shows you how to run it and do your first set of data operations.
 
 ## Using Bambleweeny
+
+There are multiple ways of interacting with Bambleweeny. Whichever way you choose, all of them will use the [REST API](http://bambleweeny.sotong.io/) with OAuth and JSON over HTTP for communication. This makes it very easy to allow devices, apps and users inside and outside your firewall to access it.
+
 ### HTTP/REST
+
+All functionality is available over the [REST API](http://bambleweeny.sotong.io/). It's an API first world! The /swagger endpoint gives you the [Swagger file](https://raw.githubusercontent.com/u1i/bambleweeny/master/swagger.json).
+
 ### Command Line Interface
+
+Perform commonly used operations in the [command-line interface](https://github.com/u1i/bambleweeny/tree/master/b9y-cli-package), available as binaries for [Windows](https://github.com/u1i/bambleweeny/raw/master/b9y-cli-package/releases/b9y-cli-windows-amd64.zip), [MacOS](https://github.com/u1i/bambleweeny/raw/master/b9y-cli-package/releases/b9y-cli-darwin-386.zip) and [Linux](https://github.com/u1i/bambleweeny/raw/master/b9y-cli-package/releases/b9y-cli-linux-amd64.zip).
+
+For example, entering `b9y-cli.exe -h http://10.158.27.88:8080` on a Windows machine connects you to Bambleweeny on a remote server using the default (admin) credentials.
+
 ### Client Libraries
+
+The [b9y library](https://github.com/u1i/bambleweeny/tree/master/b9y-package) allows you to make Bambleweeny requests in Python.
+
+`pip install b9y`
+
+The [command-line interface](https://github.com/u1i/bambleweeny/tree/master/b9y-cli-package) makes use of it, so you could look at the code as an example.
+
+Are you a .NET or JavaScript developer? We'd love your contribution to write a client library for those languages.
+
 ### SDKs
+
+The following SDKs are auto-generated from the [Swagger file](https://raw.githubusercontent.com/u1i/bambleweeny/master/swagger.json):
 
 [Python](https://github.com/u1i/bambleweeny/raw/master/sdk/python.zip) | [Java](https://github.com/u1i/bambleweeny/raw/master/sdk/java.zip) | [Ruby](https://github.com/u1i/bambleweeny/raw/master/sdk/ruby.zip) | [PHP](https://github.com/u1i/bambleweeny/raw/master/sdk/php.zip) | [JavaScript](https://github.com/u1i/bambleweeny/raw/master/sdk/javascript.zip) | [Android](https://github.com/u1i/bambleweeny/raw/master/sdk/android.zip) | [HTML](https://github.com/u1i/bambleweeny/raw/master/sdk/html.zip)
 
 ## Data Types & Concepts
 
 ### Users
+
+Unless exposed via routes (more on those below), all data is private to the respective individual users. Think of users rather like keyspaces.
+
 #### Admin
+
+The admin user (default credentials: admin/changeme) can create users, set quotas and get access to diagnostic information. Of course, the admin user has its own keyspace, too.
+
+Create a user in the [CLI](https://github.com/u1i/bambleweeny/tree/master/b9y-cli-package):
+
+`create_user user1 secret`
+
 #### Users (Keyspaces)
+
+Users have their individual keyspace and can, by default, create an unlimited number of resources.
+
 ### Authentication
+
+Resources and general access to Bambleweeny are protected by an OAuth server. Before making requests and data operations, users must get a token using the /auth/token endpoint and provide as an `Authorization: Bearer` HTTP header in the subsequent requests. Tokens expire after 3000 seconds (default configuration).
+
+Starting the [command-line interface](https://github.com/u1i/bambleweeny/tree/master/b9y-cli-package) without parameters will attempt a connection on localhost:8080 using the default admin credentials. Parameters `-h` for hostname, `-u` for username and `-p` for the password can be specified to use those instead. The command `token` in the [command-line interface](https://github.com/u1i/bambleweeny/tree/master/b9y-cli-package) will print the token to STDOUT for your convenience.
+
 ### Keys
+
+Keys represent the essential data type in Bambleweeny as a key-value store. Valid key names are e.g. `foo`, `my_key788`, and `system:debug:level`.
+
 #### Set Keys
+
+In the [CLI](https://github.com/u1i/bambleweeny/tree/master/b9y-cli-package) you can issue `set foo bar` to create a key called `foo` with the value `bar`, or `set foo 'hello, world!'` for values that include spaces. Do this for simple content only, and use the REST API in Postman or from your application to add complex or UTF-8 encoded data. 
+
+Bambleweeny can handle binary content as well (however, the payload size is currently limited to 50kb):
+
+`curl --upload-file image.png http://b9y/keys/pic -H AUTH`
+
 #### Read Keys
+
+To read the key you can use `get key` or make the following (authenticated) HTTP request:
+
+`curl http://<host>:<port>/keys/foo -H 'Authorization: Bearer <token>`
+
 #### Increment Keys
+
+`incr mykey` increases a numeric key by 1 and returns it. If the key does not exist, it will be created and the operation returns `1`.
+
 ### Routes
+
+Routes allow users to 'expose' keys and make them publicly available without the need for authentication. This is very useful if you want Bambleweeny to act as a web cache, mock API endpoints or simply share specific pieces of data within your distributed systems.
+
 #### Create Routes
 
+Using the [CLI](https://github.com/u1i/bambleweeny/tree/master/b9y-cli-package), the following set of commands create a key, exposes it over HTTP with the content type application/json and returns the newly created endpoint:
+ 
 `set api '{"message": "hello"}'`
 `route api 'application/json;charset=utf-8'`
 
@@ -34,10 +97,21 @@
 
 #### Access Routes
 
-`curl http://b9y/routes/125e6a6f-c3f3-403b-b096-89978773139b`
+`curl -i http://<host>:<port>/routes/125e6a6f-c3f3-403b-b096-89978773139b`
+> Content-Type: text/html
 > {"message": "hello"}
 
 #### Dynamic Routes & Nested Keys
+
+Nested keys give you greater flexibility to produce dynamic content. You can reference a key as `!@[mykey]` inside the value of another key. Let's make the previous example more interesting:
+
+`set api '{"message": "!@[message]"}'`   
+`set message 'cool stuff!'`   
+`route api 'application/json;charset=utf-8'`
+
+Routes are parsed dynamically, so the cURL command will return
+> {"message": "cool stuff!"}
+
 ### Lists
 
 ## Running Bambleweeny
