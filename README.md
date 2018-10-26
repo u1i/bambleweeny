@@ -18,7 +18,7 @@ This gives you a single, stateful and self-contained instance. Good enough for d
 
 ## Simple HTTP based Key/Value Access
 
-Bambleweeny has a nice [command-line interface](https://github.com/u1i/bambleweeny/tree/master/b9y-cli-package). Here we'll show you some cURL examples, since everything happens over HTTP:
+Bambleweeny has a nice [command-line interface](https://github.com/u1i/b9y-cli). Here we'll show you some cURL examples, since everything happens over HTTP:
 
 ### Get 'foo'
 

@@ -54,13 +54,13 @@ All functionality is available over the [REST API](http://bambleweeny.sotong.io/
 
 ### Command Line Interface
 
-Perform commonly used operations in the [command-line interface](https://github.com/u1i/bambleweeny/tree/master/b9y-cli-package), available as binaries for [Windows](https://github.com/u1i/bambleweeny/raw/master/b9y-cli-package/releases/b9y-cli-windows-amd64.zip), [MacOS](https://github.com/u1i/bambleweeny/raw/master/b9y-cli-package/releases/b9y-cli-darwin-386.zip) and [Linux](https://github.com/u1i/bambleweeny/raw/master/b9y-cli-package/releases/b9y-cli-linux-amd64.zip).
+Perform commonly used operations in the [command-line interface](https://github.com/u1i/b9y-cli), available as binaries for [Windows](https://github.com/u1i/b9y-cli/raw/master/releases/b9y-cli-windows-amd64.zip), [MacOS](https://github.com/u1i/b9y-cli/raw/master/releases/b9y-cli-darwin-386.zip) and [Linux](https://github.com/u1i/b9y-cli/raw/master/releases/b9y-cli-linux-amd64.zip).
 
 For example, entering `b9y-cli.exe -h http://10.158.27.88:8080` on a Windows machine connects you to Bambleweeny on a remote server using the default (admin) credentials.
 
 ### Client Libraries
 
-The [b9y library](https://github.com/u1i/bambleweeny/tree/master/b9y-package) allows you to make Bambleweeny requests in Python.
+The [b9y library](https://github.com/u1i/b9y-python) allows you to make Bambleweeny requests in Python.
 
 `pip install b9y`
 
@@ -84,7 +84,7 @@ Unless exposed via routes (more on those below), all data is private to the resp
 
 The admin user (default credentials: admin/changeme) can create users, set quotas and get access to diagnostic information. Of course, the admin user has its own keyspace, too.
 
-Create a user in the [CLI](https://github.com/u1i/bambleweeny/tree/master/b9y-cli-package):
+Create a user in the [CLI](https://github.com/u1i/b9y-cli):
 
 `create_user user1 secret`
 
@@ -96,7 +96,7 @@ Users have their individual keyspace and can, by default, create an unlimited nu
 
 Resources and general access to Bambleweeny are protected by an OAuth server. Before making requests and data operations, users must get a token using the /auth/token endpoint and provide as an `Authorization: Bearer` HTTP header in the subsequent requests. Tokens expire after 3000 seconds (default configuration).
 
-Starting the [command-line interface](https://github.com/u1i/bambleweeny/tree/master/b9y-cli-package) without parameters will attempt a connection on localhost:8080 using the default admin credentials. Parameters `-h` for hostname, `-u` for username and `-p` for the password can be specified to use those instead. The command `token` in the [command-line interface](https://github.com/u1i/bambleweeny/tree/master/b9y-cli-package) will print the token to STDOUT for your convenience.
+Starting the [command-line interface](https://github.com/u1i/b9y-cli) without parameters will attempt a connection on localhost:8080 using the default admin credentials. Parameters `-h` for hostname, `-u` for username and `-p` for the password can be specified to use those instead. The command `token` in the [command-line interface](https://github.com/u1i/b9y-cli) will print the token to STDOUT for your convenience.
 
 ### Keys
 
@@ -104,7 +104,7 @@ Keys represent the essential data type in Bambleweeny as a key-value store. Vali
 
 #### Set Keys
 
-In the [CLI](https://github.com/u1i/bambleweeny/tree/master/b9y-cli-package) you can issue `set foo bar` to create a key called `foo` with the value `bar`, or `set foo 'hello, world!'` for values that include spaces. Do this for simple content only, and use the REST API in Postman or from your application to add complex or UTF-8 encoded data.
+In the [CLI](https://github.com/u1i/b9y-cli) you can issue `set foo bar` to create a key called `foo` with the value `bar`, or `set foo 'hello, world!'` for values that include spaces. Do this for simple content only, and use the REST API in Postman or from your application to add complex or UTF-8 encoded data.
 
 Bambleweeny can handle binary content as well (however, the payload size is currently limited to 50kb):
 
@@ -126,7 +126,7 @@ Routes allow users to 'expose' keys and make them publicly available without the
 
 #### Create Routes
 
-Using the [CLI](https://github.com/u1i/bambleweeny/tree/master/b9y-cli-package), the following set of commands create a key, exposes it over HTTP with the content type application/json and returns the newly created endpoint:
+Using the [CLI](https://github.com/u1i/b9y-cli), the following set of commands create a key, exposes it over HTTP with the content type application/json and returns the newly created endpoint:
 
 `set api '{"message": "hello"}'`
 `route api 'application/json;charset=utf-8'`

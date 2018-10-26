@@ -1,4 +1,0 @@
-copy __main__.py to b9y-cli.py
-pip install pyinstaller pywin32
-
-pyinstaller --onefile b9y-cli.py
