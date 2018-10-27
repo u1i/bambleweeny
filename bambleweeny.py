@@ -8,7 +8,7 @@ secret_salt = "iKm4SyH6JCtA8l"
 default_token_expiry_seconds = 3000
 redis_datadir='/data'
 redis_maxmemory='256mb'
-b9y_release = "0.29.3"
+b9y_release = "0.30.1"
 
 app = Bottle()
 
@@ -54,7 +54,7 @@ def get_token():
 	user_list = rc.scan_iter("USER:*")
 	for user in user_list:
 		user_record = json.loads(rc.get(user))
-		if user_record["email"] == username and user_record["hash"] == pwhash:
+		if user_record["username"] == username and user_record["hash"] == pwhash:
 			user_token = _issue_token(user=username, id=user[5:], expiry=token_expiry_seconds, salt=secret_salt)
 			if 'raw' in request.query:
 				return(user_token)
@@ -113,21 +113,21 @@ def create_user():
 
 	try:
 		payload = json.load(request.body)
-		username = payload["email"]
+		username = payload["username"]
 		password = payload["password"]
 	except:
 		response.status = 400
 		return dict({"info":"No valid JSON found in post body or mandatory fields missing."})
 
-	if _find_email(username) == "found":
+	if _find_user(username) == "found":
 		response.status = 400
-		return dict({"info":"A user with this email address exists already."})
+		return dict({"info":"This user exists already."})
 
 	# Set ID and password hash for user
 	new_userid = rc.incr("_USERID_")
 	pwhash = _get_password_hash(password)
 	user_record = {}
-	user_record["email"] = username
+	user_record["username"] = username
 	user_record["hash"] = pwhash
 	user_record["quota"] = "0"
 
@@ -153,7 +153,7 @@ def get_user_details(id):
 		return dict({"info":"Not found."})
 
 	user_out = {}
-	user_out["email"] = user_record["email"]
+	user_out["username"] = user_record["username"]
 	user_out["quota"] = user_record["quota"]
 
 	return(dict(user_out))
@@ -229,7 +229,7 @@ def list_user():
 		user_record = json.loads(rc.get(user))
 		user_out = {}
 		user_out["id"] = user[5:]
-		user_out["email"] = user_record["email"]
+		user_out["username"] = user_record["username"]
 		user_out["quota"] = user_record["quota"]
 		output.append(user_out)
 
@@ -749,7 +749,7 @@ def _get_password_hash(pw):
 def _create_admin():
 	pwhash = _get_password_hash(admin_password)
 	user_record = {}
-	user_record["email"] = "admin"
+	user_record["username"] = "admin"
 	user_record["hash"] = pwhash
 	user_record["quota"] = "0"
 
@@ -757,11 +757,11 @@ def _create_admin():
 
 	return
 
-def _find_email(email):
+def _find_user(username):
         user_list = rc.scan_iter("USER:*")
         for user in user_list:
                 user_record = json.loads(rc.get(user))
-                if user_record["email"] == email:
+                if user_record["username"] == username:
                         return("found")
 
         return("not found")

@@ -12,6 +12,6 @@ curl -X POST \
   -H 'Cache-Control: no-cache' \
   -H 'Content-Type: application/json' \
   -d '{
-  "email": "me@privacy.net",
+  "username": "user1",
   "password": "changeme"
 }'

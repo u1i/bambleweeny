@@ -12,11 +12,11 @@ Assuming you have Docker and docker-compose installed on your machine, you could
 
 ## Admin Access
 
-Bambleweeny should now be available at `http://localhost:8080` - however, there's not much to see. It's all about the API. We'll use cURL examples here. For humans, it's even easier using the [command-line interface](https://github.com/u1i/bambleweeny/tree/master/b9y-cli-package) for Bambleweeny.
+Bambleweeny should now be available at `http://localhost:8080` - however, there's not much to see. It's all about the API. We'll use cURL examples here. For humans, it's even easier using the [command-line interface](https://github.com/u1i/b9y-cli) for Bambleweeny.
 
 To access with the key/value store we need to make authenticated requests, so as a first step we are getting an access token. For this, we login with username and password.
 
-### Create a new user
+### Create a new user (or keyspace)
 
 The default password for 'admin' is 'changeme', let's get a token so we can access the API:
 
@@ -29,6 +29,10 @@ We've received a token (copy it and replace `TOKEN` in the following cURL comman
 `curl -X POST http://localhost:8080/users -H "Authorization: Bearer TOKEN" -H 'Content-Type: application/json' -d '{ "email": "me@privacy.net", "password": "changeme" }'`
 
 > {"info": "created", "id": 1}
+
+In the [CLI](https://github.com/u1i/b9y-cli) we can achieve the same by simply typing
+
+`create_user me@privacy.net changeme`
 
 ## Create and Access Keys
 
@@ -49,7 +53,16 @@ That was easy, right? You can now read the key with:
 
 `curl http://localhost:8080/keys/mykey1 -H "Authorization: Bearer TOKEN"`
 
-That's it! Check out the full API documentation for key, quota & identity management requests.
+### Command Line Interface
+
+To do the same in the [CLI](https://github.com/u1i/b9y-cli), we need to login into b9y with the user credentials:
+
+`b9y-cli -u me@privacy.net -p changeme`
+
+Then we can set and read keys with these commands:
+
+`set mykey1 1234`   
+`get mykey1`
 
 ## Increment Keys
 

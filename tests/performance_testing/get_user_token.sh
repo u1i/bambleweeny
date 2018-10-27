@@ -5,6 +5,6 @@ curl -sS -X POST \
   -H 'Cache-Control: no-cache' \
   -H 'Content-Type: application/json' \
   -d '{
-  "username": "me@privacy.net",
+  "username": "me",
   "password": "changeme"
 }' 2>/dev/null
