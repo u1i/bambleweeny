@@ -128,7 +128,7 @@ Routes allow users to 'expose' keys and make them publicly available without the
 
 Using the [CLI](https://github.com/u1i/b9y-cli), the following set of commands create a key, exposes it over HTTP with the content type application/json and returns the newly created endpoint:
 
-`set api '{"message": "hello"}'`
+`set api '{"message": "hello"}'`   
 `route api 'application/json;charset=utf-8'`
 
 > /routes/125e6a6f-c3f3-403b-b096-89978773139b
