@@ -24,9 +24,9 @@ The default password for 'admin' is 'changeme', let's get a token so we can acce
 
 > eyJpIjogIjAiLCAiYyI6ICI4MjgxNWU4NiIsICJ1IjogImFkbWluIiwgInQiOiAiMTUzODI3MjYxOCJ9.57f8e251
 
-We've received a token (copy it and replace `TOKEN` in the following cURL command), which we can now use to make an authenticated request (as admin) and create a new 'user' with email address (username) 'me@privacy.net' and password 'changeme':
+We've received a token (copy it and replace `TOKEN` in the following cURL command), which we can now use to make an authenticated request (as admin) and create a new user `user1` and password 'changeme':
 
-`curl -X POST http://localhost:8080/users -H "Authorization: Bearer TOKEN" -H 'Content-Type: application/json' -d '{ "email": "me@privacy.net", "password": "changeme" }'`
+`curl -X POST http://localhost:8080/users -H "Authorization: Bearer TOKEN" -H 'Content-Type: application/json' -d '{ "username": "user1", "password": "changeme" }'`
 
 > {"info": "created", "id": 1}
 
@@ -41,7 +41,7 @@ Now we have a user account and can create and access keys and resources.
 ### Write a key
 Let's create a key! First, we need to login with that new user:
 
-`curl -X POST "http://localhost:8080/auth/token?raw" -H 'Content-Type: application/json' -d '{ "username": "me@privacy.net", "password": "changeme"}'`
+`curl -X POST "http://localhost:8080/auth/token?raw" -H 'Content-Type: application/json' -d '{ "username": "user1", "password": "changeme"}'`
 
 Copy the output again and replace `TOKEN` in the following command with the token we received.
 
