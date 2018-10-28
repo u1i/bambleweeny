@@ -80,6 +80,10 @@ The following SDKs are auto-generated from the [Swagger file](https://raw.github
 
 ## Data Types & Concepts
 
+Bambleweeny gives you keys, lists, routes and bins. We'll cover all of these in the following section.
+
+![](https://raw.githubusercontent.com/u1i/bambleweeny/master/img/datamodel1.png)
+
 ### Users
 
 Unless exposed via routes (more on those below), all data is private to the respective individual users. Think of users rather like keyspaces.
