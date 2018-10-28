@@ -27,8 +27,13 @@
                 "tags": [
                     "Authentication"
                 ],
-                "description": "This endpoint is used to retrieve an access token to perform authenticated requests against the 'resources' endpoints. Login with username (email) and password. For admin, the username is simply 'admin'.",
+                "description": "This endpoint is used to retrieve an access token to perform authenticated requests against the 'resources' endpoints. Login with username and password. Add ?raw to just get the token without the JSON wrapper.",
                 "parameters": [
+                    {
+                        "name": "raw",
+                        "in": "query",
+                        "type": "string"
+                    },
                     {
                         "name": "body",
                         "in": "body",
@@ -87,6 +92,71 @@
                         }
                     }
                 }
+            }
+        },
+        "/keys/": {
+            "get": {
+                "operationId": "READ-key",
+                "summary": "List Keys",
+                "tags": [
+                    "Keys"
+                ],
+                "description": "List all keys.",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "keys": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "owner": {
+                                                "type": "string"
+                                            },
+                                            "key": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "examples": {
+                            "application/json": {
+                                "keys": [
+                                    {
+                                        "owner": "1",
+                                        "key": "foo"
+                                    },
+                                    {
+                                        "owner": "1",
+                                        "key": "fred"
+                                    },
+                                    {
+                                        "owner": "2",
+                                        "key": "system:debug"
+                                    },
+                                    {
+                                        "owner": "2",
+                                        "key": "test"
+                                    },
+                                    {
+                                        "owner": "2",
+                                        "key": "myqueue"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "oauth2": []
+                    }
+                ]
             }
         },
         "/keys/{id}": {
@@ -159,71 +229,6 @@
                 ]
             }
         },
-        "/keys/": {
-            "get": {
-                "operationId": "READ-key",
-                "summary": "List Keys",
-                "tags": [
-                    "Keys"
-                ],
-                "description": "List all keys.",
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "keys": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "object",
-                                        "properties": {
-                                            "owner": {
-                                                "type": "string"
-                                            },
-                                            "key": {
-                                                "type": "string"
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        "examples": {
-                            "application/json": {
-                                "keys": [
-                                    {
-                                        "owner": "1",
-                                        "key": "foo"
-                                    },
-                                    {
-                                        "owner": "1",
-                                        "key": "fred"
-                                    },
-                                    {
-                                        "owner": "2",
-                                        "key": "system:debug"
-                                    },
-                                    {
-                                        "owner": "2",
-                                        "key": "test"
-                                    },
-                                    {
-                                        "owner": "2",
-                                        "key": "myqueue"
-                                    }
-                                ]
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "oauth2": []
-                    }
-                ]
-            }
-        },
         "/incr/{id}": {
             "parameters": [
                 {
@@ -246,88 +251,6 @@
                 "responses": {
                     "200": {
                         "description": ""
-                    }
-                },
-                "security": [
-                    {
-                        "oauth2": []
-                    }
-                ]
-            }
-        },
-        "/routes/{id}": {
-            "parameters": [
-                {
-                    "name": "id",
-                    "in": "path",
-                    "required": true,
-                    "type": "string"
-                }
-            ],
-            "get": {
-                "operationId": "ROUTE-key",
-                "summary": "Read Key",
-                "tags": [
-                    "Routes"
-                ],
-                "description": "Reads a key from a public route.",
-                "responses": {
-                    "default": {
-                        "description": "",
-                        "schema": {}
-                    }
-                }
-            }
-        },
-        "/routes": {
-            "post": {
-                "operationId": "CREATE-route",
-                "summary": "Create Route",
-                "tags": [
-                    "Routes"
-                ],
-                "description": "Creates a public endpoint for a key.",
-                "parameters": [
-                    {
-                        "name": "body",
-                        "in": "body",
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "key": {
-                                    "type": "string"
-                                },
-                                "content_type": {
-                                    "type": "string"
-                                }
-                            },
-                            "example": {
-                                "key": "my_key",
-                                "content_type": "text/html"
-                            }
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "info": {
-                                    "type": "string"
-                                },
-                                "path": {
-                                    "type": "string"
-                                }
-                            }
-                        },
-                        "examples": {
-                            "application/json": {
-                                "info": "ok",
-                                "path": "/routes/522df028-8d01-444f-85a3-cb60b28de0ea"
-                            }
-                        }
                     }
                 },
                 "security": [
@@ -436,6 +359,166 @@
                 ]
             }
         },
+        "/routes": {
+            "post": {
+                "operationId": "CREATE-route",
+                "summary": "Create Route",
+                "tags": [
+                    "Routes"
+                ],
+                "description": "Creates a public endpoint for a key.",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "key": {
+                                    "type": "string"
+                                },
+                                "content_type": {
+                                    "type": "string"
+                                }
+                            },
+                            "example": {
+                                "key": "my_key",
+                                "content_type": "text/html"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "info": {
+                                    "type": "string"
+                                },
+                                "path": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "examples": {
+                            "application/json": {
+                                "info": "ok",
+                                "path": "/routes/522df028-8d01-444f-85a3-cb60b28de0ea"
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "oauth2": []
+                    }
+                ]
+            }
+        },
+        "/routes/{id}": {
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "operationId": "ROUTE-key",
+                "summary": "Read Key",
+                "tags": [
+                    "Routes"
+                ],
+                "description": "Reads a key from a public route.",
+                "responses": {
+                    "default": {
+                        "description": "",
+                        "schema": {}
+                    }
+                }
+            }
+        },
+        "/bins": {
+            "post": {
+                "operationId": "CREATE-bin",
+                "summary": "Create Bin",
+                "tags": [
+                    "Bins"
+                ],
+                "description": "Creates a public bin to POST content to. The data will be saved in the specified list.",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "list": {
+                                    "type": "string"
+                                }
+                            },
+                            "example": {
+                                "list": "my_list"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "info": {
+                                    "type": "string"
+                                },
+                                "path": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "examples": {
+                            "application/json": {
+                                "info": "ok",
+                                "path": "/bins/522df028-8d01-444f-85a3-cb60b28de0ea"
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "oauth2": []
+                    }
+                ]
+            }
+        },
+        "/bins/{id}": {
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "post": {
+                "operationId": "POST-bin",
+                "summary": "Post to Bin",
+                "tags": [
+                    "Bins"
+                ],
+                "description": "POST content to a public bin.",
+                "responses": {
+                    "default": {
+                        "description": "",
+                        "schema": {}
+                    }
+                }
+            }
+        },
         "/users": {
             "post": {
                 "operationId": "POST-user",
@@ -443,7 +526,7 @@
                 "tags": [
                     "Administration"
                 ],
-                "description": "Create a user. The new user can then make authenticated requests with access tokens retrieved from the /auth/token endpoint.",
+                "description": "Create a user (or keyspace). The new user can then make authenticated requests with access tokens retrieved from the /auth/token endpoint.",
                 "parameters": [
                     {
                         "name": "body",

@@ -8,14 +8,15 @@ secret_salt = "iKm4SyH6JCtA8l"
 default_token_expiry_seconds = 3000
 redis_datadir='/data'
 redis_maxmemory='256mb'
-b9y_release = "0.30.1"
+b9y_release = "0.31"
+b9y_version = "0.31.1"
 
 app = Bottle()
 
 # The default path renders a hello world JSON message
 @app.get('/')
 def get_home():
-	return(dict(msg="This is bambleweeny ", release=str(b9y_release), instance=cluster_id))
+	return(dict(msg="This is bambleweeny ", release=str(b9y_release), version=str(b9y_version), instance=cluster_id))
 
 # Default 404 handler
 @app.error(404)
@@ -704,6 +705,92 @@ def get_key(id):
 	response.headers['Access-Control-Allow-Origin'] = '*'
 	response.content_type = content_type
 	return(parse_route(str(key_content), user_id))
+
+# Create Bins
+@app.route('/bins', method='POST')
+def create_bin():
+	api_auth = _authenticate()
+
+	# Authorization is needed for this endpoint
+	if api_auth["authenticated"] == "False":
+		response.status = 401
+		return dict({"info":"Unauthorized."})
+
+	# Get User ID
+	user_id = api_auth["id"]
+
+	# Admin can access keys on the user's behalf
+	if 'userid' in request.query and api_auth["admin"] == "True":
+		user_id = request.query["userid"]
+
+	user_quota = _get_user_quota(user_id)
+	current_number_of_resources = _user_resources_number(user_id)
+
+	if user_quota != 0 and current_number_of_resources >= user_quota:
+		response.status = 400
+		return dict({"info":"Quota exceeded."})
+
+	try:
+		payload = json.load(request.body)
+
+		list = payload["list"]
+	except:
+		response.status = 400
+		return dict({"info":"No valid JSON found in post body or mandatory fields missing."})
+
+	if _valid_identifier_lists(str(list)) != True:
+		response.status = 400
+		return dict({"info":"List name is invalid."})
+
+	id = str(uuid.uuid4())
+
+	# Construct Resource Location
+	redis_key = "BIN:"+str(id)
+	route_record = {}
+	route_record["list"] = list
+	route_record["user_id"] = user_id
+
+	# Write to Redis
+	try:
+		res = rc.set(redis_key, json.dumps(route_record, ensure_ascii=False))
+	except:
+		response.status = 400
+		return dict({"info":"not a valid request"})
+
+	# Increase the counter of resources for this user_record
+	rc.incr("NUMRES:"+str(user_id))
+
+	return(dict(info="ok", path="/bins/"+str(id)))
+
+# Post to Bin
+@app.route('/bins/<id>', method='POST')
+def post_to_bin(id):
+	bin_key = "BIN:"+str(id)
+
+	# Read Bin from Redis
+	try:
+		bin_content = rc.get(bin_key)
+		if bin_content == None:
+			raise ValueError('not found')
+
+		bin_record = json.loads(bin_content)
+		user_id = bin_record["user_id"]
+		list = bin_record["list"]
+
+	except:
+		response.status = 404
+		return dict({"info":"Not found."})
+
+	# Construct Resource Location from user_id and id
+	redis_key = "LIST:"+str(user_id)+"::"+str(list)
+
+	try:
+		res = rc.lpush(redis_key, request.body.read())
+	except:
+		response.status = 400
+		return dict({"info":"not a valid request"})
+
+	return("OK")
 
 ####### Helper functions
 
