@@ -360,7 +360,12 @@
                     "200": {
                         "description": ""
                     }
-                }
+                },
+                "security": [
+                    {
+                        "oauth2": []
+                    }
+                ]
             },
             "get": {
                 "operationId": "GET_lists-id",
@@ -376,7 +381,12 @@
                     "200": {
                         "description": ""
                     }
-                }
+                },
+                "security": [
+                    {
+                        "oauth2": []
+                    }
+                ]
             },
             "delete": {
                 "operationId": "DELETE_lists-id",
@@ -395,7 +405,12 @@
                             "type": "object"
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "oauth2": []
+                    }
+                ]
             }
         },
         "/lists": {
@@ -413,7 +428,12 @@
                     "200": {
                         "description": ""
                     }
-                }
+                },
+                "security": [
+                    {
+                        "oauth2": []
+                    }
+                ]
             }
         },
         "/users": {
