@@ -185,7 +185,7 @@ Using the [CLI](https://github.com/u1i/b9y-cli), the following command creates a
 
 `bin my_list`
 
-> /bin/125e6a6f-c3f3-403b-b096-89978773139b
+> /bins/125e6a6f-c3f3-403b-b096-89978773139b
 
 #### Access Bins
 
