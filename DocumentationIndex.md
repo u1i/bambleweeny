@@ -22,6 +22,10 @@
 		- [Access Routes](#access-routes)
 		- [Dynamic Routes & Nested Keys](#dynamic-routes-nested-keys)
 	- [Lists](#lists)
+	- [Bins](#bins)
+		- [Create Bins](#create-bins)
+		- [Access Bins](#access-bins)
+
 - [Running Bambleweeny](#running-bambleweeny)
 	- [Standalone](#standalone)
 	- [Separate Redis Backend](#separate-redis-backend)
@@ -166,6 +170,28 @@ Lists can store multiple values in one key, you use a `push` command to add an i
 > None
 
 Lists can be used to implement messaging queues. Reading from the queue removes the message. A future version might see a mechanism to properly dequeue it.
+
+### Bins
+
+Bins are endpoints that allow non-authenticated access to POST data, which is added to a list. You can use this mechanism to create event logs, webhooks, or collect form data.
+
+#### Create Bins
+
+Using the [CLI](https://github.com/u1i/b9y-cli), the following command creates a bin, exposes it over HTTP and returns the newly created endpoint:
+
+`bin my_list`
+
+> /bin/125e6a6f-c3f3-403b-b096-89978773139b
+
+#### Access Bins
+
+Anybody who knows the endpoint URL of the bin can post data to it:
+
+`echo hello | curl -X POST -d@- http://<host>:<port>/bins/125e6a6f-c3f3-403b-b096-89978773139b`
+
+The owner of the bin can then use `pop` commands to retrieve an element:
+
+`pop my_list`
 
 ## Running Bambleweeny
 ### Standalone
