@@ -8,8 +8,8 @@ secret_salt = "iKm4SyH6JCtA8l"
 default_token_expiry_seconds = 3000
 redis_datadir='/data'
 redis_maxmemory='256mb'
-b9y_release = "0.31"
-b9y_version = "0.31.1"
+b9y_release = "0.32"
+b9y_version = "0.32.1"
 
 app = Bottle()
 
@@ -672,7 +672,13 @@ def create_route():
 
 # Route - Read Key
 @app.route('/routes/<id>', method='GET')
-def get_key(id):
+@app.route('/routes/<id>/<dummy>', method='GET')
+@app.route('/routes/<id>/<dummy>/<dummy2>', method='GET')
+@app.route('/routes/<id>', method='POST')
+@app.route('/routes/<id>/<dummy>', method='POST')
+@app.route('/routes/<id>/<dummy>/<dummy2>', method='POST')
+
+def get_key(id, dummy=0, dummy2=0):
 	route_key = "ROUTE:"+str(id)
 
 	# Read Route from Redis
