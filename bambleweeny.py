@@ -1,13 +1,13 @@
-from bottle import Bottle, request, view, response
-import json, os, uuid, base64, redis, time, hmac, hashlib, random, keyword, re
+from bottle import Bottle, request, response
+import json, os, uuid, base64, redis, time, hmac, hashlib, keyword, re
 from multiprocessing import Queue, Process
 
 # Settings
 admin_password = u"changeme"
 secret_salt = "iKm4SyH6JCtA8l"
 default_token_expiry_seconds = 3000
-redis_datadir='/data'
-redis_maxmemory='256mb'
+redis_datadir = '/data'
+redis_maxmemory = '256mb'
 b9y_release = "0.32"
 b9y_version = "0.32.1"
 
@@ -16,7 +16,8 @@ app = Bottle()
 # The default path renders a hello world JSON message
 @app.get('/')
 def get_home():
-	return(dict(msg="This is bambleweeny ", release=str(b9y_release), version=str(b9y_version), instance=cluster_id))
+	return(dict(msg="This is bambleweeny ", release=str(b9y_release),\
+	version=str(b9y_version), instance=cluster_id))
 
 # Default 404 handler
 @app.error(404)
@@ -161,7 +162,7 @@ def get_user_details(id):
 
 # Set Quota for User
 @app.route('/users/<id:int>', method='PUT')
-def get_user_details(id):
+def set_user_quota(id):
 	api_auth = _authenticate()
 
 	# Only Admin can do this
@@ -455,7 +456,7 @@ def get_all_keys():
 	keys_list = rc.scan_iter(redis_key)
 	for res in keys_list:
 
-		res_obj={}
+		res_obj = {}
 		details = _get_key_data(res)
 		res_obj["key"] = details["id"]
 		res_obj["owner"] = details["owner"]
@@ -492,7 +493,7 @@ def add_item_to_list(id):
 	redis_key = "LIST:"+str(user_id)+"::"+str(id)
 
 	# Does the list exist already?
-	keyexists = rc.lrange(redis_key,0,0)
+	keyexists = rc.lrange(redis_key, 0, 0)
 	if not keyexists:
 		# Are we allowed to create more objects?
 		if user_quota != 0 and current_number_of_resources >= user_quota:
@@ -576,7 +577,7 @@ def delete_list(id):
 	redis_key = "LIST:"+str(user_id)+"::"+str(id)
 
 	# Does the list exist already?
-	keyexists = rc.lrange(redis_key,0,-1)
+	keyexists = rc.lrange(redis_key, 0, -1)
 	if not keyexists:
 		response.status = 404
 		return dict({"info":"List not found."})
@@ -617,7 +618,7 @@ def get_all_lists():
 	keys_list = rc.scan_iter(redis_key)
 	for res in keys_list:
 
-		res_obj={}
+		res_obj = {}
 		details = _get_key_data(res)
 		res_obj["key"] = details["id"]
 		res_obj["owner"] = details["owner"]
@@ -677,8 +678,7 @@ def create_route():
 @app.route('/routes/<id>', method='POST')
 @app.route('/routes/<id>/<dummy>', method='POST')
 @app.route('/routes/<id>/<dummy>/<dummy2>', method='POST')
-
-def get_key(id, dummy=0, dummy2=0):
+def get_route(id, dummy=0, dummy2=0):
 	route_key = "ROUTE:"+str(id)
 
 	# Read Route from Redis
@@ -821,11 +821,11 @@ def parse_route(content, user_id):
 
 # Key names must match this regex
 def _valid_identifier(i):
-	return(re.match("[_A-Za-z:][_a-zA-Z0-9:]*$",i) and not keyword.iskeyword(i))
+	return(re.match("[_A-Za-z:][_a-zA-Z0-9:]*$", i) and not keyword.iskeyword(i))
 
 # List names must match this regex
 def _valid_identifier_lists(i):
-	return(re.match("[_A-Za-z][_a-zA-Z0-9]*$",i) and not keyword.iskeyword(i))
+	return(re.match("[_A-Za-z][_a-zA-Z0-9]*$", i) and not keyword.iskeyword(i))
 
 def _get_key_data(k):
 	out = {}
@@ -851,13 +851,13 @@ def _create_admin():
 	return
 
 def _find_user(username):
-        user_list = rc.scan_iter("USER:*")
-        for user in user_list:
-                user_record = json.loads(rc.get(user))
-                if user_record["username"] == username:
-                        return("found")
+    user_list = rc.scan_iter("USER:*")
+    for user in user_list:
+        user_record = json.loads(rc.get(user))
+        if user_record["username"] == username:
+            return("found")
 
-        return("not found")
+    return("not found")
 
 def _get_user_quota(uid):
 	user_record = json.loads(rc.get("USER:"+str(uid)))
@@ -879,7 +879,7 @@ def _b64_dec(s):
 
 def _issue_token(user, expiry, id, salt):
 	# Dict containing user info
-	content={}
+	content = {}
 	content["u"] = user
 	content["t"] = str(int(time.time()))
 	content["i"] = id
@@ -889,7 +889,7 @@ def _issue_token(user, expiry, id, salt):
 	c = _b64_enc(json.dumps(content))
 
 	# Get an hmac signature
-	hmac1 = hmac.new(salt, c, hashlib.sha256 )
+	hmac1 = hmac.new(salt, c, hashlib.sha256)
 
 	return(c + "." + hmac1.hexdigest()[:8])
 
