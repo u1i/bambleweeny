@@ -1,6 +1,6 @@
-from bottle import Bottle, request, response
 import json, os, uuid, base64, redis, time, hmac, hashlib, keyword, re
-from multiprocessing import Queue, Process
+from multiprocessing import Process
+from bottle import Bottle, request, response
 
 # Settings
 admin_password = u"changeme"
@@ -9,7 +9,7 @@ default_token_expiry_seconds = 3000
 redis_datadir = '/data'
 redis_maxmemory = '256mb'
 b9y_release = "0.32"
-b9y_version = "0.32.1"
+b9y_version = "0.32.2"
 
 app = Bottle()
 
@@ -382,7 +382,7 @@ def write_key(id):
 
 	# Write to Redis
 	try:
-		res = rc.set(redis_key, request.body.read())
+		rc.set(redis_key, request.body.read())
 	except:
 		response.status = 400
 		return dict({"info":"not a valid request"})
@@ -422,7 +422,7 @@ def delete_key(id):
 
 	# Delete from Redis
 	try:
-		res = rc.delete(redis_key)
+		rc.delete(redis_key)
 		rc.decr("NUMRES:"+str(user_id))
 
 	except:
@@ -505,7 +505,7 @@ def add_item_to_list(id):
 
 	# Write to Redis
 	try:
-		res = rc.lpush(redis_key, request.body.read())
+		rc.lpush(redis_key, request.body.read())
 	except:
 		response.status = 400
 		return dict({"info":"not a valid request"})
@@ -584,7 +584,7 @@ def delete_list(id):
 
 	# Delete from Redis
 	try:
-		res = rc.delete(redis_key)
+		rc.delete(redis_key)
 		rc.decr("NUMRES:"+str(user_id))
 
 	except:
@@ -663,7 +663,7 @@ def create_route():
 
 	# Write to Redis
 	try:
-		res = rc.set(redis_key, json.dumps(route_record, ensure_ascii=False))
+		rc.set(redis_key, json.dumps(route_record, ensure_ascii=False))
 
 	except:
 		response.status = 400
@@ -758,7 +758,7 @@ def create_bin():
 
 	# Write to Redis
 	try:
-		res = rc.set(redis_key, json.dumps(route_record, ensure_ascii=False))
+		rc.set(redis_key, json.dumps(route_record, ensure_ascii=False))
 	except:
 		response.status = 400
 		return dict({"info":"not a valid request"})
@@ -791,7 +791,7 @@ def post_to_bin(id):
 	redis_key = "LIST:"+str(user_id)+"::"+str(list)
 
 	try:
-		res = rc.lpush(redis_key, request.body.read())
+		rc.lpush(redis_key, request.body.read())
 	except:
 		response.status = 400
 		return dict({"info":"not a valid request"})
