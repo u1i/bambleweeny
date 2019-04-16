@@ -68,7 +68,7 @@ The [b9y library](https://github.com/u1i/b9y-python) allows you to make Bamblewe
 
 `pip install b9y`
 
-The [command-line interface](https://github.com/u1i/bambleweeny/tree/master/b9y-cli-package) makes use of it, so you could look at the code as an example.
+The [command-line interface](https://github.com/u1i/b9y-cli) makes use of it, so you could look at the code as an example.
 
 Are you a .NET or JavaScript developer? We'd love your contribution to write a client library for those languages.
 
