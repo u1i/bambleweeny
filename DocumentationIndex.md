@@ -106,6 +106,10 @@ Resources and general access to Bambleweeny are protected by an OAuth server. Be
 
 Starting the [command-line interface](https://github.com/u1i/b9y-cli) without parameters will attempt a connection on localhost:8080 using the default admin credentials. Parameters `-h` for hostname, `-u` for username and `-p` for the password can be specified to use those instead. The command `token` in the [command-line interface](https://github.com/u1i/b9y-cli) will print the token to STDOUT for your convenience.
 
+### IMPORTANT SECURITY NOTE
+
+Passwords are stored as hash inside Redis using a default 'salt' – you should set an environment variable with a custom value (see below), otherwise session hijacking is possible. 
+
 ### Keys
 
 Keys represent the essential data type in Bambleweeny as a key-value store. Valid key names are e.g. `foo`, `my_key788`, and `system:debug:level`.
@@ -257,6 +261,12 @@ There are several ways to configure Bambleweeny and modify the default settings.
 By default, b9y rund in 'Lite' mode which essentially starts an embedded Redis engine inside the container. This is good enough for many use cases, but you may want to point it to a 'proper' Redis environment instead. You can do this by setting environment variables:
 
 `docker run [...] -e redis_host=localhost -e redis_port=6379 u1ih/bambleweeny:latest`
+
+### Secret Salt
+
+If you run b9y in a public environment you should provide an environment variable `salt` to increase the security and avoid potential session hijacking:
+
+`docker run [...] -e salt=MYSECRET u1ih/bambleweeny:latest`
 
 ### Token Expiry
 

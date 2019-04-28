@@ -4,12 +4,12 @@ from bottle import Bottle, request, response
 
 # Settings
 admin_password = u"changeme"
-secret_salt = "iKm4SyH6JCtA8l"
+default_salt = "iKm4SyH6JCtA8l"
 default_token_expiry_seconds = 3000
 redis_datadir = '/data'
 redis_maxmemory = '256mb'
-b9y_release = "0.32"
-b9y_version = "0.32.2"
+b9y_release = "0.33"
+b9y_version = "0.33.1"
 
 app = Bottle()
 
@@ -57,7 +57,7 @@ def get_token():
 	for user in user_list:
 		user_record = json.loads(rc.get(user))
 		if user_record["username"] == username and user_record["hash"] == pwhash:
-			user_token = _issue_token(user=username, id=user[5:], expiry=token_expiry_seconds, salt=secret_salt)
+			user_token = _issue_token(user=username, id=user[5:], expiry=token_expiry_seconds)
 			if 'raw' in request.query:
 				return(user_token)
 			else:
@@ -836,7 +836,7 @@ def _get_key_data(k):
 	return(out)
 
 def _get_password_hash(pw):
-	hash_object = hashlib.sha1(pw+secret_salt)
+	hash_object = hashlib.sha1(pw+salt)
 	return(hash_object.hexdigest())
 
 def _create_admin():
@@ -877,7 +877,7 @@ def _b64_enc(s):
 def _b64_dec(s):
 	return(base64.urlsafe_b64decode(s))
 
-def _issue_token(user, expiry, id, salt):
+def _issue_token(user, expiry, id):
 	# Dict containing user info
 	content = {}
 	content["u"] = user
@@ -893,7 +893,7 @@ def _issue_token(user, expiry, id, salt):
 
 	return(c + "." + hmac1.hexdigest()[:8])
 
-def _get_token_data(token, salt):
+def _get_token_data(token):
     token_data = {}
     token_data["error"] = "0"
     token_data["admin"] = "False"
@@ -936,7 +936,7 @@ def _authenticate():
 		access_token=bearer[7:]
 
 	# Extract the data from the token
-	data = _get_token_data(token=access_token, salt=secret_salt)
+	data = _get_token_data(token=access_token)
 
 	# If there was an error, end here
 	if data["error"] != "0":
@@ -966,6 +966,7 @@ def _authenticate():
 def _cluster_init():
 	cid = str(uuid.uuid4())
 	rc.set("_B9Y_ID_", cid[:8])
+	rc.set("__SALT__", salt)
 
 	return(cid[:8])
 
@@ -994,6 +995,12 @@ if 'token_expiry' in os.environ:
 	token_expiry_seconds = int(os.environ['token_expiry'])
 else:
 	token_expiry_seconds = default_token_expiry_seconds
+
+# Set Salt
+if 'salt' in os.environ:
+	salt = os.environ['salt']
+else:
+	salt = default_salt
 
 # Create record for admin user if it doesn't exist
 try:
