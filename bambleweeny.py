@@ -989,7 +989,7 @@ redis_port = os.environ['redis_port']
 rc = redis.StrictRedis(host=redis_host, port=redis_port, db=0)
 
 # Configure local Redis
-if redis_host == 'localhost':
+if "redis_embedded" in os.environ:
 	rc.config_set('dir', redis_datadir)
 	rc.config_set('maxmemory', redis_maxmemory)
 
