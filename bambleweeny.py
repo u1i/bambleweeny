@@ -9,7 +9,7 @@ default_token_expiry_seconds = 3000
 redis_datadir = '/data'
 redis_maxmemory = '256mb'
 b9y_release = "0.33"
-b9y_version = "0.33.2"
+b9y_version = "0.33.3"
 
 app = Bottle()
 
@@ -987,8 +987,11 @@ if not "redis_host" in os.environ or not "redis_port" in os.environ:
 redis_host = os.environ['redis_host']
 redis_port = os.environ['redis_port']
 rc = redis.StrictRedis(host=redis_host, port=redis_port, db=0)
-rc.config_set('dir', redis_datadir)
-rc.config_set('maxmemory', redis_maxmemory)
+
+# Configure local Redis
+if redis_host == 'localhost':
+	rc.config_set('dir', redis_datadir)
+	rc.config_set('maxmemory', redis_maxmemory)
 
 # Set Token expiry
 if 'token_expiry' in os.environ:
