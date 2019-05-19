@@ -8,8 +8,8 @@ default_salt = "iKm4SyH6JCtA8l"
 default_token_expiry_seconds = 3000
 redis_datadir = '/data'
 redis_maxmemory = '256mb'
-b9y_release = "0.33"
-b9y_version = "0.33.3"
+b9y_release = "0.34"
+b9y_version = "0.34.1"
 
 app = Bottle()
 
@@ -274,10 +274,6 @@ def get_key(id):
 	# Get User ID
 	user_id = api_auth["id"]
 
-	# Admin can access keys on the user's behalf
-	if 'userid' in request.query and api_auth["admin"] == "True":
-		user_id = request.query["userid"]
-
 	# Does the key have a valid format?
 	if _valid_identifier(str(id)) != True:
 		response.status = 400
@@ -353,11 +349,6 @@ def write_key(id):
 
 	# Get User ID and quota
 	user_id = api_auth["id"]
-
-	# Admin can access keys on the user's behalf
-	if 'userid' in request.query and api_auth["admin"] == "True":
-		user_id = request.query["userid"]
-
 	user_quota = _get_user_quota(user_id)
 	current_number_of_resources = _user_resources_number(user_id)
 
@@ -401,10 +392,6 @@ def delete_key(id):
 
 	# Get User ID
 	user_id = api_auth["id"]
-
-	# Admin can access keys on the user's behalf
-	if 'userid' in request.query and api_auth["admin"] == "True":
-		user_id = request.query["userid"]
 
 	# Does the key have a valid format?
 	if _valid_identifier(str(id)) != True:
@@ -455,7 +442,6 @@ def get_all_keys():
 	output = []
 	keys_list = rc.scan_iter(redis_key)
 	for res in keys_list:
-
 		res_obj = {}
 		details = _get_key_data(res)
 		res_obj["key"] = details["id"]
@@ -476,11 +462,6 @@ def add_item_to_list(id):
 
 	# Get User ID and quota
 	user_id = api_auth["id"]
-
-	# Admin can access keys on the user's behalf
-	if 'userid' in request.query and api_auth["admin"] == "True":
-		user_id = request.query["userid"]
-
 	user_quota = _get_user_quota(user_id)
 	current_number_of_resources = _user_resources_number(user_id)
 
@@ -525,10 +506,6 @@ def get_list_item(id):
 	# Get User ID
 	user_id = api_auth["id"]
 
-	# Admin can access keys on the user's behalf
-	if 'userid' in request.query and api_auth["admin"] == "True":
-		user_id = request.query["userid"]
-
 	# Does the key have a valid format?
 	if _valid_identifier_lists(str(id)) != True:
 		response.status = 400
@@ -563,10 +540,6 @@ def delete_list(id):
 
 	# Get User ID
 	user_id = api_auth["id"]
-
-	# Admin can access keys on the user's behalf
-	if 'userid' in request.query and api_auth["admin"] == "True":
-		user_id = request.query["userid"]
 
 	# Does the key have a valid format?
 	if _valid_identifier(str(id)) != True:
@@ -638,10 +611,6 @@ def create_route():
 
 	# Get User ID
 	user_id = api_auth["id"]
-
-	# Admin can access keys on the user's behalf
-	if 'userid' in request.query and api_auth["admin"] == "True":
-		user_id = request.query["userid"]
 
 	try:
 		payload = json.load(request.body)
@@ -724,11 +693,6 @@ def create_bin():
 
 	# Get User ID
 	user_id = api_auth["id"]
-
-	# Admin can access keys on the user's behalf
-	if 'userid' in request.query and api_auth["admin"] == "True":
-		user_id = request.query["userid"]
-
 	user_quota = _get_user_quota(user_id)
 	current_number_of_resources = _user_resources_number(user_id)
 
@@ -799,7 +763,6 @@ def post_to_bin(id):
 	return("OK")
 
 ####### Helper functions
-
 # Parse Routes for nested keys
 def parse_route(content, user_id):
 	if re.search('!@\[[_a-zA-Z0-9:]*\]', content):
