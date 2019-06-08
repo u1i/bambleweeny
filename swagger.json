@@ -96,7 +96,7 @@
         },
         "/keys/": {
             "get": {
-                "operationId": "READ-key",
+                "operationId": "LIST-key",
                 "summary": "List Keys",
                 "tags": [
                     "Keys"
