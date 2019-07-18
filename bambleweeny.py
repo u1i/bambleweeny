@@ -9,7 +9,7 @@ default_token_expiry_seconds = 3000
 redis_datadir = '/data'
 redis_maxmemory = '256mb'
 b9y_release = "0.34"
-b9y_version = "0.34.1"
+b9y_version = "0.34.2"
 
 app = Bottle()
 
