@@ -8,7 +8,7 @@ then
   export redis_embedded=True
   export redis_host=localhost
   export redis_port=6379
-  /usr/bin/redis-server &
+  /usr/bin/redis-server --dbfilename dump.rdb --dir /data &
 fi
 
 python /app/server.py

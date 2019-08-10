@@ -6,10 +6,10 @@ from bottle import Bottle, request, response
 admin_password = u"changeme"
 default_salt = "iKm4SyH6JCtA8l"
 default_token_expiry_seconds = 3000
-redis_datadir = '/data'
+redis_datadir = '/data' # this is currently also set in b9y.sh
 redis_maxmemory = '256mb'
-b9y_release = "0.34"
-b9y_version = "0.34.2"
+b9y_release = "0.35"
+b9y_version = "0.35.1"
 
 app = Bottle()
 
