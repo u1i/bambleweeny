@@ -1,5 +1,4 @@
-endpoint=http://127.0.0.1:8080
-echo $endpoint > endpoint.txt
+endpoint=$(cat endpoint.txt)
 
 # Get Token
 token=$(./get_user_token.sh)

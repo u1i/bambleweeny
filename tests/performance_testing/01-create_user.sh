@@ -1,11 +1,12 @@
 # Get Admin Token
+endpoint=$(cat endpoint.txt)
 
 token=$(./get_admin_token.sh)
 
 # Create User
 
 curl -X POST \
-  http://localhost:8080/users \
+  $endpoint/users \
   -H "Authorization: Bearer $token" \
   -H 'Cache-Control: no-cache' \
   -H 'Content-Type: application/json' \
