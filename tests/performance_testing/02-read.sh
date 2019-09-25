@@ -1,4 +1,4 @@
-eendpoint=$(cat endpoint.txt)
+endpoint=$(cat endpoint.txt)
 
 # Get Token
 token=$(./get_user_token.sh)
