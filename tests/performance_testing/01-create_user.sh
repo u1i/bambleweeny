@@ -1,6 +1,5 @@
 # Get Admin Token
 endpoint=$(cat endpoint.txt)
-
 token=$(./get_admin_token.sh)
 
 # Create User
