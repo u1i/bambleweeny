@@ -1,4 +1,5 @@
 endpoint=$(cat endpoint.txt)
+adminpassword=$(cat adminpassword.txt)
 
 curl -s -X POST \
   "$endpoint/auth/token?raw" \
@@ -6,5 +7,9 @@ curl -s -X POST \
   -H 'Content-Type: application/json' \
   -d '{
   "username": "admin",
-  "password": "alien4"
+<<<<<<< HEAD
+  "password": "XXX"
+=======
+  "password": "'''$adminpassword'''"
+>>>>>>> a8e7b426c164272aa473ab283d59626a46064364
 }'

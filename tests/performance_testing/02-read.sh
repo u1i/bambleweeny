@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 endpoint=https://b9y.xwaay.net
 echo $endpoint > endpoint.txt
+=======
+endpoint=$(cat endpoint.txt)
+>>>>>>> a8e7b426c164272aa473ab283d59626a46064364
 
 # Get Token
 token=$(./get_user_token.sh)
