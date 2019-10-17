@@ -1,4 +1,4 @@
-endpoint=http://127.0.0.1:8080
+endpoint=https://b9y.xwaay.net
 echo $endpoint > endpoint.txt
 
 # Get Token

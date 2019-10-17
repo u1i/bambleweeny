@@ -1,4 +1,4 @@
-endpoint=http://127.0.0.1:8080
+endpoint=https://b9y.xwaay.net
 echo $endpoint > endpoint.txt
 
 # Get Token
@@ -11,7 +11,7 @@ echo -e "\n\nKey is: $endpoint/keys/$key - Value is: '$val'"
 
 # Write Key
 echo "WRITE key"
-echo $val | curl -s -X PUT -d @- $endpoint/keys/$key -H "Authorization: Bearer $token" 
+echo $val | curl -s -X PUT -d @- $endpoint/keys/$key -H "Authorization: Bearer $token"
 
 # Get Key
 

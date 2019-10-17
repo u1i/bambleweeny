@@ -8,8 +8,8 @@ default_salt = "iKm4SyH6JCtA8l"
 default_token_expiry_seconds = 3000
 redis_datadir = '/data' # this is currently also set in b9y.sh
 redis_maxmemory = '256mb'
-b9y_release = "0.35"
-b9y_version = "0.35.1"
+b9y_release = "0.36"
+b9y_version = "0.36.1"
 
 app = Bottle()
 
@@ -949,7 +949,13 @@ if not "redis_host" in os.environ or not "redis_port" in os.environ:
 # Connect to the Redis backend
 redis_host = os.environ['redis_host']
 redis_port = os.environ['redis_port']
-rc = redis.StrictRedis(host=redis_host, port=redis_port, db=0)
+
+if "redis_password" in os.environ:
+	redis_password = os.environ['redis_password']
+else:
+	redis_password = ""
+
+rc = redis.StrictRedis(host=redis_host, port=redis_port, password=redis_password, db=0)
 
 # Configure local Redis
 if "redis_embedded" in os.environ:
