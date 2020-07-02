@@ -16,7 +16,7 @@ app = Bottle()
 # The default path renders a hello world JSON message
 @app.get('/')
 def get_home():
-	return(dict(msg="This is bambleweeny ", release=str(b9y_release),\
+	return(dict(msg="This is bambleweeny", release=str(b9y_release),\
 	version=str(b9y_version), instance=cluster_id))
 
 # Default 404 handler
