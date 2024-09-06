@@ -34,9 +34,8 @@ def error405(error):
 # Swagger
 @app.get('/swagger')
 def get_swagger():
-	with open("/app/swagger.json", mode='r') as file_handle:
+	with open("/app/swagger.json", mode='r', encoding='utf-8') as file_handle:
 		file_content = file_handle.read()
-	file_handle.close()
 	sw = json.loads(file_content)
 	return(dict(sw))
 
@@ -775,7 +774,7 @@ def parse_route(content, user_id):
 				key = re.sub('[^\w:]', "", i)
 				val = rc.get("KEY:"+str(user_id)+"::"+str(key))
 				if val != None:
-					out += val
+					out += val.decode('utf-8')
 			else:
 				out += str(i)
 		return(out)
@@ -799,7 +798,7 @@ def _get_key_data(k):
 	return(out)
 
 def _get_password_hash(pw):
-	hash_object = hashlib.sha1(pw+salt)
+	hash_object = hashlib.sha1((pw+salt).encode('utf-8'))
 	return(hash_object.hexdigest())
 
 def _create_admin():
@@ -835,10 +834,10 @@ def _user_resources_number(uid):
 		return(int(n))
 
 def _b64_enc(s):
-	return(base64.urlsafe_b64encode(s))
+	return(base64.urlsafe_b64encode(s.encode('utf-8')).decode('utf-8'))
 
 def _b64_dec(s):
-	return(base64.urlsafe_b64decode(s))
+	return(base64.urlsafe_b64decode(s.encode('utf-8')).decode('utf-8'))
 
 def _issue_token(user, expiry, id):
 	# Dict containing user info
@@ -852,7 +851,7 @@ def _issue_token(user, expiry, id):
 	c = _b64_enc(json.dumps(content))
 
 	# Get an hmac signature
-	hmac1 = hmac.new(salt, c, hashlib.sha256)
+	hmac1 = hmac.new(salt.encode('utf-8'), c.encode('utf-8'), hashlib.sha256)
 
 	return(c + "." + hmac1.hexdigest()[:8])
 
@@ -870,8 +869,8 @@ def _get_token_data(token):
         content = json.loads(content_raw)
 
         # Create signature
-        c = base64.urlsafe_b64encode(json.dumps(content))
-        hmac1 = hmac.new(salt, c, hashlib.sha256 )
+        c = base64.urlsafe_b64encode(json.dumps(content).encode('utf-8')).decode('utf-8')
+        hmac1 = hmac.new(salt.encode('utf-8'), c.encode('utf-8'), hashlib.sha256 )
         sig_check = hmac1.hexdigest()[:8]
 
         # Only get the data if the signature is valid
@@ -979,7 +978,7 @@ try:
 	if rc.get("USER:0") == None:
 		_create_admin()
 except:
-	print "ERROR: Unable to connect to Redis at " + str(redis_host) + ":" + redis_port
+	print("ERROR: Unable to connect to Redis at " + str(redis_host) + ":" + str(redis_port))
 	exit(1)
 
 # Read unique ID for this instance / cluster or initialize if it doesn't exist
@@ -987,6 +986,8 @@ cluster_id = rc.get("_B9Y_ID_")
 
 if cluster_id == None:
 	cluster_id = _cluster_init()
+else:
+	cluster_id = cluster_id.decode('utf-8')
 
 multiproc = Process(target=processor)
 multiproc.start()
